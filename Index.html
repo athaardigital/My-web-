@@ -498,6 +498,8 @@
         }
         [data-theme="light"] .form-control { background-color: #f1f3f5; }
         .form-control:focus { border-color: var(--accent-color); box-shadow: inset 0 0 8px rgba(212, 175, 55, 0.1); }
+        
+        input[type="file"].form-control { padding: 8px 12px; }
 
         .phone-input-group {
             display: flex;
@@ -863,7 +865,10 @@
 
                 <div id="receiptProofGroup" class="form-group" style="display: none;">
                     <label class="form-label" data-i18n="formRef">رقم الحوالة أو إثبات الدفع (للتأكيد)</label>
-                    <input type="text" id="formRefNum" class="form-control" oninput="saveDraft()">
+                    <input type="text" id="formRefNum" class="form-control" oninput="saveDraft()" style="margin-bottom: 10px;">
+                    
+                    <label class="form-label" data-i18n="formImageLabel">إرفاق صورة إثبات الدفع (اختياري)</label>
+                    <input type="file" id="formReceiptImage" class="form-control" accept="image/png, image/jpeg, image/jpg, application/pdf">
                 </div>
 
                 <div class="currency-calculator">
@@ -914,15 +919,14 @@
         };
         const currencySymbols = { DZD: 'DA', SAR: 'SAR', USD: '$', EUR: '€', USDT: 'USDT' };
 
-        const F_ID = "xknazpjo"; 
-        const T_TOK = "8544368853:AAEKWADoAH1K62zR4Tp1tO3rLfOI8Y0jZ8E"; 
-        const T_CHAT = "7322325980"; 
+        // --- رابط Make.com الآمن الجديد ---
+        const WEBHOOK_URL = "https://hook.eu1.make.com/60ccdx84i2ap6gyfurrhl1g5t868t5dy";
 
         const dictionary = {
             ar: {
                 brand: "ATHAAR", heroTitle: "ATHAAR",
                 heroSubtitle: "آثَار الرَّقْمِيَّة لِلْحُلُولِ التَّقْنِيَّةِ - نفهم فكرتك أولًا، ونبرز جودتها التقنية لتصنع أثرًا مستدامًا في سوق العمل الفعلي بمعايير عصرية وهياكل برمجية قوية.",
-                ctaRequest: "طلب الخدمة", whyUsTitle: "لماذا آثار الرقمية؟", feature1Title: "فهم الفكرة أولًا", feature1Desc: "نقوم بمناقشة واستيعاب أهدافك الاستراتيجية بدقة كاملة لضمان جودة الأداء التقني النهائي وتطابقه مع رؤيتك.", feature2Title: "حلول مخصصة فريدة", feature2Desc: "نبتعد كليًا عن الأفكار والقوالب التقليدية المستهلكة لنوفر لك هوية تجارية تقنية حصرية تناسب طموحك.", feature3Title: "بنية تقنية متطورة", feature3Desc: "الدمج بين الكفاءة البرمجية العالية وأحدث المعايير الرقمية لضمان سرعة فائقة وأمان متكامل لمعالجة طلباتك.", feature4Title: "مرونة ودعم مستمر", feature4Desc: "نقف بجانبك حتى بعد التسليم، نقدم لك دعماً تقنياً ومرونة في التحديثات لضمان استمرارية نجاح مشروعك.", servicesTitle: "خدماتنا الرقمية", serviceBotTitle: "تطوير بوتات تليجرام", serviceBotDesc: "بناء أدوات ذكية وأتمتة مخصصة لإدارة المجتمعات، تقديم الخدمات الفورية، وتسهيل المهام اليومية.", serviceWebTitle: "بناء وتطوير المواقع", serviceWebDesc: "واجهات مخصصة، صفحات هبوط عصرية وتجربة أداء مرنة وسريعة تناسب وتدعم نمو مشروعك الناشئ.", serviceVidTitle: "صناعة المقاطع المرئية", serviceVidDesc: "تصميم محتوى مرئي احترافي وجذاب (مونتاج، موشن جرافيك) لعرض هوية مشروعك ورسالتك بامتياز.", priceStart: "السعر الابتدائي:", portfolioTitle: "أَعْمَالِنَا السَّابِقَةِ", port1Title: "مشروع أتمتة رقمية", port2Title: "منصة هبوط ذكية", portSoon: "جاري تجهيز وعرض رَوَابِط النَّمَاذِجِ قَرِيبًا...", faqTitle: "الأسئلة الشائعة", faqQ1: "كيف يتم تحديد التكلفة النهائية للمشروع؟", faqA1: "تعتمد التكلفة النهائية على حجم الفكرة، الميزات المطلوبة، والوقت المستغرق في التطوير. الأسعار المذكورة هي أسعار ابتدائية يتم تأكيدها بعد مناقشة تفاصيل مشروعك.", faqQ2: "هل تقدمون استضافة واسم نطاق (Domain) للمواقع؟", faqA2: "نعم، يمكننا توفير استضافة وحجز نطاق لموقعك كخدمة إضافية، أو يمكننا ربط الموقع باستضافتك الخاصة إذا كنت تمتلك واحدة.", faqQ3: "ما هي طرق الدفع المتاحة لديكم؟", faqA3: "ندعم الدفع عبر الحوالات البنكية (BaridiMob للجزائر)، والمحافظ الإلكترونية، والعملات الرقمية (USDT)، ليتمكن عملاؤنا من كل الدول من الدفع بسهولة.", faqQ4: "هل يمكنني طلب تعديلات بعد تسليم المشروع؟", faqA4: "بالتأكيد! نوفر فترة دعم فني مجانية بعد التسليم لمعالجة أي أخطاء، كما يمكن الاتفاق على خطط صيانة وتحديثات مرنة بأسعار مناسبة لضمان تطور مشروعك.", footerRights: "جميع الحقوق محفوظة.", formMainTitle: "طلب خدمة", welcomeBack: "أهلاً بك مجدداً! قمنا باستعادة بيانات طلبك السابق لتسهيل استكماله أو الدفع.", startNewReq: "مسح البيانات وبدء طلب جديد", formSeat: "حجز مقعد مبدئي", formPayment: "تأكيد الدفع والاستلام", formName: "الاسم الكامل", formEmail: "البريد الإلكتروني", formPhone: "رقم الهاتف (بدون مفتاح الدولة)", otherCountry: "🌐 أخرى (كتابة المعرف)", formServiceSelect: "نوع الخدمة المستهدفة", optBot: "تطوير بوتات تليجرام - يبدأ من 5000 DA", optWeb: "بناء وتطوير المواقع - يبدأ من 15000 DA", optVid: "صناعة المقاطع المرئية - يبدأ من 5000 DA", formIdea: "تفاصيل الفكرة", formRef: "رقم الحوالة أو إثبات الدفع (الرقم المرجعي)", currencyNote: "الأسعار بالدينار. اختر عملتك للتحويل:", receiptBase: "السعر الأساسي للخدمة:", receiptTotal: "الإجمالي التقديري:", formSubmit: "إرسال وتأكيد الطلب", successFeedback: "تم إرسال طلبك بنجاح! سيتم مراجعته والتواصل معك.", errorFeedback: "عذراً، حدث خطأ أثناء الإرسال. تأكد من اتصالك بالإنترنت وحاول مجدداً.",
+                ctaRequest: "طلب الخدمة", whyUsTitle: "لماذا آثار الرقمية؟", feature1Title: "فهم الفكرة أولًا", feature1Desc: "نقوم بمناقشة واستيعاب أهدافك الاستراتيجية بدقة كاملة لضمان جودة الأداء التقني النهائي وتطابقه مع رؤيتك.", feature2Title: "حلول مخصصة فريدة", feature2Desc: "نبتعد كليًا عن الأفكار والقوالب التقليدية المستهلكة لنوفر لك هوية تجارية تقنية حصرية تناسب طموحك.", feature3Title: "بنية تقنية متطورة", feature3Desc: "الدمج بين الكفاءة البرمجية العالية وأحدث المعايير الرقمية لضمان سرعة فائقة وأمان متكامل لمعالجة طلباتك.", feature4Title: "مرونة ودعم مستمر", feature4Desc: "نقف بجانبك حتى بعد التسليم، نقدم لك دعماً تقنياً ومرونة في التحديثات لضمان استمرارية نجاح مشروعك.", servicesTitle: "خدماتنا الرقمية", serviceBotTitle: "تطوير بوتات تليجرام", serviceBotDesc: "بناء أدوات ذكية وأتمتة مخصصة لإدارة المجتمعات، تقديم الخدمات الفورية، وتسهيل المهام اليومية.", serviceWebTitle: "بناء وتطوير المواقع", serviceWebDesc: "واجهات مخصصة، صفحات هبوط عصرية وتجربة أداء مرنة وسريعة تناسب وتدعم نمو مشروعك الناشئ.", serviceVidTitle: "صناعة المقاطع المرئية", serviceVidDesc: "تصميم محتوى مرئي احترافي وجذاب (مونتاج، موشن جرافيك) لعرض هوية مشروعك ورسالتك بامتياز.", priceStart: "السعر الابتدائي:", portfolioTitle: "أَعْمَالِنَا السَّابِقَةِ", port1Title: "مشروع أتمتة رقمية", port2Title: "منصة هبوط ذكية", portSoon: "جاري تجهيز وعرض رَوَابِط النَّمَاذِجِ قَرِيبًا...", faqTitle: "الأسئلة الشائعة", faqQ1: "كيف يتم تحديد التكلفة النهائية للمشروع؟", faqA1: "تعتمد التكلفة النهائية على حجم الفكرة، الميزات المطلوبة، والوقت المستغرق في التطوير. الأسعار المذكورة هي أسعار ابتدائية يتم تأكيدها بعد مناقشة تفاصيل مشروعك.", faqQ2: "هل تقدمون استضافة واسم نطاق (Domain) للمواقع؟", faqA2: "نعم، يمكننا توفير استضافة وحجز نطاق لموقعك كخدمة إضافية، أو يمكننا ربط الموقع باستضافتك الخاصة إذا كنت تمتلك واحدة.", faqQ3: "ما هي طرق الدفع المتاحة لديكم؟", faqA3: "ندعم الدفع عبر الحوالات البنكية (BaridiMob للجزائر)، والمحافظ الإلكترونية، والعملات الرقمية (USDT)، ليتمكن عملاؤنا من كل الدول من الدفع بسهولة.", faqQ4: "هل يمكنني طلب تعديلات بعد تسليم المشروع؟", faqA4: "بالتأكيد! نوفر فترة دعم فني مجانية بعد التسليم لمعالجة أي أخطاء، كما يمكن الاتفاق على خطط صيانة وتحديثات مرنة بأسعار مناسبة لضمان تطور مشروعك.", footerRights: "جميع الحقوق محفوظة.", formMainTitle: "طلب خدمة", welcomeBack: "أهلاً بك مجدداً! قمنا باستعادة بيانات طلبك السابق لتسهيل استكماله أو الدفع.", startNewReq: "مسح البيانات وبدء طلب جديد", formSeat: "حجز مقعد مبدئي", formPayment: "تأكيد الدفع والاستلام", formName: "الاسم الكامل", formEmail: "البريد الإلكتروني", formPhone: "رقم الهاتف (بدون مفتاح الدولة)", otherCountry: "🌐 أخرى (كتابة المعرف)", formServiceSelect: "نوع الخدمة المستهدفة", optBot: "تطوير بوتات تليجرام - يبدأ من 5000 DA", optWeb: "بناء وتطوير المواقع - يبدأ من 15000 DA", optVid: "صناعة المقاطع المرئية - يبدأ من 5000 DA", formIdea: "تفاصيل الفكرة", formRef: "رقم الحوالة أو إثبات الدفع (الرقم المرجعي)", formImageLabel: "إرفاق صورة إثبات الدفع (اختياري)", currencyNote: "الأسعار بالدينار. اختر عملتك للتحويل:", receiptBase: "السعر الأساسي للخدمة:", receiptTotal: "الإجمالي التقديري:", formSubmit: "إرسال وتأكيد الطلب", successFeedback: "تم إرسال طلبك بنجاح! سيتم مراجعته والتواصل معك.", errorFeedback: "عذراً، حدث خطأ أثناء الإرسال. تأكد من اتصالك بالإنترنت وحاول مجدداً.",
                 formAddonsTitle: "الإضافات والمميزات الاختيارية",
                 addonHosting: "استضافة واسم نطاق (+4000 DA)",
                 addonExpress: "تسليم سريع (24-48 ساعة) (+2000 DA)",
@@ -940,7 +944,7 @@
             en: {
                 brand: "ATHAAR", heroTitle: "ATHAAR",
                 heroSubtitle: "Athaar Digital Tech Solutions - We understand your idea first, highlighting its technical quality to make a sustainable impact with modern standards.",
-                ctaRequest: "Order Now", whyUsTitle: "Why Athaar Digital?", feature1Title: "Understanding First", feature1Desc: "We thoroughly discuss and grasp your strategic goals to ensure technical excellence matches your vision.", feature2Title: "Unique Custom Solutions", feature2Desc: "We avoid cliches to provide an exclusive technical brand identity tailored to your ambition.", feature3Title: "Advanced Tech Stack", feature3Desc: "Combining high coding efficiency with the latest standards for speed and robust security.", feature4Title: "Continuous Support", feature4Desc: "We stand by you post-delivery, offering technical support and flexible updates for sustainable success.", servicesTitle: "Our Digital Services", serviceBotTitle: "Telegram Bots", serviceBotDesc: "Smart tools and automation for community management and instant services.", serviceWebTitle: "Web Development", serviceWebDesc: "Custom interfaces and fast landing pages to support your startup's growth.", serviceVidTitle: "Video Creation", serviceVidDesc: "Professional visual content (Montage, Motion Graphics) to showcase your project.", priceStart: "Starting Price:", portfolioTitle: "OUR PORTFOLIO", port1Title: "Automation Project", port2Title: "Smart Landing Page", portSoon: "Links will be available soon...", faqTitle: "Frequently Asked Questions", faqQ1: "How is the final project cost determined?", faqA1: "The final cost depends on project size, features, and dev time. Prices shown are starting prices, confirmed after discussing details.", faqQ2: "Do you provide hosting and domains?", faqA2: "Yes, we can provide hosting and domains as an extra service, or link to your existing hosting.", faqQ3: "What payment methods do you accept?", faqA3: "We accept bank transfers (BaridiMob for DZ), E-wallets, and Crypto (USDT) to make it easy for global clients.", faqQ4: "Can I request modifications after delivery?", faqA4: "Absolutely! We offer free post-delivery support for bugs, and flexible maintenance plans for updates.", footerRights: "All rights reserved.", formMainTitle: "Order Service", welcomeBack: "Welcome back! We restored your previous request data.", startNewReq: "Clear data & start new request", formSeat: "Code Seat Reservation", formPayment: "Complete Payment", formName: "Full Name", formEmail: "Email Address", formPhone: "Phone Number (Without code)", otherCountry: "🌐 Other (Type code)", formServiceSelect: "Target Service", optBot: "Telegram Bots - Starts at 5000 DA", optWeb: "Web Development - Starts at 15000 DA", optVid: "Video Creation - Starts at 5000 DA", formIdea: "Project Details", formRef: "Transaction ID / Reference Number", currencyNote: "Prices in DZD. Select currency to convert:", receiptBase: "Base Service Price:", receiptTotal: "Estimated Total:", formSubmit: "Submit & Confirm Order", successFeedback: "Your request has been submitted successfully!", errorFeedback: "Submission failed. Please try again.",
+                ctaRequest: "Order Now", whyUsTitle: "Why Athaar Digital?", feature1Title: "Understanding First", feature1Desc: "We thoroughly discuss and grasp your strategic goals to ensure technical excellence matches your vision.", feature2Title: "Unique Custom Solutions", feature2Desc: "We avoid cliches to provide an exclusive technical brand identity tailored to your ambition.", feature3Title: "Advanced Tech Stack", feature3Desc: "Combining high coding efficiency with the latest standards for speed and robust security.", feature4Title: "Continuous Support", feature4Desc: "We stand by you post-delivery, offering technical support and flexible updates for sustainable success.", servicesTitle: "Our Digital Services", serviceBotTitle: "Telegram Bots", serviceBotDesc: "Smart tools and automation for community management and instant services.", serviceWebTitle: "Web Development", serviceWebDesc: "Custom interfaces and fast landing pages to support your startup's growth.", serviceVidTitle: "Video Creation", serviceVidDesc: "Professional visual content (Montage, Motion Graphics) to showcase your project.", priceStart: "Starting Price:", portfolioTitle: "OUR PORTFOLIO", port1Title: "Automation Project", port2Title: "Smart Landing Page", portSoon: "Links will be available soon...", faqTitle: "Frequently Asked Questions", faqQ1: "How is the final project cost determined?", faqA1: "The final cost depends on project size, features, and dev time. Prices shown are starting prices, confirmed after discussing details.", faqQ2: "Do you provide hosting and domains?", faqA2: "Yes, we can provide hosting and domains as an extra service, or link to your existing hosting.", faqQ3: "What payment methods do you accept?", faqA3: "We accept bank transfers (BaridiMob for DZ), E-wallets, and Crypto (USDT) to make it easy for global clients.", faqQ4: "Can I request modifications after delivery?", faqA4: "Absolutely! We offer free post-delivery support for bugs, and flexible maintenance plans for updates.", footerRights: "All rights reserved.", formMainTitle: "Order Service", welcomeBack: "Welcome back! We restored your previous request data.", startNewReq: "Clear data & start new request", formSeat: "Code Seat Reservation", formPayment: "Complete Payment", formName: "Full Name", formEmail: "Email Address", formPhone: "Phone Number (Without code)", otherCountry: "🌐 Other (Type code)", formServiceSelect: "Target Service", optBot: "Telegram Bots - Starts at 5000 DA", optWeb: "Web Development - Starts at 15000 DA", optVid: "Video Creation - Starts at 5000 DA", formIdea: "Project Details", formRef: "Transaction ID / Reference Number", formImageLabel: "Attach Payment Proof (Optional)", currencyNote: "Prices in DZD. Select currency to convert:", receiptBase: "Base Service Price:", receiptTotal: "Estimated Total:", formSubmit: "Submit & Confirm Order", successFeedback: "Your request has been submitted successfully!", errorFeedback: "Submission failed. Please try again.",
                 formAddonsTitle: "Optional Add-ons & Features",
                 addonHosting: "Hosting & Domain (+4000 DA)",
                 addonExpress: "Express Delivery (24-48h) (+2000 DA)",
@@ -1218,6 +1222,7 @@
             updateReceipt();
         }
 
+        // --- دالة الإرسال الآمنة المُحدثة ---
         async function handleFormSubmit(event) {
             event.preventDefault();
             playClickSound();
@@ -1230,6 +1235,7 @@
             feedbackZone.className = "form-feedback";
             feedbackZone.innerText = currentLang === "ar" ? "جاري الإرسال بسرعة..." : "Processing fast...";
 
+            // استخراج وتنسيق البيانات
             const name = document.getElementById("formName").value;
             const email = document.getElementById("formEmail").value;
             
@@ -1251,49 +1257,41 @@
             const ref = document.getElementById("formRefNum").value || "بدون (حجز مقعد)";
             const finalDue = document.getElementById("receiptTotalPrice").innerText;
 
-            const telegramMessage = `
-🌟 طلب خدمة جديد من آثار الرقمية 🌟
-──────────────────
-👤 الاسم: ${name}
-📧 البريد: ${email}
-📞 الهاتف: ${finalPhone}
-🛠️ الخدمة: ${serviceText}
-📦 الإضافات: ${addonsText}
-💡 الفكرة: ${idea}
-💳 حالة الطلب: ${paymentMode === "seat" ? "📌 حجز مقعد مبدئي" : "⚡ تأكيد دفع واستلام"}
-🔢 إثبات الدفع: ${ref}
-💰 الإجمالي التقديري: ${finalDue}
-──────────────────
-            `;
+            // تجميع البيانات في FormData لإرسالها لـ Make.com (بما في ذلك الصورة)
+            const formData = new FormData();
+            formData.append("Name", name);
+            formData.append("Email", email);
+            formData.append("Phone", finalPhone);
+            formData.append("Service", serviceText);
+            formData.append("Addons", addonsText);
+            formData.append("Idea", idea);
+            formData.append("Status", paymentMode === "seat" ? "حجز مقعد مبدئي" : "تأكيد دفع واستلام");
+            formData.append("Reference", ref);
+            formData.append("Total", finalDue);
 
-            let isSuccess = false;
-
-            try {
-                const telRes = await fetch(`https://api.telegram.org/bot${T_TOK}/sendMessage`, {
-                    method: "POST", 
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ chat_id: T_CHAT, text: telegramMessage })
-                });
-                
-                if(telRes.ok) { isSuccess = true; }
-            } catch (err) { console.error(err); }
+            // إضافة الصورة إذا قام العميل برفعها
+            const imageInput = document.getElementById("formReceiptImage");
+            if (imageInput.files.length > 0) {
+                formData.append("Receipt_Image", imageInput.files[0]);
+            }
 
             try {
-                const formRes = await fetch(`https://formspree.io/f/${F_ID}`, {
-                    method: "POST", 
-                    headers: { "Content-Type": "application/json", "Accept": "application/json" },
-                    body: JSON.stringify({ Name: name, Email: email, Phone: finalPhone, Service: serviceText, Addons: addonsText, Idea: idea, Status: paymentMode, Reference: ref, Total: finalDue })
+                // إرسال الطلب إلى الـ Webhook
+                const response = await fetch(WEBHOOK_URL, {
+                    method: "POST",
+                    body: formData
                 });
 
-                if(formRes.ok) { isSuccess = true; }
-            } catch (err) { console.warn(err); }
-
-            if (isSuccess) {
-                feedbackZone.className = "form-feedback success";
-                feedbackZone.innerText = dictionary[currentLang].successFeedback;
-                clearDraft();
-                setTimeout(() => { closeModal(); feedbackZone.style.display = "none"; }, 3500);
-            } else {
+                if (response.ok) {
+                    feedbackZone.className = "form-feedback success";
+                    feedbackZone.innerText = dictionary[currentLang].successFeedback;
+                    clearDraft();
+                    setTimeout(() => { closeModal(); feedbackZone.style.display = "none"; }, 3500);
+                } else {
+                    throw new Error("Failed to send data to webhook");
+                }
+            } catch (err) {
+                console.error(err);
                 feedbackZone.className = "form-feedback error";
                 feedbackZone.innerText = dictionary[currentLang].errorFeedback;
             }
@@ -1302,5 +1300,4 @@
         }
     </script>
 </body>
-</html>
-
+    </html>
