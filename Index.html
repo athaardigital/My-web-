@@ -1120,7 +1120,7 @@
             } else {
                 document.getElementById("optFull").classList.add("active");
                 refGroup.style.display = "block"; 
-                refInput.required = false; // لم يعد إجبارياً لأن العميل ممكن يرفع صورة بدل الرقم
+                refInput.required = false;
                 paymentDetails.style.display = "block";
             }
             saveDraft();
@@ -1214,7 +1214,7 @@
             updateReceipt();
         }
 
-        // التعديل الرئيسي: الإرسال بأمان عبر ملف PHP
+        // التعديل السحابي المعتمد لـ Vercel: دعم التشفير الرقمي السريع للصور
         function handleFormSubmit(event) {
             event.preventDefault();
             playClickSound();
@@ -1225,47 +1225,71 @@
             submitButton.disabled = true;
             feedbackZone.style.display = "block";
             feedbackZone.className = "form-feedback";
-            feedbackZone.innerText = currentLang === "ar" ? "جاري الإرسال بأمان..." : "Sending securely...";
+            feedbackZone.innerText = currentLang === "ar" ? "جاري إرسال الطلب بأمان..." : "Sending request securely...";
 
-            const formData = new FormData();
-            formData.append("name", document.getElementById("formName").value);
-            formData.append("email", document.getElementById("formEmail").value);
+            // سحب البيانات وفقًا لمعرفات الاستمارة الحالية بدقة
+            const name = document.getElementById("formName").value;
+            const email = document.getElementById("formEmail").value;
             
             const cCode = document.getElementById("countryCode").value;
             const customCode = document.getElementById("customCountryCode").value;
             const phonePrefix = cCode === 'other' ? customCode : cCode;
-            formData.append("phone", phonePrefix + " " + document.getElementById("formPhone").value);
+            const phone = phonePrefix + " " + document.getElementById("formPhone").value;
             
             const serviceElement = document.getElementById("formService");
-            formData.append("service", serviceElement.options[serviceElement.selectedIndex].text);
+            const service = serviceElement.options[serviceElement.selectedIndex].text;
             
-            let addons = [];
-            if (document.getElementById("extHosting").checked) addons.push("استضافة ونطاق");
-            if (document.getElementById("extExpress").checked) addons.push("تسليم سريع");
-            if (document.getElementById("extSupport").checked) addons.push("دعم فني ممتد");
-            formData.append("addons", addons.length > 0 ? addons.join(" + ") : "بدون إضافات");
+            let addonsList = [];
+            if (document.getElementById("extHosting").checked) addonsList.push("استضافة ونطاق");
+            if (document.getElementById("extExpress").checked) addonsList.push("تسليم سريع");
+            if (document.getElementById("extSupport").checked) addonsList.push("دعم فني ممتد");
+            const addons = addonsList.length > 0 ? addonsList.join(" + ") : "بدون إضافات";
             
-            formData.append("idea", document.getElementById("formIdeaText").value);
-            formData.append("paymentMode", paymentMode === 'seat' ? "حجز مقعد مبدئي" : "تأكيد الدفع والاستلام");
-            formData.append("ref", document.getElementById("formRefNum").value || "بدون (حجز مقعد)");
-            formData.append("total", document.getElementById("receiptTotalPrice").innerText);
+            const idea = document.getElementById("formIdeaText").value;
+            const modeText = paymentMode === 'seat' ? "حجز مقعد مبدئي" : "تأكيد الدفع والاستلام";
+            const ref = document.getElementById("formRefNum").value || "بدون (حجز مقعد)";
+            const total = document.getElementById("receiptTotalPrice").innerText;
 
-            // جلب الصورة في حال رفعها العميل
             const fileInput = document.getElementById("formReceiptFile");
-            if (fileInput && fileInput.files.length > 0) {
-                formData.append("receiptFile", fileInput.files[0]);
-            }
 
-            // ملف PHP الخاص بك
-            const webhookUrl = "process_order.php";
+            // دالة رقمية ذكية لتحويل صورة الوصل إلى كود سحابي بدون مشاكل اتصال
+            const readAsBase64 = (file) => {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onload = () => resolve(reader.result);
+                    reader.onerror = (error) => reject(error);
+                });
+            };
 
-            fetch(webhookUrl, {
-                method: 'POST',
-                body: formData
-            })
+            const processAndSend = async () => {
+                let receiptFileBase64 = null;
+                let receiptFileName = null;
+
+                if (fileInput && fileInput.files.length > 0) {
+                    const file = fileInput.files[0];
+                    receiptFileBase64 = await readAsBase64(file);
+                    receiptFileName = file.name;
+                }
+
+                // صياغة حزمة البيانات السحابية (JSON Payload)
+                const payload = {
+                    name, email, phone, service, addons, idea, paymentMode: modeText, ref, total,
+                    receiptFileBase64, receiptFileName
+                };
+
+                // توجيه البيانات مباشرة إلى دالة Vercel الخلفية النسبية
+                return fetch('/api/send', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+            };
+
+            processAndSend()
             .then(response => response.json())
             .then(data => {
-                if(data.status === "success") {
+                if (data.success) {
                     feedbackZone.className = "form-feedback success";
                     feedbackZone.innerText = dictionary[currentLang].successFeedback;
                     clearDraft();
@@ -1274,10 +1298,11 @@
                         feedbackZone.style.display = "none"; 
                     }, 3500);
                 } else {
-                    throw new Error("Server Error");
+                    throw new Error(data.message || "Server Error");
                 }
             })
             .catch(error => {
+                console.error("Error sending order:", error);
                 feedbackZone.className = "form-feedback error";
                 feedbackZone.innerText = dictionary[currentLang].errorFeedback;
             })
