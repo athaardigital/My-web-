@@ -1,5 +1,5 @@
 <?php
-// إعدادات البوت 
+// إعدادات البوت - تم تحديثها
 $botToken = "8544368853:AAEKWADoAH1K62zR4Tp1tO3rLfOI8Y0jZ8E";
 $chatId = "7322325980";
 
@@ -40,12 +40,10 @@ function sendToTelegram($url, $postFields) {
 
 // التأكد من وجود ملف (صورة وصل) مرفوع
 if (isset($_FILES['receiptFile']) && $_FILES['receiptFile']['error'] === UPLOAD_ERR_OK) {
-    // العميل رفع صورة، نرسل الصورة مع النص كـ Caption
     $fileTmpPath = $_FILES['receiptFile']['tmp_name'];
     $fileName = $_FILES['receiptFile']['name'];
     $fileType = $_FILES['receiptFile']['type'];
     
-    // تجهيز الملف للإرسال
     $cFile = new CURLFile($fileTmpPath, $fileType, $fileName);
     $postFields = array(
         'chat_id' => $chatId,
@@ -58,7 +56,6 @@ if (isset($_FILES['receiptFile']) && $_FILES['receiptFile']['error'] === UPLOAD_
     sendToTelegram($url, $postFields);
 
 } else {
-    // العميل لم يرفع صورة، نرسل رسالة نصية فقط
     $postFields = array(
         'chat_id' => $chatId,
         'text' => $message,
