@@ -10,7 +10,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* المتغيرات الأساسية */
+        /* --------------------------------------------------
+           1. المتغيرات والتنسيقات الأساسية والمرنة (CSS Variables)
+        -------------------------------------------------- */
         :root {
             --font-title: clamp(1.8rem, 4vw, 3.2rem);
             --font-subtitle: clamp(1.1rem, 2vw, 1.4rem);
@@ -47,7 +49,12 @@
             --border-color: rgba(181, 149, 47, 0.3);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; transition: background-color var(--transition-speed), color var(--transition-speed), border-color var(--transition-speed), box-shadow var(--transition-speed); }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color var(--transition-speed), color var(--transition-speed), border-color var(--transition-speed), box-shadow var(--transition-speed);
+        }
 
         body {
             font-family: 'Cairo', 'Inter', sans-serif;
@@ -62,112 +69,539 @@
             background-attachment: fixed;
         }
 
-        /* النافذة العلوية */
-        .navbar { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; background: var(--nav-bg); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border-color); padding: 1rem var(--site-margin); display: flex; justify-content: space-between; align-items: center; }
-        .nav-logo { font-size: clamp(1.3rem, 2.5vw, 1.8rem); font-weight: 700; color: var(--accent-color); text-decoration: none; letter-spacing: 1px; font-family: 'Chakra Petch', sans-serif; }
-        .nav-controls { display: flex; gap: 1rem; align-items: center; }
-        .btn-toggle { background: transparent; border: 1px solid var(--border-color); color: var(--accent-color); padding: 0.5rem 1rem; border-radius: 30px; cursor: pointer; font-family: inherit; font-size: var(--font-nav); display: flex; align-items: center; gap: 0.5rem; font-weight: bold; }
-        .btn-toggle:hover { border-color: var(--accent-color); box-shadow: 0 0 15px var(--accent-glow); transform: translateY(-2px); }
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: var(--nav-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem var(--site-margin);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-        /* الهيرو سيكشن */
-        .hero { padding: calc(var(--section-padding) + 4rem) var(--site-margin) var(--section-padding) var(--site-margin); text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 90vh; position: relative; }
-        .hero-title { font-size: var(--font-title); font-weight: 700; margin-bottom: 1rem; line-height: 1.3; letter-spacing: 2px; font-family: 'Chakra Petch', 'Cairo', sans-serif; background: linear-gradient(to right, #f3e5ab, var(--accent-color), #b5952f); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .typewriter-container { min-height: 3.5rem; display: flex; justify-content: center; align-items: center; margin-bottom: 1rem; }
-        .typewriter-text { font-size: clamp(1.2rem, 3vw, 1.8rem); color: var(--text-main); padding-right: 5px; font-weight: 700; animation: blink 0.75s step-end infinite; border-left: 3px solid var(--accent-color); }
-        [dir="ltr"] .typewriter-text { border-left: none; border-right: 3px solid var(--accent-color); padding-left: 5px; padding-right: 0; }
-        @keyframes blink { from, to { border-color: transparent } 50% { border-color: var(--accent-color); } }
-        .hero-subtitle { font-size: var(--font-subtitle); color: var(--text-muted); max-width: 700px; margin-bottom: 2.5rem; font-weight: 300; }
-        .btn-primary { background: transparent; color: var(--accent-color) !important; border: 1px solid var(--accent-color); font-weight: 700; padding: clamp(0.8rem, 2vw, 1rem) clamp(2rem, 4vw, 3rem); font-size: var(--font-body); border-radius: 8px; cursor: pointer; text-decoration: none; transition: all 0.3s; }
-        .btn-primary:hover { background: var(--accent-color); color: #060a12 !important; box-shadow: 0 0 20px var(--accent-glow); transform: translateY(-3px); }
+        .nav-logo {
+            font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+            font-weight: 700;
+            color: var(--accent-color);
+            text-decoration: none;
+            letter-spacing: 1px;
+            font-family: 'Chakra Petch', sans-serif;
+        }
 
-        /* الأقسام والبطاقات */
-        .section-container { padding: var(--section-padding) var(--site-margin); max-width: 1400px; margin: 0 auto; }
-        .section-header { text-align: center; margin-bottom: calc(var(--grid-gap) * 1.5); }
-        .section-title { font-size: clamp(1.8rem, 3vw, 2.5rem); color: var(--accent-color); margin-bottom: 1rem; position: relative; display: inline-block; font-weight: 700; font-family: 'Chakra Petch', 'Cairo', sans-serif; }
-        .section-title::after { content: ''; position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); width: 60px; height: 3px; background-color: var(--accent-color); border-radius: 2px; }
-        .responsive-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(clamp(250px, 22vw, 350px), 1fr)); gap: var(--grid-gap); }
-        .interactive-card { background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; padding: var(--card-padding); text-align: center; backdrop-filter: blur(10px); position: relative; overflow: hidden; opacity: 0.6; transform: scale(0.96); transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.5s ease, border-color 0.5s ease; }
-        .interactive-card:hover, .interactive-card.center-focused { opacity: 1 !important; transform: translateY(-15px) scale(1.04) !important; border-color: var(--accent-color); box-shadow: 0 10px 30px var(--accent-glow); z-index: 2; }
-        .card-icon { font-size: 2.5rem; color: var(--accent-color); margin-bottom: 1.5rem; }
-        .card-title { color: #f3e5ab; font-size: clamp(1.2rem, 1.8vw, 1.4rem); margin-bottom: 15px; font-weight: 600; font-family: 'Chakra Petch', 'Cairo', sans-serif; }
+        .nav-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn-toggle {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--accent-color);
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: var(--font-nav);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: bold;
+        }
+
+        .btn-toggle:hover {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 15px var(--accent-glow);
+            transform: translateY(-2px);
+        }
+
+        .hero {
+            padding: calc(var(--section-padding) + 4rem) var(--site-margin) var(--section-padding) var(--site-margin);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 90vh;
+            position: relative;
+        }
+
+        .hero-title {
+            font-size: var(--font-title);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.3;
+            letter-spacing: 2px;
+            font-family: 'Chakra Petch', 'Cairo', sans-serif;
+            background: linear-gradient(to right, #f3e5ab, var(--accent-color), #b5952f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .typewriter-container {
+            min-height: 3.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .typewriter-text {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            color: var(--text-main);
+            padding-right: 5px;
+            font-weight: 700;
+            animation: blink 0.75s step-end infinite;
+            border-left: 3px solid var(--accent-color);
+        }
+        
+        [dir="ltr"] .typewriter-text {
+            border-left: none;
+            border-right: 3px solid var(--accent-color);
+            padding-left: 5px;
+            padding-right: 0;
+        }
+
+        @keyframes blink {
+            from, to { border-color: transparent }
+            50% { border-color: var(--accent-color); }
+        }
+
+        .hero-subtitle {
+            font-size: var(--font-subtitle);
+            color: var(--text-muted);
+            max-width: 700px;
+            margin-bottom: 2.5rem;
+            font-weight: 300;
+        }
+
+        .btn-primary {
+            background: transparent;
+            color: var(--accent-color) !important;
+            border: 1px solid var(--accent-color);
+            font-weight: 700;
+            padding: clamp(0.8rem, 2vw, 1rem) clamp(2rem, 4vw, 3rem);
+            font-size: var(--font-body);
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-color);
+            color: #060a12 !important;
+            box-shadow: 0 0 20px var(--accent-glow);
+            transform: translateY(-3px);
+        }
+
+        .section-container {
+            padding: var(--section-padding) var(--site-margin);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: calc(var(--grid-gap) * 1.5);
+        }
+
+        .section-title {
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+            font-weight: 700;
+            font-family: 'Chakra Petch', 'Cairo', sans-serif;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background-color: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        .responsive-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(clamp(250px, 22vw, 350px), 1fr));
+            gap: var(--grid-gap);
+        }
+
+        .interactive-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: var(--card-padding);
+            text-align: center;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            opacity: 0.6;
+            transform: scale(0.96);
+            transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.5s ease, border-color 0.5s ease;
+        }
+
+        .interactive-card:hover, .interactive-card.center-focused {
+            opacity: 1 !important;
+            transform: translateY(-15px) scale(1.04) !important;
+            border-color: var(--accent-color);
+            box-shadow: 0 10px 30px var(--accent-glow);
+            z-index: 2;
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .card-title {
+            color: #f3e5ab;
+            font-size: clamp(1.2rem, 1.8vw, 1.4rem);
+            margin-bottom: 15px;
+            font-weight: 600;
+            font-family: 'Chakra Petch', 'Cairo', sans-serif;
+        }
         [data-theme="light"] .card-title { color: var(--accent-color); }
-        .card-text { font-size: 0.95rem; color: var(--text-muted); line-height: 1.8; }
-        .price-badge { display: inline-block; background: rgba(212, 175, 55, 0.08); border: 1px dashed rgba(212, 175, 55, 0.4); color: var(--accent-color); padding: 6px 16px; border-radius: 8px; font-weight: 700; font-size: 0.9rem; margin: 20px 0; font-family: 'Chakra Petch', 'Cairo', sans-serif; }
-        .portfolio-box { border: 2px dashed var(--border-color); border-radius: 12px; padding: 40px 20px; color: var(--text-muted); font-style: italic; background: rgba(0,0,0,0.2); margin-top: 20px; }
 
-        /* الأسئلة الشائعة */
-        .faq-container { max-width: 800px; margin: 0 auto; }
-        .faq-item { background: var(--bg-card); border: 1px solid var(--border-color); margin-bottom: 15px; border-radius: 8px; overflow: hidden; }
-        .faq-question { width: 100%; text-align: start; padding: 18px 20px; background: transparent; border: none; color: var(--text-main); font-size: 1.05rem; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-family: inherit; }
-        .faq-question i { color: var(--accent-color); transition: transform 0.3s ease; }
-        .faq-answer { max-height: 0; overflow: hidden; padding: 0 20px; transition: max-height 0.3s ease, padding 0.3s ease; color: var(--text-muted); line-height: 1.7; font-size: 0.95rem; }
-        .faq-item.active .faq-answer { max-height: 300px; padding: 0 20px 20px 20px; }
-        .faq-item.active .faq-question i { transform: rotate(180deg); }
+        .card-text {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
 
-        /* الفوتر */
-        footer { border-top: 1px solid var(--border-color); padding: 60px 20px 30px; text-align: center; background: var(--bg-secondary); margin-top: 50px; }
-        .social-links { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 30px; }
-        .social-btn { color: #fff; text-decoration: none; padding: 10px 25px; border-radius: 30px; font-weight: 600; font-size: 0.95rem; transition: var(--transition-speed); border: 1px solid transparent; display: flex; align-items: center; gap: 8px; font-family: 'Chakra Petch', sans-serif; }
-        .social-btn:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-        .wa-btn { background: #25D366; } .tg-btn { background: #0088cc; } .ig-btn { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+        .price-badge {
+            display: inline-block;
+            background: rgba(212, 175, 55, 0.08);
+            border: 1px dashed rgba(212, 175, 55, 0.4);
+            color: var(--accent-color);
+            padding: 6px 16px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin: 20px 0;
+            font-family: 'Chakra Petch', 'Cairo', sans-serif;
+        }
 
-        /* المودال والنموذج */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); z-index: 2000; display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: opacity 0.4s, visibility 0.4s; padding: 1rem; }
+        .portfolio-box {
+            border: 2px dashed var(--border-color);
+            border-radius: 12px;
+            padding: 40px 20px;
+            color: var(--text-muted);
+            font-style: italic;
+            background: rgba(0,0,0,0.2);
+            margin-top: 20px;
+        }
+
+        /* FAQ Styles */
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            margin-bottom: 15px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .faq-question {
+            width: 100%;
+            text-align: start;
+            padding: 18px 20px;
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: inherit;
+        }
+        .faq-question i {
+            color: var(--accent-color);
+            transition: transform 0.3s ease;
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            padding: 0 20px;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            color: var(--text-muted);
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+            padding: 0 20px 20px 20px;
+        }
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        /* Footer Styles */
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: 60px 20px 30px;
+            text-align: center;
+            background: var(--bg-secondary);
+            margin-top: 50px;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+        
+        .social-btn {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: var(--transition-speed);
+            border: 1px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Chakra Petch', sans-serif;
+        }
+        
+        .social-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .wa-btn { background: #25D366; } 
+        .tg-btn { background: #0088cc; } 
+        .ig-btn { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+
+        /* Modal & Form Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s, visibility 0.4s;
+            padding: 1rem;
+        }
+
         .modal-overlay.active { opacity: 1; visibility: visible; }
-        .modal-window { background-color: var(--bg-primary); border: 1px solid var(--accent-color); width: 100%; max-width: 550px; max-height: 90vh; border-radius: 16px; overflow-y: auto; padding: 30px; position: relative; box-shadow: 0 0 30px rgba(212, 175, 55, 0.15); }
+
+        .modal-window {
+            background-color: var(--bg-primary);
+            border: 1px solid var(--accent-color);
+            width: 100%;
+            max-width: 550px;
+            max-height: 90vh;
+            border-radius: 16px;
+            overflow-y: auto;
+            padding: 30px;
+            position: relative;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.15);
+        }
+
         .modal-window::-webkit-scrollbar { width: 8px; }
         .modal-window::-webkit-scrollbar-track { background: var(--bg-secondary); border-radius: 8px; }
         .modal-window::-webkit-scrollbar-thumb { background: var(--accent-color); border-radius: 8px; }
-        .modal-close { position: absolute; top: 20px; left: 20px; background: none; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
         [dir="ltr"] .modal-close { left: auto; right: 20px; }
         .modal-close:hover { color: var(--accent-color); }
 
-        .form-title { font-size: 1.4rem; margin-bottom: 20px; color: var(--accent-color); font-weight: 700; text-align: center; }
-        .returning-banner { background: rgba(212, 175, 55, 0.1); border: 1px solid var(--accent-color); padding: 12px; border-radius: 8px; margin-bottom: 15px; display: flex; flex-direction: column; gap: 10px; text-align: center; font-size: 0.9rem; color: var(--text-main); }
-        .btn-clear-draft { background: var(--bg-secondary); color: var(--accent-color); border: 1px solid var(--accent-color); padding: 6px 12px; border-radius: 5px; cursor: pointer; font-weight: bold; font-family: inherit; transition: all 0.3s; }
-        .btn-clear-draft:hover { background: var(--accent-color); color: #000; }
+        .form-title {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            color: var(--accent-color);
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .returning-banner {
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid var(--accent-color);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-main);
+        }
+        .btn-clear-draft {
+            background: var(--bg-secondary);
+            color: var(--accent-color);
+            border: 1px solid var(--accent-color);
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+        .btn-clear-draft:hover {
+            background: var(--accent-color);
+            color: #000;
+        }
 
         .form-group { margin-bottom: 1.2rem; text-align: start; }
         .form-label { display: block; margin-bottom: 0.5rem; font-size: 0.95rem; font-weight: 600; color: var(--text-main); }
-        .form-control { width: 100%; background-color: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: var(--text-main); padding: 12px 15px; font-family: inherit; font-size: 0.95rem; border-radius: 8px; outline: none; }
+        .form-control {
+            width: 100%;
+            background-color: rgba(0,0,0,0.3);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 12px 15px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            border-radius: 8px;
+            outline: none;
+        }
         [data-theme="light"] .form-control { background-color: #f1f3f5; }
         .form-control:focus { border-color: var(--accent-color); box-shadow: inset 0 0 8px rgba(212, 175, 55, 0.1); }
 
-        .phone-input-group { display: flex; gap: 10px; flex-wrap: wrap; }
+        .phone-input-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
         .phone-input-group select { width: 35%; flex-grow: 1; }
         .phone-input-group input[type="tel"] { width: 60%; flex-grow: 2; }
         .phone-input-group input[type="text"] { width: 100%; margin-top: 5px; }
 
-        .addons-container { display: flex; flex-direction: column; gap: 10px; margin-top: 5px; }
-        .addon-label { display: flex; align-items: center; gap: 12px; font-size: 0.9rem; color: var(--text-main); cursor: pointer; padding: 10px 12px; background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); border-radius: 8px; transition: var(--transition-speed); }
+        /* Addons Styles */
+        .addons-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 5px;
+        }
+        .addon-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.9rem;
+            color: var(--text-main);
+            cursor: pointer;
+            padding: 10px 12px;
+            background: rgba(0,0,0,0.2);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            transition: var(--transition-speed);
+        }
         [data-theme="light"] .addon-label { background: #f1f3f5; }
         .addon-label:hover { border-color: var(--accent-color); }
-        .addon-label input[type="checkbox"] { accent-color: var(--accent-color); transform: scale(1.2); cursor: pointer; }
+        .addon-label input[type="checkbox"] {
+            accent-color: var(--accent-color);
+            transform: scale(1.2);
+            cursor: pointer;
+        }
 
-        .payment-toggle-zone { display: flex; background-color: rgba(0,0,0,0.2); border: 1px solid var(--border-color); border-radius: 8px; padding: 0.3rem; margin-bottom: 1.5rem; }
-        .payment-option { flex: 1; text-align: center; padding: 0.6rem; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.9rem; transition: all 0.3s; }
+        .payment-toggle-zone {
+            display: flex;
+            background-color: rgba(0,0,0,0.2);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.3rem;
+            margin-bottom: 1.5rem;
+        }
+        .payment-option {
+            flex: 1; text-align: center; padding: 0.6rem; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.9rem; transition: all 0.3s;
+        }
         .payment-option.active { background-color: var(--accent-color); color: #060a12; }
 
-        .payment-info-box { background: rgba(0,0,0,0.2); border: 1px dashed var(--border-color); border-radius: 8px; padding: 15px; margin-bottom: 15px; text-align: start; }
+        /* Payment Information Box */
+        .payment-info-box {
+            background: rgba(0,0,0,0.2);
+            border: 1px dashed var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            text-align: start;
+        }
         [data-theme="light"] .payment-info-box { background: #f1f3f5; border-color: rgba(181, 149, 47, 0.4); }
-        .payment-method { background: var(--bg-primary); border-right: 3px solid var(--accent-color); padding: 12px; margin-bottom: 10px; border-radius: 6px; font-size: 0.9rem; color: var(--text-main); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .payment-method {
+            background: var(--bg-primary);
+            border-right: 3px solid var(--accent-color);
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            color: var(--text-main);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
         [dir="ltr"] .payment-method { border-right: none; border-left: 3px solid var(--accent-color); }
         .payment-method p { margin: 5px 0; color: var(--text-muted); font-family: 'Inter', 'Cairo', sans-serif; }
         .payment-method strong { color: var(--accent-color); display: block; margin-bottom: 8px; font-family: 'Chakra Petch', 'Cairo', sans-serif; }
 
-        /* تصميم زر رفع الصور الاحترافي */
-        .custom-file-upload {
-            display: inline-block; width: 100%; padding: 12px; cursor: pointer; background-color: rgba(0,0,0,0.3); border: 1px dashed var(--accent-color); color: var(--text-main); border-radius: 8px; text-align: center; transition: var(--transition-speed); font-family: inherit; font-size: 0.95rem; margin-top: 5px;
+        .currency-calculator {
+            background: rgba(0,0,0,0.15);
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid var(--border-color);
         }
-        [data-theme="light"] .custom-file-upload { background-color: #f1f3f5; }
-        .custom-file-upload:hover { background-color: rgba(212, 175, 55, 0.1); border-color: #f3e5ab; }
-        .custom-file-upload i { margin-right: 8px; color: var(--accent-color); font-size: 1.2rem; }
-        [dir="ltr"] .custom-file-upload i { margin-right: 0; margin-left: 8px; }
+        .currency-calculator select {
+            padding: 5px;
+            border-radius: 4px;
+            background: var(--bg-secondary);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            outline: none;
+            font-family: inherit;
+        }
 
-        .currency-calculator { background: rgba(0,0,0,0.15); padding: 10px; border-radius: 8px; margin-bottom: 10px; font-size: 0.85rem; color: var(--text-muted); display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border-color); }
-        .currency-calculator select { padding: 5px; border-radius: 4px; background: var(--bg-secondary); color: var(--text-main); border: 1px solid var(--border-color); outline: none; font-family: inherit; }
-
-        .receipt-card { background-color: rgba(11, 18, 32, 0.9); border: 1px dashed var(--accent-color); border-radius: 8px; padding: 15px; margin-bottom: 1.5rem; }
+        .receipt-card {
+            background-color: rgba(11, 18, 32, 0.9);
+            border: 1px dashed var(--accent-color);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 1.5rem;
+        }
         [data-theme="light"] .receipt-card { background-color: #f8f9fa; }
         .receipt-row { display: flex; justify-content: space-between; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 8px; font-family: 'Chakra Petch', 'Cairo', sans-serif; }
         .receipt-total { border-top: 1px solid var(--border-color); margin-top: 10px; padding-top: 10px; font-weight: 700; color: var(--accent-color); font-size: 1.2rem; }
@@ -430,11 +864,8 @@
                     <label class="form-label" data-i18n="formRef">رقم الحوالة أو إثبات الدفع (للتأكيد)</label>
                     <input type="text" id="formRefNum" class="form-control" oninput="saveDraft()" style="margin-bottom: 10px;">
                     
-                    <label class="form-label" data-i18n="uploadLabel" style="margin-top: 10px;">أو ارفع صورة الإيصال (اختياري)</label>
-                    <label for="formReceiptFile" class="custom-file-upload">
-                        <i class="fa-solid fa-cloud-arrow-up"></i> <span id="fileNameDisplay" data-i18n="uploadReceipt">اختر ملف الصورة أو الـ PDF...</span>
-                    </label>
-                    <input type="file" id="formReceiptFile" accept="image/*,application/pdf" style="display: none;" onchange="updateFileName(this)">
+                    <label class="form-label" style="margin-top: 10px;">أو ارفع صورة الإيصال (اختياري)</label>
+                    <input type="file" id="formReceiptFile" class="form-control" accept="image/*,application/pdf" style="padding: 10px; background-color: rgba(0,0,0,0.3);">
                 </div>
 
                 <div class="currency-calculator">
@@ -480,24 +911,52 @@
         const prices = { bots: 5000, web: 15000, video: 5000 };
         const addonPrices = { hosting: 4000, express: 2000, support: 2000 };
 
-        const exchangeRates = { DZD: 1, SAR: 0.028, USD: 0.0075, EUR: 0.0068, USDT: 0.0075 };
+        const exchangeRates = {
+            DZD: 1, SAR: 0.028, USD: 0.0075, EUR: 0.0068, USDT: 0.0075
+        };
         const currencySymbols = { DZD: 'DA', SAR: 'SAR', USD: '$', EUR: '€', USDT: 'USDT' };
 
         const dictionary = {
             ar: {
                 brand: "ATHAAR", heroTitle: "ATHAAR",
                 heroSubtitle: "آثَار الرَّقْمِيَّة لِلْحُلُولِ التَّقْنِيَّةِ - نفهم فكرتك أولًا، ونبرز جودتها التقنية لتصنع أثرًا مستدامًا في سوق العمل الفعلي بمعايير عصرية وهياكل برمجية قوية.",
-                ctaRequest: "طلب الخدمة", whyUsTitle: "لماذا آثار الرقمية؟", feature1Title: "فهم الفكرة أولًا", feature1Desc: "نقوم بمناقشة واستيعاب أهدافك الاستراتيجية بدقة كاملة لضمان جودة الأداء التقني النهائي وتطابقه مع رؤيتك.", feature2Title: "حلول مخصصة فريدة", feature2Desc: "نبتعد كليًا عن الأفكار والقوالب التقليدية المستهلكة لنوفر لك هوية تجارية تقنية حصرية تناسب طموحك.", feature3Title: "بنية تقنية متطورة", feature3Desc: "الدمج بين الكفاءة البرمجية العالية وأحدث المعايير الرقمية لضمان سرعة فائقة وأمان متكامل لمعالجة طلباتك.", feature4Title: "مرونة ودعم مستمر", feature4Desc: "نقف بجانبك حتى بعد التسليم، نقدم لك دعماً تقنياً ومرونة في التحديثات لضمان استمرارية نجاح مشروعك.", servicesTitle: "خدماتنا الرقمية", serviceBotTitle: "تطوير بوتات تليجرام", serviceBotDesc: "بناء أدوات ذكية وأتمتة مخصصة لإدارة المجتمعات، تقديم الخدمات الفورية، وتسهيل المهام اليومية.", serviceWebTitle: "بناء وتطوير المواقع", serviceWebDesc: "واجهات مخصصة، صفحات هبوط عصرية وتجربة أداء مرنة وسريعة تناسب وتدعم نمو مشروعك الناشئ.", serviceVidTitle: "صناعة المقاطع المرئية", serviceVidDesc: "تصميم محتوى مرئي احترافي وجذاب (مونتاج، موشن جرافيك) لعرض هوية مشروعك ورسالتك بامتياز.", priceStart: "السعر الابتدائي:", portfolioTitle: "أَعْمَالِنَا السَّابِقَةِ", port1Title: "مشروع أتمتة رقمية", port2Title: "منصة هبوط ذكية", portSoon: "جاري تجهيز وعرض رَوَابِط النَّمَاذِجِ قَرِيبًا...", faqTitle: "الأسئلة الشائعة", faqQ1: "كيف يتم تحديد التكلفة النهائية للمشروع؟", faqA1: "تعتمد التكلفة النهائية على حجم الفكرة، الميزات المطلوبة، والوقت المستغرق في التطوير. الأسعار المذكورة هي أسعار ابتدائية يتم تأكيدها بعد مناقشة تفاصيل مشروعك.", faqQ2: "هل تقدمون استضافة واسم نطاق (Domain) للمواقع؟", faqA2: "نعم، يمكننا توفير استضافة وحجز نطاق لموقعك كخدمة إضافية، أو يمكننا ربط الموقع باستضافتك الخاصة إذا كنت تمتلك واحدة.", faqQ3: "ما هي طرق الدفع المتاحة لديكم؟", faqA3: "ندعم الدفع عبر الحوالات البنكية (BaridiMob للجزائر)، والمحافظ الإلكترونية، والعملات الرقمية (USDT)، ليتمكن عملاؤنا من كل الدول من الدفع بسهولة.", faqQ4: "هل يمكنني طلب تعديلات بعد تسليم المشروع?", faqA4: "بالتأكيد! نوفر فترة دعم فني مجانية بعد التسليم لمعالجة أي أخطاء، كما يمكن الاتفاق على خطط صيانة وتحديثات مرنة بأسعار مناسبة لضمان تطور مشروعك.", footerRights: "جميع الحقوق محفوظة.", formMainTitle: "طلب خدمة", welcomeBack: "أهلاً بك مجدداً! قمنا باستعادة بيانات طلبك السابق لتسهيل استكماله أو الدفع.", startNewReq: "مسح البيانات وبدء طلب جديد", formSeat: "حجز مقعد مبدئي", formPayment: "تأكيد الدفع والاستلام", formName: "الاسم الكامل", formEmail: "البريد الإلكتروني", formPhone: "رقم الهاتف (بدون مفتاح الدولة)", otherCountry: "🌐 أخرى (كتابة المعرف)", formServiceSelect: "نوع الخدمة المستهدفة", optBot: "تطوير بوتات تليجرام - يبدأ من 5000 DA", optWeb: "بناء وتطوير المواقع - يبدأ من 15000 DA", optVid: "صناعة المقاطع المرئية - يبدأ من 5000 DA", formIdea: "تفاصيل الفكرة", formRef: "رقم الحوالة أو إثبات الدفع (الرقم المرجعي)", currencyNote: "الأسعار بالدينار. اختر عملتك للتحويل:", receiptBase: "السعر الأساسي للخدمة:", receiptTotal: "الإجمالي التقديري:", formSubmit: "إرسال وتأكيد الطلب", successFeedback: "تم إرسال طلبك بنجاح! سيتم مراجعته والتواصل معك.", errorFeedback: "عذراً، حدث خطأ أثناء الإرسال. تأكد من اتصالك بالإنترنت وحاول مجدداً.",
-                formAddonsTitle: "الإضافات والمميزات الاختيارية", addonHosting: "استضافة واسم نطاق (+4000 DA)", addonExpress: "تسليم سريع (24-48 ساعة) (+2000 DA)", addonSupport: "دعم فني وتعديلات ممتدة (+2000 DA)", receiptExtras: "إجمالي الإضافات:", payLocal: "الدفع المحلي (الجزائر - BaridiMob/CCP)", payLocalCCP: "رقم الحساب البريدي (CCP): 0028372494 | المفتاح (Clé): 30", payLocalRIP: "الـ RIP السريع: 00799999002837249430", payCrypto: "الدفع الدولي (العملات الرقمية)", payCryptoNet: "العملة: USDT / TRX | الشبكة: Tron (TRC20)", payCryptoAddr: "المحفظة: TMEizSVGg3tsrw1HLYkGfMWMrSGWm5RN7X", payNote: "ملاحظة: يرجى إرسال لقطة شاشة (Screenshot) لوصل التحويل لتأكيد الطلب وبدء التنفيذ.",
-                uploadLabel: "أو ارفع صورة الإيصال (اختياري)", uploadReceipt: "اختر ملف الصورة أو الـ PDF..."
+                ctaRequest: "طلب الخدمة", whyUsTitle: "لماذا آثار الرقمية؟", feature1Title: "فهم الفكرة أولًا", feature1Desc: "نقوم بمناقشة واستيعاب أهدافك الاستراتيجية بدقة كاملة لضمان جودة الأداء التقني النهائي وتطابقه مع رؤيتك.", feature2Title: "حلول مخصصة فريدة", feature2Desc: "نبتعد كليًا عن الأفكار والقوالب التقليدية المستهلكة لنوفر لك هوية تجارية تقنية حصرية تناسب طموحك.", feature3Title: "بنية تقنية متطورة", feature3Desc: "الدمج بين الكفاءة البرمجية العالية وأحدث المعايير الرقمية لضمان سرعة فائقة وأمان متكامل لمعالجة طلباتك.", feature4Title: "مرونة ودعم مستمر", feature4Desc: "نقف بجانبك حتى بعد التسليم، نقدم لك دعماً تقنياً ومرونة في التحديثات لضمان استمرارية نجاح مشروعك.", servicesTitle: "خدماتنا الرقمية", serviceBotTitle: "تطوير بوتات تليجرام", serviceBotDesc: "بناء أدوات ذكية وأتمتة مخصصة لإدارة المجتمعات، تقديم الخدمات الفورية، وتسهيل المهام اليومية.", serviceWebTitle: "بناء وتطوير المواقع", serviceWebDesc: "واجهات مخصصة، صفحات هبوط عصرية وتجربة أداء مرنة وسريعة تناسب وتدعم نمو مشروعك الناشئ.", serviceVidTitle: "صناعة المقاطع المرئية", serviceVidDesc: "تصميم محتوى مرئي احترافي وجذاب (مونتاج، موشن جرافيك) لعرض هوية مشروعك ورسالتك بامتياز.", priceStart: "السعر الابتدائي:", portfolioTitle: "أَعْمَالِنَا السَّابِقَةِ", port1Title: "مشروع أتمتة رقمية", port2Title: "منصة هبوط ذكية", portSoon: "جاري تجهيز وعرض رَوَابِط النَّمَاذِجِ قَرِيبًا...", faqTitle: "الأسئلة الشائعة", faqQ1: "كيف يتم تحديد التكلفة النهائية للمشروع؟", faqA1: "تعتمد التكلفة النهائية على حجم الفكرة، الميزات المطلوبة، والوقت المستغرق في التطوير. الأسعار المذكورة هي أسعار ابتدائية يتم تأكيدها بعد مناقشة تفاصيل مشروعك.", faqQ2: "هل تقدمون استضافة واسم نطاق (Domain) للمواقع؟", faqA2: "نعم، يمكننا توفير استضافة وحجز نطاق لموقعك كخدمة إضافية، أو يمكننا ربط الموقع باستضافتك الخاصة إذا كنت تمتلك واحدة.", faqQ3: "ما هي طرق الدفع المتاحة لديكم؟", faqA3: "ندعم الدفع عبر الحوالات البنكية (BaridiMob للجزائر)، والمحافظ الإلكترونية، والعملات الرقمية (USDT)، ليتمكن عملاؤنا من كل الدول من الدفع بسهولة.", faqQ4: "هل يمكنني طلب تعديلات بعد تسليم المشروع؟", faqA4: "بالتأكيد! نوفر فترة دعم فني مجانية بعد التسليم لمعالجة أي أخطاء، كما يمكن الاتفاق على خطط صيانة وتحديثات مرنة بأسعار مناسبة لضمان تطور مشروعك.", footerRights: "جميع الحقوق محفوظة.", formMainTitle: "طلب خدمة", welcomeBack: "أهلاً بك مجدداً! قمنا باستعادة بيانات طلبك السابق لتسهيل استكماله أو الدفع.", startNewReq: "مسح البيانات وبدء طلب جديد", formSeat: "حجز مقعد مبدئي", formPayment: "تأكيد الدفع والاستلام", formName: "الاسم الكامل", formEmail: "البريد الإلكتروني", formPhone: "رقم الهاتف (بدون مفتاح الدولة)", otherCountry: "🌐 أخرى (كتابة المعرف)", formServiceSelect: "نوع الخدمة المستهدفة", optBot: "تطوير بوتات تليجرام - يبدأ من 5000 DA", optWeb: "بناء وتطوير المواقع - يبدأ من 15000 DA", optVid: "صناعة المقاطع المرئية - يبدأ من 5000 DA", formIdea: "تفاصيل الفكرة", formRef: "رقم الحوالة أو إثبات الدفع (الرقم المرجعي)", currencyNote: "الأسعار بالدينار. اختر عملتك للتحويل:", receiptBase: "السعر الأساسي للخدمة:", receiptTotal: "الإجمالي التقديري:", formSubmit: "إرسال وتأكيد الطلب", successFeedback: "تم إرسال طلبك بنجاح! سيتم مراجعته والتواصل معك.", errorFeedback: "عذراً، حدث خطأ أثناء الإرسال. تأكد من اتصالك بالإنترنت وحاول مجدداً.",
+                formAddonsTitle: "الإضافات والمميزات الاختيارية",
+                addonHosting: "استضافة واسم نطاق (+4000 DA)",
+                addonExpress: "تسليم سريع (24-48 ساعة) (+2000 DA)",
+                addonSupport: "دعم فني وتعديلات ممتدة (+2000 DA)",
+                receiptExtras: "إجمالي الإضافات:",
+                payLocal: "الدفع المحلي (الجزائر - BaridiMob/CCP)",
+                payLocalCCP: "رقم الحساب البريدي (CCP): 0028372494 | المفتاح (Clé): 30",
+                payLocalRIP: "الـ RIP السريع: 00799999002837249430",
+                payCrypto: "الدفع الدولي (العملات الرقمية)",
+                payCryptoNet: "العملة: USDT / TRX | الشبكة: Tron (TRC20)",
+                payCryptoAddr: "المحفظة: TMEizSVGg3tsrw1HLYkGfMWMrSGWm5RN7X",
+                payNote: "ملاحظة: يرجى إرسال لقطة شاشة (Screenshot) لوصل التحويل لتأكيد الطلب وبدء التنفيذ."
             },
             en: {
-                brand: "ATHAAR", heroTitle: "ATHAAR", heroSubtitle: "Athaar Digital Tech Solutions - We understand your idea first, highlighting its technical quality to make a sustainable impact.", ctaRequest: "Order Now", whyUsTitle: "Why Athaar Digital?", feature1Title: "Understanding First", feature1Desc: "We thoroughly discuss and grasp your strategic goals to ensure technical excellence matches your vision.", feature2Title: "Unique Custom Solutions", feature2Desc: "We avoid cliches to provide an exclusive technical brand identity tailored to your ambition.", feature3Title: "Advanced Tech Stack", feature3Desc: "Combining high coding efficiency with the latest standards for speed and robust security.", feature4Title: "Continuous Support", feature4Desc: "We stand by you post-delivery, offering technical support and flexible updates for sustainable success.", servicesTitle: "Our Digital Services", serviceBotTitle: "Telegram Bots", serviceBotDesc: "Smart tools and automation for community management and instant services.", serviceWebTitle: "Web Development", serviceWebDesc: "Custom interfaces and fast landing pages to support your startup's growth.", serviceVidTitle: "Video Creation", serviceVidDesc: "Professional visual content (Montage, Motion Graphics) to showcase your project.", priceStart: "Starting Price:", portfolioTitle: "OUR PORTFOLIO", port1Title: "Automation Project", port2Title: "Smart Landing Page", portSoon: "Links will be available soon...", faqTitle: "Frequently Asked Questions", faqQ1: "How is the final project cost determined?", faqA1: "The final cost depends on project size, features, and dev time. Prices shown are starting prices, confirmed after discussing details.", faqQ2: "Do you provide hosting and domains?", faqA2: "Yes, we can provide hosting and domains as an extra service, or link to your existing hosting.", faqQ3: "What payment methods do you accept?", faqA3: "We accept bank transfers (BaridiMob for DZ), E-wallets, and Crypto (USDT) to make it easy for global clients.", faqQ4: "Can I request modifications after delivery?", faqA4: "Absolutely! We offer free post-delivery support for bugs, and flexible maintenance plans for updates.", footerRights: "All rights reserved.", formMainTitle: "Order Service", welcomeBack: "Welcome back! We restored your previous request data.", startNewReq: "Clear data & start new request", formSeat: "Code Seat Reservation", formPayment: "Complete Payment", formName: "Full Name", formEmail: "Email Address", formPhone: "Phone Number (Without code)", otherCountry: "🌐 Other (Type code)", formServiceSelect: "Target Service", optBot: "Telegram Bots - Starts at 5000 DA", optWeb: "Web Development - Starts at 15000 DA", optVid: "Video Creation - Starts at 5000 DA", formIdea: "Project Details", formRef: "Transaction ID / Reference Number", currencyNote: "Prices in DZD. Select currency to convert:", receiptBase: "Base Service Price:", receiptTotal: "Estimated Total:", formSubmit: "Submit & Confirm Order", successFeedback: "Your request has been submitted successfully!", errorFeedback: "Submission failed. Please try again.", formAddonsTitle: "Optional Add-ons & Features", addonHosting: "Hosting & Domain (+4000 DA)", addonExpress: "Express Delivery (24-48h) (+2000 DA)", addonSupport: "Extended Support & Edits (+2000 DA)", receiptExtras: "Add-ons Total:", payLocal: "Local Payment (Algeria - BaridiMob/CCP)", payLocalCCP: "CCP: 0028372494 | Clé: 30", payLocalRIP: "Fast RIP: 00799999002837249430", payCrypto: "International Payment (Crypto)", payCryptoNet: "Currency: USDT / TRX | Network: Tron (TRC20)", payCryptoAddr: "Address: TMEizSVGg3tsrw1HLYkGfMWMrSGWm5RN7X", payNote: "Note: Please send a screenshot of the transfer receipt to technical support to confirm the order and begin execution.",
-                uploadLabel: "Or upload receipt image (Optional)", uploadReceipt: "Choose Image or PDF file..."
+                brand: "ATHAAR", heroTitle: "ATHAAR",
+                heroSubtitle: "Athaar Digital Tech Solutions - We understand your idea first, highlighting its technical quality to make a sustainable impact with modern standards.",
+                ctaRequest: "Order Now", whyUsTitle: "Why Athaar Digital?", feature1Title: "Understanding First", feature1Desc: "We thoroughly discuss and grasp your strategic goals to ensure technical excellence matches your vision.", feature2Title: "Unique Custom Solutions", feature2Desc: "We avoid cliches to provide an exclusive technical brand identity tailored to your ambition.", feature3Title: "Advanced Tech Stack", feature3Desc: "Combining high coding efficiency with the latest standards for speed and robust security.", feature4Title: "Continuous Support", feature4Desc: "We stand by you post-delivery, offering technical support and flexible updates for sustainable success.", servicesTitle: "Our Digital Services", serviceBotTitle: "Telegram Bots", serviceBotDesc: "Smart tools and automation for community management and instant services.", serviceWebTitle: "Web Development", serviceWebDesc: "Custom interfaces and fast landing pages to support your startup's growth.", serviceVidTitle: "Video Creation", serviceVidDesc: "Professional visual content (Montage, Motion Graphics) to showcase your project.", priceStart: "Starting Price:", portfolioTitle: "OUR PORTFOLIO", port1Title: "Automation Project", port2Title: "Smart Landing Page", portSoon: "Links will be available soon...", faqTitle: "Frequently Asked Questions", faqQ1: "How is the final project cost determined?", faqA1: "The final cost depends on project size, features, and dev time. Prices shown are starting prices, confirmed after discussing details.", faqQ2: "Do you provide hosting and domains?", faqA2: "Yes, we can provide hosting and domains as an extra service, or link to your existing hosting.", faqQ3: "What payment methods do you accept?", faqA3: "We accept bank transfers (BaridiMob for DZ), E-wallets, and Crypto (USDT) to make it easy for global clients.", faqQ4: "Can I request modifications after delivery?", faqA4: "Absolutely! We offer free post-delivery support for bugs, and flexible maintenance plans for updates.", footerRights: "All rights reserved.", formMainTitle: "Order Service", welcomeBack: "Welcome back! We restored your previous request data.", startNewReq: "Clear data & start new request", formSeat: "Code Seat Reservation", formPayment: "Complete Payment", formName: "Full Name", formEmail: "Email Address", formPhone: "Phone Number (Without code)", otherCountry: "🌐 Other (Type code)", formServiceSelect: "Target Service", optBot: "Telegram Bots - Starts at 5000 DA", optWeb: "Web Development - Starts at 15000 DA", optVid: "Video Creation - Starts at 5000 DA", formIdea: "Project Details", formRef: "Transaction ID / Reference Number", currencyNote: "Prices in DZD. Select currency to convert:", receiptBase: "Base Service Price:", receiptTotal: "Estimated Total:", formSubmit: "Submit & Confirm Order", successFeedback: "Your request has been submitted successfully!", errorFeedback: "Submission failed. Please try again.",
+                formAddonsTitle: "Optional Add-ons & Features",
+                addonHosting: "Hosting & Domain (+4000 DA)",
+                addonExpress: "Express Delivery (24-48h) (+2000 DA)",
+                addonSupport: "Extended Support & Edits (+2000 DA)",
+                receiptExtras: "Add-ons Total:",
+                payLocal: "Local Payment (Algeria - BaridiMob/CCP)",
+                payLocalCCP: "CCP: 0028372494 | Clé: 30",
+                payLocalRIP: "Fast RIP: 00799999002837249430",
+                payCrypto: "International Payment (Crypto)",
+                payCryptoNet: "Currency: USDT / TRX | Network: Tron (TRC20)",
+                payCryptoAddr: "Address: TMEizSVGg3tsrw1HLYkGfMWMrSGWm5RN7X",
+                payNote: "Note: Please send a screenshot of the transfer receipt to technical support to confirm the order and begin execution."
             }
         };
 
-        const typewriterPhrases = { ar: ["من الفكرة إلى التنفيذ؛ حلول رقمية تُبنى وفق احتياجك."], en: ["From concept to execution; digital solutions built for you."] };
+        const typewriterPhrases = {
+            ar: ["من الفكرة إلى التنفيذ؛ حلول رقمية تُبنى وفق احتياجك."],
+            en: ["From concept to execution; digital solutions built for you."]
+        };
 
         function initAudio() {
             if (!audioCtx) { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
@@ -508,7 +967,8 @@
         function playTone(frequency, type, duration) {
             if (!isUserInteracted) return; 
             try {
-                initAudio(); if (!audioCtx) return;
+                initAudio();
+                if (!audioCtx) return;
                 const oscillator = audioCtx.createOscillator();
                 const gainNode = audioCtx.createGain();
                 oscillator.type = type; oscillator.frequency.value = frequency;
@@ -532,13 +992,19 @@
             const savedLang = localStorage.getItem("athaar_lang");
             if (savedLang) { currentLang = savedLang; }
             
-            renderLanguage(); updateThemeUIElements(); loadFormDraft(); updateReceipt(); setupIntersectionObservers();
+            renderLanguage();
+            updateThemeUIElements();
+            loadFormDraft();
+            updateReceipt();
+            setupIntersectionObservers();
         });
 
         function toggleTheme() {
-            playClickSound(); currentTheme = currentTheme === "dark" ? "light" : "dark";
+            playClickSound();
+            currentTheme = currentTheme === "dark" ? "light" : "dark";
             document.documentElement.setAttribute("data-theme", currentTheme);
-            localStorage.setItem("athaar_theme", currentTheme); updateThemeUIElements();
+            localStorage.setItem("athaar_theme", currentTheme);
+            updateThemeUIElements();
         }
 
         function updateThemeUIElements() {
@@ -547,8 +1013,10 @@
         }
 
         function toggleLanguage() {
-            playClickSound(); currentLang = currentLang === "ar" ? "en" : "ar";
-            localStorage.setItem("athaar_lang", currentLang); renderLanguage();
+            playClickSound();
+            currentLang = currentLang === "ar" ? "en" : "ar";
+            localStorage.setItem("athaar_lang", currentLang);
+            renderLanguage();
         }
 
         function renderLanguage() {
@@ -565,8 +1033,11 @@
                     }
                 }
             });
+
             document.querySelector("#langToggler span").innerText = currentLang === "ar" ? "EN" : "AR";
-            if (typewriterTimeout) clearTimeout(typewriterTimeout); runFixedTypewriterEffect(); updateReceipt();
+            if (typewriterTimeout) clearTimeout(typewriterTimeout);
+            runFixedTypewriterEffect();
+            updateReceipt();
         }
 
         function runFixedTypewriterEffect() {
@@ -579,9 +1050,13 @@
                 targetElement.innerText = currentFullText.substring(0, characterIndex + 1);
                 characterIndex++;
                 if (Math.random() > 0.4) playTypewriterSound();
-                if (characterIndex < currentFullText.length) { typewriterTimeout = setTimeout(type, 60); }
+
+                if (characterIndex < currentFullText.length) {
+                    typewriterTimeout = setTimeout(type, 60);
+                }
             }
-            targetElement.innerText = ""; type();
+            targetElement.innerText = "";
+            type();
         }
 
         function setupIntersectionObservers() {
@@ -592,32 +1067,46 @@
                     else { entry.target.classList.remove("center-focused"); }
                 });
             }, { root: null, rootMargin: "-30% 0px -30% 0px", threshold: 0 });
+
             cards.forEach(card => centerFocusObserver.observe(card));
         }
 
-        function toggleFaq(button) { playClickSound(); button.parentElement.classList.toggle("active"); }
+        function toggleFaq(button) {
+            playClickSound();
+            const faqItem = button.parentElement;
+            faqItem.classList.toggle("active");
+        }
 
         function openModal(defaultService = 'web') {
-            playClickSound(); document.getElementById("formService").value = defaultService;
+            playClickSound();
+            document.getElementById("formService").value = defaultService;
             document.getElementById("orderModal").classList.add("active");
-            document.body.style.overflow = 'hidden'; updateReceipt();
+            document.body.style.overflow = 'hidden';
+            updateReceipt();
         }
 
         function closeModal() {
-            playClickSound(); document.getElementById("orderModal").classList.remove("active");
+            playClickSound();
+            document.getElementById("orderModal").classList.remove("active");
             document.body.style.overflow = 'auto';
         }
 
         function handleCountryCodeChange() {
-            const sel = document.getElementById("countryCode"); const custom = document.getElementById("customCountryCode");
-            if(sel.value === "other") { custom.style.display = "block"; custom.required = true; } 
-            else { custom.style.display = "none"; custom.required = false; custom.value = ""; }
+            const sel = document.getElementById("countryCode");
+            const custom = document.getElementById("customCountryCode");
+            if(sel.value === "other") {
+                custom.style.display = "block"; custom.required = true;
+            } else {
+                custom.style.display = "none"; custom.required = false; custom.value = "";
+            }
             saveDraft();
         }
 
         function setPaymentMode(mode) {
-            playClickSound(); paymentMode = mode;
-            document.getElementById("optSeat").classList.remove("active"); document.getElementById("optFull").classList.remove("active");
+            playClickSound();
+            paymentMode = mode;
+            document.getElementById("optSeat").classList.remove("active");
+            document.getElementById("optFull").classList.remove("active");
 
             const refGroup = document.getElementById("receiptProofGroup");
             const refInput = document.getElementById("formRefNum");
@@ -625,10 +1114,14 @@
 
             if (mode === 'seat') {
                 document.getElementById("optSeat").classList.add("active");
-                refGroup.style.display = "none"; refInput.required = false; paymentDetails.style.display = "none";
+                refGroup.style.display = "none"; 
+                refInput.required = false;
+                paymentDetails.style.display = "none";
             } else {
                 document.getElementById("optFull").classList.add("active");
-                refGroup.style.display = "block"; refInput.required = false; paymentDetails.style.display = "block";
+                refGroup.style.display = "block"; 
+                refInput.required = false;
+                paymentDetails.style.display = "block";
             }
             saveDraft();
         }
@@ -636,12 +1129,14 @@
         function updateReceipt() {
             const selectedService = document.getElementById("formService").value;
             const basePrice = prices[selectedService] || 15000;
+            
             let extrasTotal = 0;
             if (document.getElementById("extHosting").checked) extrasTotal += addonPrices.hosting;
             if (document.getElementById("extExpress").checked) extrasTotal += addonPrices.express;
             if (document.getElementById("extSupport").checked) extrasTotal += addonPrices.support;
 
             const totalDZD = basePrice + extrasTotal;
+
             document.getElementById("receiptBasePrice").innerText = `${basePrice} DA`;
             document.getElementById("receiptExtrasPrice").innerText = `${extrasTotal} DA`;
 
@@ -649,139 +1144,162 @@
             const rate = exchangeRates[currency] || 1;
             const converted = (totalDZD * rate).toFixed(currency === 'DZD' ? 0 : 2);
             const symbol = currencySymbols[currency] || currency;
+
             document.getElementById("receiptTotalPrice").innerText = `${converted} ${symbol}`;
         }
 
         function saveDraft() {
             const draftData = {
-                name: document.getElementById("formName").value, email: document.getElementById("formEmail").value,
-                countryCode: document.getElementById("countryCode").value, customCountryCode: document.getElementById("customCountryCode").value,
-                phone: document.getElementById("formPhone").value, service: document.getElementById("formService").value,
-                extHosting: document.getElementById("extHosting").checked, extExpress: document.getElementById("extExpress").checked,
-                extSupport: document.getElementById("extSupport").checked, idea: document.getElementById("formIdeaText").value,
-                ref: document.getElementById("formRefNum").value, currency: document.getElementById("currencySelect").value, paymentMode: paymentMode
+                name: document.getElementById("formName").value,
+                email: document.getElementById("formEmail").value,
+                countryCode: document.getElementById("countryCode").value,
+                customCountryCode: document.getElementById("customCountryCode").value,
+                phone: document.getElementById("formPhone").value,
+                service: document.getElementById("formService").value,
+                extHosting: document.getElementById("extHosting").checked,
+                extExpress: document.getElementById("extExpress").checked,
+                extSupport: document.getElementById("extSupport").checked,
+                idea: document.getElementById("formIdeaText").value,
+                ref: document.getElementById("formRefNum").value,
+                currency: document.getElementById("currencySelect").value,
+                paymentMode: paymentMode
             };
             localStorage.setItem("athaar_form_draft", JSON.stringify(draftData));
         }
 
         function loadFormDraft() {
-            const rawDraft = localStorage.getItem("athaar_form_draft"); if (!rawDraft) return;
+            const rawDraft = localStorage.getItem("athaar_form_draft");
+            if (!rawDraft) return;
             try {
-                const draft = JSON.parse(rawDraft); let hasData = false;
+                const draft = JSON.parse(rawDraft);
+                let hasData = false;
+                
                 if(draft.name) { document.getElementById("formName").value = draft.name; hasData = true; }
                 if(draft.email) { document.getElementById("formEmail").value = draft.email; hasData = true; }
-                if(draft.countryCode) { document.getElementById("countryCode").value = draft.countryCode; handleCountryCodeChange(); }
+                
+                if(draft.countryCode) {
+                    document.getElementById("countryCode").value = draft.countryCode;
+                    handleCountryCodeChange();
+                }
                 if(draft.customCountryCode) document.getElementById("customCountryCode").value = draft.customCountryCode;
                 if(draft.phone) { document.getElementById("formPhone").value = draft.phone; hasData = true; }
+                
                 if(draft.service) document.getElementById("formService").value = draft.service;
+                
                 if(draft.extHosting) document.getElementById("extHosting").checked = true;
                 if(draft.extExpress) document.getElementById("extExpress").checked = true;
                 if(draft.extSupport) document.getElementById("extSupport").checked = true;
+
                 if(draft.idea) { document.getElementById("formIdeaText").value = draft.idea; hasData = true; }
                 if(draft.ref) document.getElementById("formRefNum").value = draft.ref;
                 if(draft.currency) document.getElementById("currencySelect").value = draft.currency;
-                if(draft.paymentMode) { setPaymentMode(draft.paymentMode); }
+                
+                if (draft.paymentMode) { setPaymentMode(draft.paymentMode); }
+
                 if(hasData) { document.getElementById("returningUserBanner").style.display = "flex"; }
+
             } catch (e) {}
         }
 
         function clearDraft() {
-            playClickSound(); localStorage.removeItem("athaar_form_draft");
+            playClickSound();
+            localStorage.removeItem("athaar_form_draft");
             document.getElementById("athaarRequestForm").reset();
-            document.getElementById("extHosting").checked = false; document.getElementById("extExpress").checked = false; document.getElementById("extSupport").checked = false;
+            document.getElementById("extHosting").checked = false;
+            document.getElementById("extExpress").checked = false;
+            document.getElementById("extSupport").checked = false;
             document.getElementById("returningUserBanner").style.display = "none";
-            document.getElementById("fileNameDisplay").innerText = dictionary[currentLang].uploadReceipt;
-            setPaymentMode("seat"); handleCountryCodeChange(); updateReceipt();
+            setPaymentMode("seat");
+            handleCountryCodeChange();
+            updateReceipt();
         }
 
-        // تحديث اسم الملف المختار في الزر المخصص
-        function updateFileName(input) {
-            const display = document.getElementById("fileNameDisplay");
-            if (input.files && input.files.length > 0) {
-                display.innerText = input.files[0].name;
-                display.style.color = "var(--accent-color)";
-            } else {
-                display.innerText = dictionary[currentLang].uploadReceipt;
-                display.style.color = "inherit";
-            }
-        }
-
+        // دالة الإرسال المحدثة للتوافق مع API /send
         function handleFormSubmit(event) {
-            event.preventDefault(); playClickSound();
+            event.preventDefault();
+            playClickSound();
 
             const submitButton = event.target.querySelector("button[type='submit']");
             const feedbackZone = document.getElementById("formFeedback");
             
-            submitButton.disabled = true; feedbackZone.style.display = "block";
+            submitButton.disabled = true;
+            feedbackZone.style.display = "block";
             feedbackZone.className = "form-feedback";
-            feedbackZone.innerText = currentLang === "ar" ? "جاري الإرسال السحابي الآمن..." : "Sending securely...";
+            feedbackZone.innerText = currentLang === "ar" ? "جاري الإرسال بأمان..." : "Sending securely...";
 
-            const name = document.getElementById("formName").value;
-            const email = document.getElementById("formEmail").value;
-            const phonePrefix = document.getElementById("countryCode").value === 'other' ? document.getElementById("customCountryCode").value : document.getElementById("countryCode").value;
-            const phone = phonePrefix + " " + document.getElementById("formPhone").value;
-            
+            // تجهيز الإضافات
+            let addons = [];
+            if (document.getElementById("extHosting").checked) addons.push("استضافة ونطاق");
+            if (document.getElementById("extExpress").checked) addons.push("تسليم سريع");
+            if (document.getElementById("extSupport").checked) addons.push("دعم فني ممتد");
+            const addonsText = addons.length > 0 ? "\nالإضافات المطلوبة: " + addons.join(" + ") : "\nالإضافات: لا يوجد";
+
+            // إعداد رقم الهاتف
+            const cCode = document.getElementById("countryCode").value;
+            const customCode = document.getElementById("customCountryCode").value;
+            const phonePrefix = cCode === 'other' ? customCode : cCode;
+
             const serviceElement = document.getElementById("formService");
-            const service = serviceElement.options[serviceElement.selectedIndex].text;
-            
-            let addonsList = [];
-            if (document.getElementById("extHosting").checked) addonsList.push("استضافة ونطاق");
-            if (document.getElementById("extExpress").checked) addonsList.push("تسليم سريع");
-            if (document.getElementById("extSupport").checked) addonsList.push("دعم فني ممتد");
-            const addons = addonsList.length > 0 ? addonsList.join(" + ") : "بدون إضافات";
-            
-            const idea = document.getElementById("formIdeaText").value;
-            const ref = document.getElementById("formRefNum").value || "بدون (حجز مقعد)";
-            const total = document.getElementById("receiptTotalPrice").innerText;
+
+            // بناء كائن البيانات
+            const formDataObject = {
+                name: document.getElementById("formName").value,
+                email: document.getElementById("formEmail").value,
+                phone: phonePrefix + " " + document.getElementById("formPhone").value,
+                service: serviceElement.options[serviceElement.selectedIndex].text,
+                idea: document.getElementById("formIdeaText").value + addonsText,
+                paymentMode: paymentMode,
+                ref: document.getElementById("formRefNum").value || "بدون (حجز مقعد)",
+                finalDue: document.getElementById("receiptTotalPrice").innerText
+            };
+
             const fileInput = document.getElementById("formReceiptFile");
 
-            const readAsBase64 = (file) => {
-                return new Promise((resolve, reject) => {
-                    const reader = new FileReader();
-                    reader.readAsDataURL(file);
-                    reader.onload = () => resolve(reader.result);
-                    reader.onerror = (error) => reject(error);
-                });
-            };
-
-            const processAndSend = async () => {
-                let receiptFileBase64 = null; let receiptFileName = null;
-                if (fileInput && fileInput.files.length > 0) {
-                    const file = fileInput.files[0];
-                    receiptFileBase64 = await readAsBase64(file);
-                    receiptFileName = file.name;
-                }
-
-                const payload = {
-                    name, email, phone, service, 
-                    idea: `💡 تفاصيل الفكرة: ${idea}\n🧩 الإضافات المضافة: ${addons}`, 
-                    paymentMode: paymentMode, ref, finalDue: total, receiptFileBase64, receiptFileName
-                };
-
-                return fetch('/api/send', {
+            // دالة الإرسال الفعلية للسيرفر
+            const sendToServer = (data) => {
+                fetch("/api/send", {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(resData => {
+                    if(resData.success) {
+                        feedbackZone.className = "form-feedback success";
+                        feedbackZone.innerText = dictionary[currentLang].successFeedback;
+                        clearDraft();
+                        setTimeout(() => { 
+                            closeModal(); 
+                            feedbackZone.style.display = "none"; 
+                        }, 3500);
+                    } else {
+                        throw new Error(resData.message || "خطأ في السيرفر");
+                    }
+                })
+                .catch(error => {
+                    feedbackZone.className = "form-feedback error";
+                    feedbackZone.innerText = dictionary[currentLang].errorFeedback;
+                    console.error(error);
+                })
+                .finally(() => {
+                    submitButton.disabled = false;
                 });
             };
 
-            processAndSend()
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    feedbackZone.className = "form-feedback success";
-                    feedbackZone.innerText = dictionary[currentLang].successFeedback;
-                    clearDraft();
-                    setTimeout(() => { closeModal(); feedbackZone.style.display = "none"; }, 3500);
-                } else { throw new Error(data.message || "Server Error"); }
-            })
-            .catch(error => {
-                console.error("Error:", error);
-                feedbackZone.className = "form-feedback error";
-                feedbackZone.innerText = dictionary[currentLang].errorFeedback;
-            })
-            .finally(() => { submitButton.disabled = false; });
+            // التحقق من وجود صورة وقراءتها كـ Base64
+            if (fileInput && fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                const reader = new FileReader();
+                reader.onload = async (e) => {
+                    formDataObject.receiptFileBase64 = e.target.result;
+                    formDataObject.receiptFileName = file.name;
+                    sendToServer(formDataObject);
+                };
+                reader.readAsDataURL(file);
+            } else {
+                sendToServer(formDataObject);
+            }
         }
     </script>
 </body>
-</html>
+    </html>
