@@ -1,7 +1,7 @@
 // api/send.js
 
 export default async function handler(req, res) {
-    // إعدادات الأمان والسماح بالاتصال (CORS)
+    // إعدادات الأمان والسماح بالاتصال
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -15,76 +15,83 @@ export default async function handler(req, res) {
     }
 
     try {
-        // استقبال البيانات الشاملة بما فيها الإضافات وصورة الوصل الرقمية
-        const { name, email, phone, service, addons, idea, paymentMode, ref, total, receiptFileBase64, receiptFileName } = req.body;
-
-        // تنسيق الرسالة البرقية بشكل أنيق مدعوم بالـ HTML لضمان الأمان ضد الرموز الخاصة
-        const telegramMessage = `<b>🔔 طلب خدمة جديد (آثار الرقمية)</b>\n` +
-            `──────────────────\n` +
-            `<b>👤 الاسم الكامل:</b> ${name || 'غير محدد'}\n` +
-            `<b>📧 البريد الإلكتروني:</b> ${email || 'غير محدد'}\n` +
-            `<b>📱 رقم الهاتف:</b> ${phone || 'غير محدد'}\n` +
-            `<b>💼 نوع الخدمة:</b> ${service ? service.toUpperCase() : 'غير محدد'}\n` +
-            `<b>🧩 الإضافات المختارة:</b> ${addons || 'بدون إضافات'}\n` +
-            `<b>💡 تفاصيل المشروع:</b> ${idea || 'لا يوجد تفاصيل'}\n` +
-            `<b>💳 نمط السداد المختار:</b> ${paymentMode || 'غير محدد'}\n` +
-            `<b>🔢 الرقم المرجعي / الحوالة:</b> ${ref || 'لا يوجد'}\n` +
-            `<b>💰 الإجمالي المقبوض:</b> ${total || '0'}\n` +
-            `──────────────────`;
+        const { name, email, phone, service, idea, paymentMode, ref, finalDue, receiptFileBase64, receiptFileName } = req.body;
 
         const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
         const CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 
         if (!BOT_TOKEN || !CHAT_ID) {
-            return res.status(500).json({ success: false, message: 'إعدادات البوت السرية غير مكتملة في سيرفر Vercel.' });
+            return res.status(500).json({ success: false, message: 'إعدادات البوت السريّة غير مكتملة في السيرفر.' });
         }
 
-        // إذا كان العميل قد أرفق صورة إيصال الدفع
+        // صياغة رسالة تليجرام
+        const caption = `🌟 طلب خدمة جديد من آثار الرقمية 🌟\n` +
+            `──────────────────\n` +
+            `👤 الاسم: ${name || 'غير محدد'}\n` +
+            `📧 البريد: ${email || 'غير محدد'}\n` +
+            `📞 الهاتف: ${phone || 'غير محدد'}\n` +
+            `🛠️ الخدمة: ${service || 'غير محدد'}\n` +
+            `${idea || 'لا يوجد تفاصيل'}\n` + // الـ idea هنا تحتوي مسبقاً على التفاصيل والإضافات من الواجهة
+            `💳 الدفع: ${paymentMode === "seat" ? "حجز مقعد" : "كامل المبلغ"}\n` +
+            `🔢 المرجعي: ${ref || 'لا يوجد'}\n` +
+            `💰 الإجمالي: ${finalDue || '0'}\n` +
+            `──────────────────`;
+
+        // إذا قام العميل برفع ملف (صورة أو PDF)
         if (receiptFileBase64) {
-            const base64Data = receiptFileBase64.split(',')[1];
-            const mimeType = receiptFileBase64.split(',')[0].split(':')[1].split(';')[0];
-            const buffer = Buffer.from(base64Data, 'base64');
-
-            // بناء نموذج إرسال متعدد الأجزاء سحابياً بدون مكتبات خارجية
-            const formData = new FormData();
-            formData.append('chat_id', CHAT_ID);
-            formData.append('caption', telegramMessage);
-            formData.append('parse_mode', 'HTML');
+            const matches = receiptFileBase64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
             
-            const blob = new Blob([buffer], { type: mimeType });
-            formData.append('photo', blob, receiptFileName || 'receipt.jpg');
+            if (matches && matches.length === 3) {
+                const mimeType = matches[1];
+                const buffer = Buffer.from(matches[2], 'base64');
+                const blob = new Blob([buffer], { type: mimeType });
 
-            const telegramUrl = `https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`;
-            const response = await fetch(telegramUrl, { method: 'POST', body: formData });
-            const data = await response.json();
+                const formData = new FormData();
+                formData.append('chat_id', CHAT_ID);
+                formData.append('caption', caption);
+                
+                // تحديد نوع الإرسال بناءً على الملف (صورة أو مستند)
+                let endpoint = 'sendDocument';
+                let fieldName = 'document';
+                if (mimeType.startsWith('image/')) {
+                    endpoint = 'sendPhoto';
+                    fieldName = 'photo';
+                }
+                
+                formData.append(fieldName, blob, receiptFileName || 'receipt.png');
 
-            if (data.ok) {
-                return res.status(200).json({ success: true, message: 'تم إرسال طلبك مع صورة الوصل بنجاح!' });
-            } else {
-                return res.status(400).json({ success: false, message: data.description });
+                const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/${endpoint}`, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                if(data.ok) {
+                    return res.status(200).json({ success: true, message: 'تم إرسال الطلب مع المرفق بنجاح!' });
+                } else {
+                    return res.status(400).json({ success: false, message: data.description });
+                }
             }
+        }
+
+        // إذا لم يكن هناك ملف، أرسل رسالة نصية عادية
+        const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chat_id: CHAT_ID,
+                text: caption
+            })
+        });
+
+        const data = await response.json();
+        if (data.ok) {
+            return res.status(200).json({ success: true, message: 'تم إرسال الطلب بنجاح!' });
         } else {
-            // إذا كان الطلب نصياً فقط بدون إرفاق صورة
-            const telegramUrl = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
-            const response = await fetch(telegramUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    chat_id: CHAT_ID,
-                    text: telegramMessage,
-                    parse_mode: 'HTML'
-                })
-            });
-            const data = await response.json();
-
-            if (data.ok) {
-                return res.status(200).json({ success: true, message: 'تم إرسال طلبك بنجاح زاهر!' });
-            } else {
-                return res.status(400).json({ success: false, message: data.description });
-            }
+            return res.status(400).json({ success: false, message: data.description });
         }
 
     } catch (error) {
-        return res.status(500).json({ success: false, message: 'حدث خطأ داخلي في السيرفر: ' + error.message });
+        return res.status(500).json({ success: false, message: 'خطأ داخلي: ' + error.message });
     }
 }
