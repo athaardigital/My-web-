@@ -10,9 +10,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* --------------------------------------------------
-           1. المتغيرات والتنسيقات الأساسية والمرنة (CSS Variables)
-        -------------------------------------------------- */
         :root {
             --font-title: clamp(1.8rem, 4vw, 3.2rem);
             --font-subtitle: clamp(1.1rem, 2vw, 1.4rem);
@@ -1214,7 +1211,6 @@
             updateReceipt();
         }
 
-        // دالة الإرسال المحدثة للتوافق مع API /send
         function handleFormSubmit(event) {
             event.preventDefault();
             playClickSound();
@@ -1257,6 +1253,7 @@
 
             // دالة الإرسال الفعلية للسيرفر
             const sendToServer = (data) => {
+                // الاتصال بمسار Vercel الصحيح
                 fetch("/api/send", {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -1302,4 +1299,5 @@
         }
     </script>
 </body>
-    </html>
+</html>
+
