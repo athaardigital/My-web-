@@ -1,4 +1,4 @@
-export default async function handler(req, res) {
+module.exports = async (req, res) => {
     // إعدادات الأمان والسماح بالاتصال
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -29,7 +29,7 @@ export default async function handler(req, res) {
             `📧 البريد: ${email || 'غير محدد'}\n` +
             `📞 الهاتف: ${phone || 'غير محدد'}\n` +
             `🛠️ الخدمة: ${service || 'غير محدد'}\n` +
-            `${idea || 'لا يوجد تفاصيل'}\n` +
+            `💡 تفاصيل المشروع: ${idea || 'لا يوجد تفاصيل'}\n` +
             `💳 الدفع: ${paymentMode === "seat" ? "حجز مقعد" : "تأكيد الدفع والاستلام"}\n` +
             `🔢 المرجعي: ${ref || 'لا يوجد'}\n` +
             `💰 الإجمالي: ${finalDue || '0'}\n` +
@@ -43,13 +43,16 @@ export default async function handler(req, res) {
                 const mimeType = matches[1];
                 const base64Data = matches[2];
                 
-                // تحويل Base64 إلى Buffer ليقبله تليجرام مباشرة
+                // تحويل Base64 إلى Buffer ليقبله تليجرام
                 const buffer = Buffer.from(base64Data, 'base64');
-                const blob = new Blob([buffer], { type: mimeType });
 
-                const formData = new FormData();
-                formData.append('chat_id', CHAT_ID);
-                formData.append('caption', caption);
+                // نستخدم FormData لإرسال الملف
+                // ملاحظة: في بيئة Serverless، قد نحتاج لاستخدام مكتبة مثل 'form-data' أو إرسال الـ buffer مباشرة
+                // الحل الأبسط المعتمد هنا هو استخدام fetch مع البناء اليدوي للـ FormData
+                const FormData = require('form-data');
+                const form = new FormData();
+                form.append('chat_id', CHAT_ID);
+                form.append('caption', caption);
                 
                 let endpoint = 'sendDocument';
                 let fieldName = 'document';
@@ -58,11 +61,11 @@ export default async function handler(req, res) {
                     fieldName = 'photo';
                 }
                 
-                formData.append(fieldName, blob, receiptFileName || 'receipt.png');
+                form.append(fieldName, buffer, { filename: receiptFileName || 'receipt.png' });
 
                 const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/${endpoint}`, {
                     method: 'POST',
-                    body: formData
+                    body: form
                 });
                 
                 const data = await response.json();
@@ -94,4 +97,4 @@ export default async function handler(req, res) {
     } catch (error) {
         return res.status(500).json({ success: false, message: 'خطأ داخلي: ' + error.message });
     }
-}
+};
