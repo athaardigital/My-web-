@@ -1,5 +1,3 @@
-// api/send.js
-
 export default async function handler(req, res) {
     // إعدادات الأمان والسماح بالاتصال
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -32,25 +30,27 @@ export default async function handler(req, res) {
             `📞 الهاتف: ${phone || 'غير محدد'}\n` +
             `🛠️ الخدمة: ${service || 'غير محدد'}\n` +
             `${idea || 'لا يوجد تفاصيل'}\n` +
-            `💳 الدفع: ${paymentMode === "seat" ? "حجز مقعد" : "كامل المبلغ"}\n` +
+            `💳 الدفع: ${paymentMode === "seat" ? "حجز مقعد" : "تأكيد الدفع والاستلام"}\n` +
             `🔢 المرجعي: ${ref || 'لا يوجد'}\n` +
             `💰 الإجمالي: ${finalDue || '0'}\n` +
             `──────────────────`;
 
-        // إذا قام العميل برفع ملف (صورة أو PDF)
+        // معالجة المرفقات إن وجدت
         if (receiptFileBase64) {
             const matches = receiptFileBase64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
             
             if (matches && matches.length === 3) {
                 const mimeType = matches[1];
-                const buffer = Buffer.from(matches[2], 'base64');
+                const base64Data = matches[2];
+                
+                // تحويل Base64 إلى Buffer ليقبله تليجرام مباشرة
+                const buffer = Buffer.from(base64Data, 'base64');
                 const blob = new Blob([buffer], { type: mimeType });
 
                 const formData = new FormData();
                 formData.append('chat_id', CHAT_ID);
                 formData.append('caption', caption);
                 
-                // تحديد نوع الإرسال بناءً على الملف (صورة أو مستند)
                 let endpoint = 'sendDocument';
                 let fieldName = 'document';
                 if (mimeType.startsWith('image/')) {
@@ -74,7 +74,7 @@ export default async function handler(req, res) {
             }
         }
 
-        // إذا لم يكن هناك ملف، أرسل رسالة نصية عادية
+        // إرسال رسالة نصية إذا لم يوجد مرفق
         const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
