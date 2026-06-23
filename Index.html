@@ -981,7 +981,6 @@
         let audioCtx = null;
         let isUserInteracted = false;
         
-        // متغيرات الدخول السري
         let logoClicks = 0;
         let logoClickTimer = null;
 
@@ -1076,7 +1075,6 @@
             setupIntersectionObservers();
             checkSystemState();
 
-            // نظام الدخول السري للوحة الإدارة
             document.getElementById('brandLogo').addEventListener('click', () => {
                 logoClicks++;
                 clearTimeout(logoClickTimer);
@@ -1093,13 +1091,11 @@
                 logoClickTimer = setTimeout(() => { logoClicks = 0; }, 2000);
             });
 
-            // إظهار اللوحة إذا كانت مسجلة سابقاً
             if (localStorage.getItem("athaar_admin_logged") === "true") {
                 showAdminPanel();
             }
         });
 
-        // دوال لوحة الإدارة (Admin Panel Functions)
         function showAdminPanel() {
             document.getElementById("adminPanel").style.display = "block";
             updateAdminStatsUI();
@@ -1204,7 +1200,7 @@
             if (typewriterTimeout) clearTimeout(typewriterTimeout);
             runFixedTypewriterEffect();
             updateReceipt();
-            checkSystemState(); // Re-apply text changes to disabled buttons
+            checkSystemState(); 
         }
 
         function runFixedTypewriterEffect() {
@@ -1245,7 +1241,7 @@
         }
 
         function openModal(defaultService = 'web') {
-            if (localStorage.getItem("athaar_system_locked") === "true") return; // منع الفتح إذا مغلق
+            if (localStorage.getItem("athaar_system_locked") === "true") return; 
             
             playClickSound();
             document.getElementById("formService").value = defaultService;
@@ -1395,22 +1391,19 @@
             feedbackZone.className = "form-feedback";
             feedbackZone.innerText = currentLang === "ar" ? "جاري الإرسال بأمان..." : "Sending securely...";
 
-            // تجهيز الإضافات
             let addons = [];
             if (document.getElementById("extHosting").checked) addons.push("استضافة ونطاق");
             if (document.getElementById("extExpress").checked) addons.push("تسليم سريع");
             if (document.getElementById("extSupport").checked) addons.push("دعم فني ممتد");
             const addonsText = addons.length > 0 ? "\nالإضافات المطلوبة: " + addons.join(" + ") : "\nالإضافات: لا يوجد";
 
-            // إعداد رقم الهاتف
             const cCode = document.getElementById("countryCode").value;
             const customCode = document.getElementById("customCountryCode").value;
             const phonePrefix = cCode === 'other' ? customCode : cCode;
 
             const serviceElement = document.getElementById("formService");
-            const serviceVal = serviceElement.value; // bots, web, video
+            const serviceVal = serviceElement.value; 
 
-            // بناء كائن البيانات
             const formDataObject = {
                 name: document.getElementById("formName").value,
                 email: document.getElementById("formEmail").value,
@@ -1424,10 +1417,10 @@
 
             const fileInput = document.getElementById("formReceiptFile");
 
-            // دالة الإرسال الفعلية للسيرفر
             const sendToServer = (data) => {
-                // الاتصال بمسار Vercel الصحيح
-                fetch("/api/send", {
+
+                // 👇👇👇 غيري هذا الرابط بالرابط الذي ستحصلين عليه من منصة Render 👇👇👇
+                fetch("https://YOUR_APP_NAME.onrender.com/api/send", {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
@@ -1438,7 +1431,6 @@
                         feedbackZone.className = "form-feedback success";
                         feedbackZone.innerText = dictionary[currentLang].successFeedback;
                         
-                        // تحديث إحصائيات الأدمن عند نجاح الطلب
                         updateAdminStats(serviceVal);
 
                         clearDraft();
@@ -1460,7 +1452,6 @@
                 });
             };
 
-            // التحقق من وجود صورة وقراءتها كـ Base64
             if (fileInput && fileInput.files.length > 0) {
                 const file = fileInput.files[0];
                 const reader = new FileReader();
@@ -1477,4 +1468,3 @@
     </script>
 </body>
 </html>
-
