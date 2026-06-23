@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const FormData = require('form-data');
+const path = require('path'); // تمت إضافة هذه المكتبة للتعامل مع مسارات الملفات
 
 const app = express();
 
@@ -9,6 +10,10 @@ app.use(cors());
 
 // جلب البيانات بصيغة JSON ورفع الحد الأقصى لحجم البيانات لاستيعاب صور الإيصالات
 app.use(express.json({ limit: '10mb' }));
+
+// --- الإضافة الجديدة: جعل السيرفر يعرض الملفات الثابتة (Index.html) ---
+// بما أن server.js داخل مجلد api، نستخدم '../' للرجوع للمجلد الرئيسي حيث يوجد Index.html
+app.use(express.static(path.join(__dirname, '../')));
 
 app.post('/api/send', async (req, res) => {
     try {
@@ -28,49 +33,47 @@ app.post('/api/send', async (req, res) => {
             `──────────────────\n` +
             `👤 الاسْم: ${name || 'غير محدد'}\n` +
             `📧 البَرِيد: ${email || 'غير محدد'}\n` +
-            `📞 الهَاتِف: ${phone || 'غير محدد'}\n` +
-            `🛠️ الخِدْمَة: ${service || 'غير محدد'}\n` +
-            `💡 التَّفَاصِيل: ${idea || 'لا يوجد تفاصيل'}\n` +
-            `💳 نَوْع الدَّفْع: ${paymentMode === "seat" ? "حجز مقعد (بدون وصل)" : "تأكيد الدفع (مرفق وصل)"}\n` +
-            `🔢 رَقْم المَرْجِع: ${ref || 'لا يوجد'}\n` +
-            `💰 الإِجْمَالِي: ${finalDue || '0'}\n` +
-            `──────────────────`;
+            `📱 الهَاتِف: ${phone || 'غير محدد'}\n` +
+            `──────────────────\n` +
+            `💼 الخِدْمَة: ${service || 'غير محدد'}\n` +
+            `💡 الفِكْرَة: ${idea || 'لا يوجد'}\n` +
+            `──────────────────\n` +
+            `💳 طَرِيقَة الدَّفْع: ${paymentMode || 'غير محدد'}\n` +
+            `🧾 رَقْم المَرْجِع: ${ref || 'لا يوجد'}\n` +
+            `💰 المَبْلَغ المُسْتَحَق: ${finalDue || 'غير محدد'}`;
 
         if (receiptFileBase64) {
-            const matches = receiptFileBase64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
+            const base64Data = receiptFileBase64.replace(/^data:image\/\w+;base64,/, "");
+            const buffer = Buffer.from(base64Data, 'base64');
+            const form = new FormData();
+            form.append('chat_id', CHAT_ID);
+            form.append('caption', caption);
+
+            let endpoint = 'sendPhoto';
+            let fieldName = 'photo';
+
+            // التحقق إذا كان المرفق PDF
+            if (receiptFileName && receiptFileName.toLowerCase().endsWith('.pdf')) {
+                endpoint = 'sendDocument';
+                fieldName = 'document';
+            }
+
+            form.append(fieldName, buffer, { filename: receiptFileName || 'receipt.png' });
+
+            const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/${endpoint}`, {
+                method: 'POST',
+                body: form
+            });
             
-            if (matches && matches.length === 3) {
-                const mimeType = matches[1];
-                const base64Data = matches[2];
-                const buffer = Buffer.from(base64Data, 'base64');
-
-                const form = new FormData();
-                form.append('chat_id', CHAT_ID);
-                form.append('caption', caption);
-                
-                let endpoint = 'sendDocument';
-                let fieldName = 'document';
-                if (mimeType.startsWith('image/')) {
-                    endpoint = 'sendPhoto';
-                    fieldName = 'photo';
-                }
-                
-                form.append(fieldName, buffer, { filename: receiptFileName || 'receipt.png' });
-
-                const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/${endpoint}`, {
-                    method: 'POST',
-                    body: form
-                });
-                
-                const data = await response.json();
-                if(data.ok) {
-                    return res.status(200).json({ success: true, message: 'تم إرسال الطلب مع المرفق بنجاح!' });
-                } else {
-                    return res.status(400).json({ success: false, message: data.description });
-                }
+            const data = await response.json();
+            if(data.ok) {
+                return res.status(200).json({ success: true, message: 'تم إرسال الطلب مع المرفق بنجاح!' });
+            } else {
+                return res.status(400).json({ success: false, message: data.description });
             }
         }
 
+        // في حال عدم وجود مرفق
         const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -92,7 +95,11 @@ app.post('/api/send', async (req, res) => {
     }
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+// --- توجيه أي مسار آخر غير الـ API ليقوم بفتح موقعك (Index.html) ---
+// ملاحظة: نظام Render حساس لحالة الأحرف، لذا كتبنا Index.html بحرف كبير كما هو في ملفاتك
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../Index.html'));
 });
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
