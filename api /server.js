@@ -1,16 +1,16 @@
-module.exports = async (req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+const express = require('express');
+const cors = require('cors');
+const FormData = require('form-data');
 
-    if (req.method === 'OPTIONS') {
-        return res.status(200).end();
-    }
+const app = express();
 
-    if (req.method !== 'POST') {
-        return res.status(405).json({ success: false, message: 'المسار يدعم طلبات POST فقط' });
-    }
+// تفعيل ميزة CORS للسماح لواجهة موقعكِ بإرسال الطلبات للسيرفر بدون قيود
+app.use(cors());
 
+// جلب البيانات بصيغة JSON ورفع الحد الأقصى لحجم البيانات لاستيعاب صور الإيصالات
+app.use(express.json({ limit: '10mb' }));
+
+app.post('/api/send', async (req, res) => {
     try {
         const { name, email, phone, service, idea, paymentMode, ref, finalDue, receiptFileBase64, receiptFileName } = req.body;
 
@@ -42,10 +42,8 @@ module.exports = async (req, res) => {
             if (matches && matches.length === 3) {
                 const mimeType = matches[1];
                 const base64Data = matches[2];
-                
                 const buffer = Buffer.from(base64Data, 'base64');
 
-                const FormData = require('form-data');
                 const form = new FormData();
                 form.append('chat_id', CHAT_ID);
                 form.append('caption', caption);
@@ -92,4 +90,9 @@ module.exports = async (req, res) => {
     } catch (error) {
         return res.status(500).json({ success: false, message: 'خطأ داخلي: ' + error.message });
     }
-};
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
