@@ -89,6 +89,8 @@
             text-decoration: none;
             letter-spacing: 1px;
             font-family: 'Chakra Petch', sans-serif;
+            cursor: pointer;
+            user-select: none;
         }
 
         .nav-controls {
@@ -191,11 +193,18 @@
             transition: all 0.3s;
         }
 
-        .btn-primary:hover {
+        .btn-primary:hover:not(:disabled) {
             background: var(--accent-color);
             color: #060a12 !important;
             box-shadow: 0 0 20px var(--accent-glow);
             transform: translateY(-3px);
+        }
+        
+        .btn-primary:disabled {
+            border-color: #555;
+            color: #555 !important;
+            cursor: not-allowed;
+            opacity: 0.7;
         }
 
         .section-container {
@@ -607,12 +616,44 @@
         .form-feedback.success { background: rgba(46, 164, 79, 0.15); color: #46c46e; border: 1px solid #2ea44f; }
         .form-feedback.error { background: rgba(207, 34, 46, 0.15); color: #ff6e76; border: 1px solid #cf222e; }
 
+        /* Admin Panel Styles */
+        .admin-panel {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: var(--bg-card);
+            border: 2px solid var(--accent-color);
+            border-radius: 12px;
+            padding: 15px;
+            width: 320px;
+            z-index: 9999;
+            box-shadow: 0 10px 30px var(--accent-glow);
+            backdrop-filter: blur(15px);
+            font-family: 'Cairo', sans-serif;
+            transition: all 0.3s ease;
+        }
+        [dir="ltr"] .admin-panel { left: auto; right: 20px; }
+        .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
+        .admin-header h3 { color: var(--accent-color); font-size: 1.1rem; font-family: 'Chakra Petch', 'Cairo', sans-serif; margin: 0; }
+        .admin-stat-box { display: flex; justify-content: space-between; font-size: 0.95rem; color: var(--text-main); margin-bottom: 8px; }
+        .system-closed-banner {
+            display: none;
+            background: rgba(207, 34, 46, 0.15);
+            color: #ff6e76;
+            text-align: center;
+            padding: 12px;
+            font-weight: bold;
+            border: 1px solid #cf222e;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
     </style>
 </head>
 <body>
 
     <nav class="navbar">
-        <a href="#" class="nav-logo" data-i18n="brand">ATHAAR</a>
+        <a class="nav-logo" id="brandLogo" data-i18n="brand">ATHAAR</a>
         <div class="nav-controls">
             <button class="btn-toggle" id="themeToggler" onclick="toggleTheme()" title="تغيير المظهر">
                 <i class="fa-solid fa-moon"></i>
@@ -630,6 +671,12 @@
         </div>
         <p class="hero-subtitle" data-i18n="heroSubtitle">نفهم فكرتك أولًا، ونبرز جودتها التقنية لتصنع أثرًا مستدامًا في سوق العمل الفعلي بمعايير عصرية وهياكل برمجية قوية.</p>
     </header>
+
+    <div class="section-container">
+        <div id="systemClosedBanner" class="system-closed-banner">
+            <i class="fa-solid fa-lock"></i> نَعْتَذِرُ لَكُمْ، نَحْنُ فِي فَتْرَةِ صِيَانَةٍ أَوْ اكْتِفَاءٍ بِالطَّلَبَاتِ حَالِيًّا. يُرْجَى الْمُحَاوَلَةُ لَاحِقًا.
+        </div>
+    </div>
 
     <section class="section-container">
         <div class="section-header">
@@ -685,21 +732,21 @@
                 <h3 class="card-title" data-i18n="serviceBotTitle">تطوير بوتات تليجرام</h3>
                 <p class="card-text" data-i18n="serviceBotDesc">بناء أدوات ذكية وأتمتة مخصصة لإدارة المجتمعات، تقديم الخدمات الفورية، وتسهيل المهام اليومية.</p>
                 <div class="price-badge"><span data-i18n="priceStart">السعر الابتدائي:</span> 5000 DA</div>
-                <button class="btn-primary" style="width: 100%" onclick="openModal('bots')" data-i18n="ctaRequest">طلب الخدمة</button>
+                <button class="btn-primary btn-order" style="width: 100%" onclick="openModal('bots')" data-i18n="ctaRequest">طلب الخدمة</button>
             </div>
             <div class="interactive-card">
                 <i class="fa-solid fa-code card-icon"></i>
                 <h3 class="card-title" data-i18n="serviceWebTitle">بناء وتطوير المواقع</h3>
                 <p class="card-text" data-i18n="serviceWebDesc">واجهات مخصصة، صفحات هبوط عصرية وتجربة أداء مرنة وسريعة تناسب وتدعم نمو مشروعك الناشئ.</p>
                 <div class="price-badge"><span data-i18n="priceStart">السعر الابتدائي:</span> 15000 DA</div>
-                <button class="btn-primary" style="width: 100%" onclick="openModal('web')" data-i18n="ctaRequest">طلب الخدمة</button>
+                <button class="btn-primary btn-order" style="width: 100%" onclick="openModal('web')" data-i18n="ctaRequest">طلب الخدمة</button>
             </div>
             <div class="interactive-card">
                 <i class="fa-solid fa-film card-icon"></i>
                 <h3 class="card-title" data-i18n="serviceVidTitle">صناعة المقاطع المرئية</h3>
                 <p class="card-text" data-i18n="serviceVidDesc">تصميم محتوى مرئي احترافي وجذاب (مونتاج، موشن جرافيك) لعرض هوية مشروعك ورسالتك بامتياز.</p>
                 <div class="price-badge"><span data-i18n="priceStart">السعر الابتدائي:</span> 5000 DA</div>
-                <button class="btn-primary" style="width: 100%" onclick="openModal('video')" data-i18n="ctaRequest">طلب الخدمة</button>
+                <button class="btn-primary btn-order" style="width: 100%" onclick="openModal('video')" data-i18n="ctaRequest">طلب الخدمة</button>
             </div>
         </div>
     </section>
@@ -754,6 +801,35 @@
         </div>
         <p style="color: var(--text-muted); font-size: 0.9rem;">© 2026 Athaar Digital. <span data-i18n="footerRights">جميع الحقوق محفوظة.</span></p>
     </footer>
+
+    <div id="adminPanel" class="admin-panel" style="display: none;">
+        <div class="admin-header">
+            <h3><i class="fa-solid fa-shield-halved"></i> لَوْحَةُ إِدَارَةِ (دُعَاء)</h3>
+            <button onclick="logoutAdmin()" class="btn-toggle" style="padding: 0.3rem 0.6rem;"><i class="fa-solid fa-xmark"></i> إِخْفَاء</button>
+        </div>
+        <div class="admin-content">
+            <div class="admin-stat-box">
+                <span><i class="fa-solid fa-robot"></i> طَلَبَاتُ الْبُوتَاتِ:</span> <b id="statBots">0</b>
+            </div>
+            <div class="admin-stat-box">
+                <span><i class="fa-solid fa-code"></i> طَلَبَاتُ الْمَوَاقِعِ:</span> <b id="statWeb">0</b>
+            </div>
+            <div class="admin-stat-box">
+                <span><i class="fa-solid fa-film"></i> طَلَبَاتُ الْفِيدْيُو:</span> <b id="statVideo">0</b>
+            </div>
+            <div class="admin-stat-box" style="border-top: 1px dashed var(--accent-color); margin-top: 10px; padding-top: 10px; font-weight: bold;">
+                <span><i class="fa-solid fa-chart-line"></i> الْمَجْمُوعُ الْكُلِّيُّ:</span> <b id="statTotal" style="color: var(--accent-color);">0</b>
+            </div>
+            <div style="margin-top: 15px;">
+                <button id="toggleSystemBtn" class="btn-primary" style="width: 100%; padding: 0.6rem; font-size: 0.9rem; border-color: #cf222e; color: #cf222e !important;" onclick="toggleSystemLock()">
+                    إِغْلَاقُ اسْتِقْبَالِ الطَّلَبَاتِ
+                </button>
+            </div>
+            <div style="font-size: 0.75rem; color: var(--text-muted); text-align: center; margin-top: 10px;">
+                الإحصائيات مخزنة في متصفحك الحالي.
+            </div>
+        </div>
+    </div>
 
     <div class="modal-overlay" id="orderModal">
         <div class="modal-window">
@@ -891,7 +967,7 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn-primary" style="width: 100%; border: 1px solid var(--accent-color);" data-i18n="formSubmit">إرسال وتأكيد الطلب</button>
+                <button type="submit" id="submitBtn" class="btn-primary" style="width: 100%; border: 1px solid var(--accent-color);" data-i18n="formSubmit">إرسال وتأكيد الطلب</button>
                 <div class="form-feedback" id="formFeedback"></div>
             </form>
         </div>
@@ -904,6 +980,10 @@
         let typewriterTimeout = null; 
         let audioCtx = null;
         let isUserInteracted = false;
+        
+        // متغيرات الدخول السري
+        let logoClicks = 0;
+        let logoClickTimer = null;
 
         const prices = { bots: 5000, web: 15000, video: 5000 };
         const addonPrices = { hosting: 4000, express: 2000, support: 2000 };
@@ -994,7 +1074,96 @@
             loadFormDraft();
             updateReceipt();
             setupIntersectionObservers();
+            checkSystemState();
+
+            // نظام الدخول السري للوحة الإدارة
+            document.getElementById('brandLogo').addEventListener('click', () => {
+                logoClicks++;
+                clearTimeout(logoClickTimer);
+                
+                if (logoClicks >= 5) {
+                    const pass = prompt("الوصول السري. أدخل المفتاح:");
+                    if (pass === "douaa_admin") {
+                        showAdminPanel();
+                        localStorage.setItem("athaar_admin_logged", "true");
+                    }
+                    logoClicks = 0;
+                }
+                
+                logoClickTimer = setTimeout(() => { logoClicks = 0; }, 2000);
+            });
+
+            // إظهار اللوحة إذا كانت مسجلة سابقاً
+            if (localStorage.getItem("athaar_admin_logged") === "true") {
+                showAdminPanel();
+            }
         });
+
+        // دوال لوحة الإدارة (Admin Panel Functions)
+        function showAdminPanel() {
+            document.getElementById("adminPanel").style.display = "block";
+            updateAdminStatsUI();
+        }
+
+        function logoutAdmin() {
+            localStorage.removeItem("athaar_admin_logged");
+            document.getElementById("adminPanel").style.display = "none";
+        }
+
+        function updateAdminStats(serviceKey) {
+            let stats = JSON.parse(localStorage.getItem("athaar_orders_stats")) || { bots: 0, web: 0, video: 0 };
+            if (stats[serviceKey] !== undefined) {
+                stats[serviceKey]++;
+                localStorage.setItem("athaar_orders_stats", JSON.stringify(stats));
+                updateAdminStatsUI();
+            }
+        }
+
+        function updateAdminStatsUI() {
+            let stats = JSON.parse(localStorage.getItem("athaar_orders_stats")) || { bots: 0, web: 0, video: 0 };
+            document.getElementById("statBots").innerText = stats.bots;
+            document.getElementById("statWeb").innerText = stats.web;
+            document.getElementById("statVideo").innerText = stats.video;
+            document.getElementById("statTotal").innerText = stats.bots + stats.web + stats.video;
+        }
+
+        function toggleSystemLock() {
+            let isLocked = localStorage.getItem("athaar_system_locked") === "true";
+            isLocked = !isLocked;
+            localStorage.setItem("athaar_system_locked", isLocked.toString());
+            checkSystemState();
+        }
+
+        function checkSystemState() {
+            let isLocked = localStorage.getItem("athaar_system_locked") === "true";
+            const btn = document.getElementById("toggleSystemBtn");
+            const banner = document.getElementById("systemClosedBanner");
+            const orderBtns = document.querySelectorAll(".btn-order");
+
+            if (isLocked) {
+                if (btn) {
+                    btn.innerText = "فَتْحُ اسْتِقْبَالِ الطَّلَبَاتِ";
+                    btn.style.borderColor = "#2ea44f";
+                    btn.style.color = "#2ea44f";
+                }
+                banner.style.display = "block";
+                orderBtns.forEach(b => {
+                    b.disabled = true;
+                    b.innerText = currentLang === "ar" ? "مغلق حالياً" : "Closed Now";
+                });
+            } else {
+                if (btn) {
+                    btn.innerText = "إِغْلَاقُ اسْتِقْبَالِ الطَّلَبَاتِ";
+                    btn.style.borderColor = "#cf222e";
+                    btn.style.color = "#cf222e";
+                }
+                banner.style.display = "none";
+                orderBtns.forEach(b => {
+                    b.disabled = false;
+                    b.innerText = dictionary[currentLang].ctaRequest;
+                });
+            }
+        }
 
         function toggleTheme() {
             playClickSound();
@@ -1035,6 +1204,7 @@
             if (typewriterTimeout) clearTimeout(typewriterTimeout);
             runFixedTypewriterEffect();
             updateReceipt();
+            checkSystemState(); // Re-apply text changes to disabled buttons
         }
 
         function runFixedTypewriterEffect() {
@@ -1075,6 +1245,8 @@
         }
 
         function openModal(defaultService = 'web') {
+            if (localStorage.getItem("athaar_system_locked") === "true") return; // منع الفتح إذا مغلق
+            
             playClickSound();
             document.getElementById("formService").value = defaultService;
             document.getElementById("orderModal").classList.add("active");
@@ -1236,6 +1408,7 @@
             const phonePrefix = cCode === 'other' ? customCode : cCode;
 
             const serviceElement = document.getElementById("formService");
+            const serviceVal = serviceElement.value; // bots, web, video
 
             // بناء كائن البيانات
             const formDataObject = {
@@ -1264,6 +1437,10 @@
                     if(resData.success) {
                         feedbackZone.className = "form-feedback success";
                         feedbackZone.innerText = dictionary[currentLang].successFeedback;
+                        
+                        // تحديث إحصائيات الأدمن عند نجاح الطلب
+                        updateAdminStats(serviceVal);
+
                         clearDraft();
                         setTimeout(() => { 
                             closeModal(); 
