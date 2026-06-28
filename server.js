@@ -93,7 +93,7 @@ app.post('/api/send', async (req, res) => {
 
 // توجيه السيرفر لفتح ملف Index.html المتواجد معه في نفس المجلد الرئيسي
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, index.html'));
+    res.sendFile(path.join(__dirname,index.html'));
 });
 
 const PORT = process.env.PORT || 3000;
