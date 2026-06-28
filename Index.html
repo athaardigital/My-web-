@@ -648,12 +648,174 @@
             margin-bottom: 20px;
         }
 
+        /* ---- تصميم لوحة التحكم المخفية الجديدة ---- */
+        .admin-dashboard-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #0c0c0e;
+            z-index: 10000;
+            overflow-y: auto;
+            font-family: 'Cairo', sans-serif;
+            color: #e4e4e7;
+            padding: 2rem;
+        }
+
+        .admin-container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .admin-header-overlay {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #27272a;
+            padding-bottom: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .admin-header-overlay h2 {
+            color: #a78bfa;
+            margin: 0;
+            font-size: 1.8rem;
+        }
+
+        .close-admin-btn {
+            background: #27272a;
+            color: #fff;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .close-admin-btn:hover {
+            background: #ef4444;
+        }
+
+        /* بطاقات الإحصائيات */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .stat-card {
+            background: #18181b;
+            border: 1px solid #27272a;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            font-size: 1rem;
+            color: #9ca3af;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #34d399;
+        }
+
+        /* التقسيم الداخلي للوحة */
+        .admin-content-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .admin-content-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .admin-block {
+            background: #18181b;
+            border: 1px solid #27272a;
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+        }
+
+        .admin-block h3 {
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            color: #f4f4f5;
+            border-right: 4px solid #a78bfa;
+            padding-right: 0.5rem;
+        }
+
+        /* الحقول والفورم */
+        .admin-input-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .admin-input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            color: #d4d4d8;
+        }
+
+        .admin-field {
+            width: 100%;
+            background: #09090b;
+            border: 1px solid #27272a;
+            color: #fff;
+            padding: 0.8rem;
+            border-radius: 8px;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .admin-field:focus {
+            border-color: #a78bfa;
+            outline: none;
+        }
+
+        .admin-submit-btn {
+            background: #7c3aed;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+            font-family: 'Cairo', sans-serif;
+            transition: 0.3s;
+        }
+
+        .admin-submit-btn:hover {
+            background: #6d28d9;
+        }
+
+        /* قائمة الأفكار والمشاريع المضافة */
+        .data-list-item {
+            background: #09090b;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border-right: 3px solid #34d399;
+            text-align: right;
+        }
+
     </style>
 </head>
 <body>
 
     <nav class="navbar">
-        <a class="nav-logo" id="brandLogo" data-i18n="brand">ATHAAR</a>
+        <a class="nav-logo" id="site-logo" data-i18n="brand">ATHAAR</a>
         <div class="nav-controls">
             <button class="btn-toggle" id="themeToggler" onclick="toggleTheme()" title="تغيير المظهر">
                 <i class="fa-solid fa-moon"></i>
@@ -831,6 +993,69 @@
         </div>
     </div>
 
+    <div id="adminDashboard" class="admin-dashboard-overlay">
+        <div class="admin-container">
+            
+            <div class="admin-header-overlay">
+                <h2><i class="fa-solid fa-gauge"></i> لوحة الإشراف والمتابعة - آثار</h2>
+                <button class="close-admin-btn" onclick="closeAdminDashboard()">إغلاق اللوحة ×</button>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>إجمالي الطلبات المستلمة</h3>
+                    <div class="stat-value" id="adminTotalRequests">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>آخر خدمة مطلوبة</h3>
+                    <div class="stat-value" id="adminLastService" style="font-size:1.2rem; color:#a78bfa; padding-top:0.5rem;">لا يوجد</div>
+                </div>
+            </div>
+
+            <div class="admin-content-layout">
+                
+                <div class="admin-block">
+                    <h3><i class="fa-solid fa-plus"></i> إضافة نموذج لمشروع جديد</h3>
+                    <form id="adminAddProjectForm" onsubmit="handleAdminSubmit(event)">
+                        <div class="admin-input-group">
+                            <label>عنوان المشروع / النموذج</label>
+                            <input type="text" id="adminProjTitle" class="admin-field" required placeholder="مثال: موقع متجر إلكتروني احترافي">
+                        </div>
+                        <div class="admin-input-group">
+                            <label>وصف وتفاصيل المشروع (نصوص)</label>
+                            <textarea id="adminProjDesc" class="admin-field" rows="3" required placeholder="اكتب تفاصيل المشروع ومميزاته هنا..."></textarea>
+                        </div>
+                        <div class="admin-input-group">
+                            <label>إرفاق صور أو مقاطع فيديو للمشروع</label>
+                            <input type="file" id="adminProjMedia" class="admin-field" accept="image/*,video/*">
+                        </div>
+                        <button type="submit" class="admin-submit-btn">حفظ ونشر النموذج</button>
+                    </form>
+                </div>
+
+                <div class="admin-block">
+                    <h3><i class="fa-solid fa-lightbulb"></i> بنك الأفكار والملاحظات</h3>
+                    <div class="admin-input-group">
+                        <input type="text" id="adminIdeaInput" class="admin-field" placeholder="اكتب فكرة سريعة هنا...">
+                    </div>
+                    <button type="button" class="admin-submit-btn" style="background:#2563eb;" onclick="addQuickIdea()">إضافة فكرة</button>
+                    
+                    <div id="adminIdeasContainer" style="margin-top: 1.5rem;">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="admin-block" style="margin-top:2rem;">
+                <h3><i class="fa-solid fa-folder-open"></i> النماذج المضافة حالياً للموقع</h3>
+                <div id="adminProjectsContainer">
+                    <p style="color:#71717a;">لم تقم بإضافة نماذج جديدة بعد.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
     <div class="modal-overlay" id="orderModal">
         <div class="modal-window">
             <button class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
@@ -877,7 +1102,7 @@
                             <option value="+961">🇱🇧 لبنان (+961)</option>
                             <option value="+970">🇵🇸 فلسطين (+970)</option>
                             <option value="+249">🇸🇩 السودان (+249)</option>
-                            <option value="+967">🇾🇪 اليمن (+967)</option>
+                            <option value="+967">🇾 Yemen (+967)</option>
                             <option value="other" data-i18n="otherCountry">🌐 أخرى (كتابة المعرف)</option>
                         </select>
                         <input type="tel" id="formPhone" class="form-control" placeholder="600000000" required oninput="saveDraft()" dir="ltr">
@@ -981,6 +1206,9 @@
         let audioCtx = null;
         let isUserInteracted = false;
         
+        // عدادات الضغطات المتتالية
+        let logoClickCount = 0;
+        let logoClickTimeout;
         let logoClicks = 0;
         let logoClickTimer = null;
 
@@ -995,7 +1223,7 @@
         const dictionary = {
             ar: {
                 brand: "ATHAAR", heroTitle: "ATHAAR",
-                heroSubtitle: "آثَار الرَّقْمِيَّة لِلْحُلُولِ التَّقْنِيَّةِ - نفهم فكرتك أولًا، ونبرز جودتها التقنية لتصنع أثرًا مستدامًا في سوق العمل الفعلي بمعايير عصرية وهياكل برمجية قوية.",
+                heroSubtitle: "آثَار الرَّقْمِيَّة لِلْحُلُولِ Tَّقْنِيَّةِ - نفهم فكرتك أولًا، ونبرز جودتها التقنية لتصنع أثرًا مستدامًا في سوق العمل الفعلي بمعايير عصرية وهياكل برمجية قوية.",
                 ctaRequest: "طلب الخدمة", whyUsTitle: "لماذا آثار الرقمية؟", feature1Title: "فهم الفكرة أولًا", feature1Desc: "نقوم بمناقشة واستيعاب أهدافك الاستراتيجية بدقة كاملة لضمان جودة الأداء التقني النهائي وتطابقه مع رؤيتك.", feature2Title: "حلول مخصصة فريدة", feature2Desc: "نبتعد كليًا عن الأفكار والقوالب التقليدية المستهلكة لنوفر لك هوية تجارية تقنية حصرية تناسب طموحك.", feature3Title: "بنية تقنية متطورة", feature3Desc: "الدمج بين الكفاءة البرمجية العالية وأحدث المعايير الرقمية لضمان سرعة فائقة وأمان متكامل لمعالجة طلباتك.", feature4Title: "مرونة ودعم مستمر", feature4Desc: "نقف بجانبك حتى بعد التسليم، نقدم لك دعماً تقنياً ومرونة في التحديثات لضمان استمرارية نجاح مشروعك.", servicesTitle: "خدماتنا الرقمية", serviceBotTitle: "تطوير بوتات تليجرام", serviceBotDesc: "بناء أدوات ذكية وأتمتة مخصصة لإدارة المجتمعات، تقديم الخدمات الفورية، وتسهيل المهام اليومية.", serviceWebTitle: "بناء وتطوير المواقع", serviceWebDesc: "واجهات مخصصة، صفحات هبوط عصرية وتجربة أداء مرنة وسريعة تناسب وتدعم نمو مشروعك الناشئ.", serviceVidTitle: "صناعة المقاطع المرئية", serviceVidDesc: "تصميم محتوى مرئي احترافي وجذاب (مونتاج، موشن جرافيك) لعرض هوية مشروعك ورسالتك بامتياز.", priceStart: "السعر الابتدائي:", portfolioTitle: "أَعْمَالِنَا السَّابِقَةِ", port1Title: "مشروع أتمتة رقمية", port2Title: "منصة هبوط ذكية", portSoon: "جاري تجهيز وعرض رَوَابِط النَّمَاذِجِ قَرِيبًا...", faqTitle: "الأسئلة الشائعة", faqQ1: "كيف يتم تحديد التكلفة النهائية للمشروع؟", faqA1: "تعتمد التكلفة النهائية على حجم الفكرة، الميزات المطلوبة، والوقت المستغرق في التطوير. الأسعار المذكورة هي أسعار ابتدائية يتم تأكيدها بعد مناقشة تفاصيل مشروعك.", faqQ2: "هل تقدمون استضافة واسم نطاق (Domain) للمواقع؟", faqA2: "نعم، يمكننا توفير استضافة وحجز نطاق لموقعك كخدمة إضافية، أو يمكننا ربط الموقع باستضافتك الخاصة إذا كنت تمتلك واحدة.", faqQ3: "ما هي طرق الدفع المتاحة لديكم؟", faqA3: "ندعم الدفع عبر الحوالات البنكية (BaridiMob للجزائر)، والمحافظ الإلكترونية، والعملات الرقمية (USDT)، ليتمكن عملاؤنا من كل الدول من الدفع بسهولة.", faqQ4: "هل يمكنني طلب تعديلات بعد تسليم المشروع؟", faqA4: "بالتأكيد! نوفر فترة دعم فني مجانية بعد التسليم لمعالجة أي أخطاء، كما يمكن الاتفاق على خطط صيانة وتحديثات مرنة بأسعار مناسبة لضمان تطور مشروعك.", footerRights: "جميع الحقوق محفوظة.", formMainTitle: "طلب خدمة", welcomeBack: "أهلاً بك مجدداً! قمنا باستعادة بيانات طلبك السابق لتسهيل استكماله أو الدفع.", startNewReq: "مسح البيانات وبدء طلب جديد", formSeat: "حجز مقعد مبدئي", formPayment: "تأكيد الدفع والاستلام", formName: "الاسم الكامل", formEmail: "البريد الإلكتروني", formPhone: "رقم الهاتف (بدون مفتاح الدولة)", otherCountry: "🌐 أخرى (كتابة المعرف)", formServiceSelect: "نوع الخدمة المستهدفة", optBot: "تطوير بوتات تليجرام - يبدأ من 5000 DA", optWeb: "بناء وتطوير المواقع - يبدأ من 15000 DA", optVid: "صناعة المقاطع المرئية - يبدأ من 5000 DA", formIdea: "تفاصيل الفكرة", formRef: "رقم الحوالة أو إثبات الدفع (الرقم المرجعي)", currencyNote: "الأسعار بالدينار. اختر عملتك للتحويل:", receiptBase: "السعر الأساسي للخدمة:", receiptTotal: "الإجمالي التقديري:", formSubmit: "إرسال وتأكيد الطلب", successFeedback: "تم إرسال طلبك بنجاح! سيتم مراجعته والتواصل معك.", errorFeedback: "عذراً، حدث خطأ أثناء الإرسال. تأكد من اتصالك بالإنترنت وحاول مجدداً.",
                 formAddonsTitle: "الإضافات والمميزات الاختيارية",
                 addonHosting: "استضافة واسم نطاق (+4000 DA)",
@@ -1075,27 +1303,145 @@
             setupIntersectionObservers();
             checkSystemState();
 
-            document.getElementById('brandLogo').addEventListener('click', () => {
-                logoClicks++;
-                clearTimeout(logoClickTimer);
-                
-                if (logoClicks >= 5) {
-                    const pass = prompt("الوصول السري. أدخل المفتاح:");
-                    if (pass === "douaa_admin") {
-                        showAdminPanel();
-                        localStorage.setItem("athaar_admin_logged", "true");
+            // تفعيل ميزة الـ 5 ضغطات المتتالية لفتح لوحة التحكم الجديدة بالكامل
+            const siteLogo = document.getElementById("site-logo");
+            if (siteLogo) {
+                siteLogo.style.cursor = "pointer";
+                siteLogo.addEventListener("click", () => {
+                    logoClickCount++;
+                    clearTimeout(logoClickTimeout);
+                    
+                    // تصفير العداد بعد ثانيتين لضمان الخصوصية والأمان
+                    logoClickTimeout = setTimeout(() => { logoClickCount = 0; }, 2000);
+                    
+                    if (logoClickCount === 5) {
+                        logoClickCount = 0;
+                        openAdminDashboard();
                     }
-                    logoClicks = 0;
-                }
-                
-                logoClickTimer = setTimeout(() => { logoClicks = 0; }, 2000);
-            });
+                });
+            }
+
+            // الاحتفاظ بالوصول للوحة الكلاسيكية القديمة احتياطاً
+            if (siteLogo) {
+                siteLogo.addEventListener('contextmenu', (e) => {
+                    e.preventDefault();
+                    logoClicks++;
+                    clearTimeout(logoClickTimer);
+                    if (logoClicks >= 5) {
+                        const pass = prompt("الوصول السري للوحة الكلاسيكية. أدخل المفتاح:");
+                        if (pass === "douaa_admin") {
+                            showAdminPanel();
+                            localStorage.setItem("athaar_admin_logged", "true");
+                        }
+                        logoClicks = 0;
+                    }
+                    logoClickTimer = setTimeout(() => { logoClicks = 0; }, 2000);
+                });
+            }
 
             if (localStorage.getItem("athaar_admin_logged") === "true") {
                 showAdminPanel();
             }
+            
+            // تحميل بيانات لوحة التحكم الشاملة عند الإقلاع
+            loadAdminDashboardData();
         });
 
+        // البرمجة الخاصة بلوحة التحكم الإدارية المخفية الفخمة الجديدة
+        function openAdminDashboard() {
+            document.getElementById("adminDashboard").style.display = "block";
+            document.body.style.overflow = "hidden"; 
+            loadAdminDashboardData();
+        }
+
+        function closeAdminDashboard() {
+            document.getElementById("adminDashboard").style.display = "none";
+            document.body.style.overflow = "auto";
+        }
+
+        function loadAdminDashboardData() {
+            // مزامنة أعداد الطلبات من الـ LocalStorage الحالي للموقع
+            const localStats = localStorage.getItem("athaar_orders_stats") || localStorage.getItem("admin_stats"); 
+            if (localStats) {
+                const stats = JSON.parse(localStats);
+                const total = Object.values(stats).reduce((a, b) => a + b, 0);
+                document.getElementById("adminTotalRequests").innerText = total;
+            }
+
+            // جلب آخر خدمة تم طلبها فعلياً من نظام الاستمارات
+            const lastService = localStorage.getItem("last_requested_service") || "لا يوجد طلبات جديدة حالياً";
+            document.getElementById("adminLastService").innerText = lastService;
+
+            // جلب بنك الأفكار
+            const savedIdeas = JSON.parse(localStorage.getItem("admin_ideas") || "[]");
+            const ideasContainer = document.getElementById("adminIdeasContainer");
+            ideasContainer.innerHTML = "";
+            savedIdeas.forEach(idea => {
+                ideasContainer.innerHTML += `<div class="data-list-item"><i class="fa-regular fa-comment"></i> ${idea}</div>`;
+            });
+
+            // جلب نماذج المشاريع المضافة
+            const savedProjects = JSON.parse(localStorage.getItem("admin_projects") || "[]");
+            const projectsContainer = document.getElementById("adminProjectsContainer");
+            if(savedProjects.length > 0) {
+                projectsContainer.innerHTML = "";
+                savedProjects.forEach(proj => {
+                    projectsContainer.innerHTML += `
+                        <div class="data-list-item" style="border-right-color: #7c3aed;">
+                            <strong>${proj.title}</strong>
+                            <p style="margin: 5px 0; font-size:0.9rem; color:#a1a1aa;">${proj.desc}</p>
+                            ${proj.media ? `<span style="font-size:0.8rem; color:#34d399;"><i class="fa-solid fa-paperclip"></i> تم إرفاق ملف وسائط</span>` : ''}
+                        </div>
+                    `;
+                });
+            }
+        }
+
+        function handleAdminSubmit(event) {
+            event.preventDefault();
+            const title = document.getElementById("adminProjTitle").value;
+            const desc = document.getElementById("adminProjDesc").value;
+            const mediaInput = document.getElementById("adminProjMedia");
+            
+            let projectData = { title, desc, media: null };
+
+            if (mediaInput.files.length > 0) {
+                const file = mediaInput.files[0];
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    projectData.media = e.target.result; 
+                    saveProject(projectData);
+                }
+                reader.readAsDataURL(file);
+            } else {
+                saveProject(projectData);
+            }
+        }
+
+        function saveProject(projectData) {
+            const savedProjects = JSON.parse(localStorage.getItem("admin_projects") || "[]");
+            savedProjects.push(projectData);
+            localStorage.setItem("admin_projects", JSON.stringify(savedProjects));
+            
+            alert("تم حفظ ونشر نموذج المشروع بنجاح داخل النظام! 🎉");
+            document.getElementById("adminAddProjectForm").reset();
+            loadAdminDashboardData();
+        }
+
+        function addQuickIdea() {
+            const ideaInput = document.getElementById("adminIdeaInput");
+            const ideaText = ideaInput.value.trim();
+            if(!ideaText) return;
+
+            const savedIdeas = JSON.parse(localStorage.getItem("admin_ideas") || "[]");
+            savedIdeas.push(ideaText);
+            localStorage.setItem("admin_ideas", JSON.stringify(savedIdeas));
+
+            ideaInput.value = "";
+            loadAdminDashboardData();
+        }
+
+        // دالة عرض اللوحة الكلاسيكية القديمة
         function showAdminPanel() {
             document.getElementById("adminPanel").style.display = "block";
             updateAdminStatsUI();
@@ -1404,11 +1750,13 @@
             const serviceElement = document.getElementById("formService");
             const serviceVal = serviceElement.value; 
 
+            const textServiceName = serviceElement.options[serviceElement.selectedIndex].text;
+
             const formDataObject = {
                 name: document.getElementById("formName").value,
                 email: document.getElementById("formEmail").value,
                 phone: phonePrefix + " " + document.getElementById("formPhone").value,
-                service: serviceElement.options[serviceElement.selectedIndex].text,
+                service: textServiceName,
                 idea: document.getElementById("formIdeaText").value + addonsText,
                 paymentMode: paymentMode,
                 ref: document.getElementById("formRefNum").value || "بدون (حجز مقعد)",
@@ -1418,7 +1766,6 @@
             const fileInput = document.getElementById("formReceiptFile");
 
             const sendToServer = (data) => {
-
                 fetch("/api/send", {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -1431,6 +1778,9 @@
                         feedbackZone.innerText = dictionary[currentLang].successFeedback;
                         
                         updateAdminStats(serviceVal);
+                        
+                        // حفظ الخدمة الأخيرة لتحديث إحصائيات لوحة التحكم فوراً
+                        localStorage.setItem("last_requested_service", textServiceName);
 
                         clearDraft();
                         setTimeout(() => { 
