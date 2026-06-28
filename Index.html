@@ -1092,16 +1092,16 @@
                             <option value="+965">🇰🇼 الكويت (+965)</option>
                             <option value="+974">🇶🇦 قطر (+974)</option>
                             <option value="+968">🇴🇲 عُمان (+968)</option>
-                            <option value="+973">🇧🇭 البحرين (+973)</option>
+                            <option value="+973">🇧 Bahrain (+973)</option>
                             <option value="+962">🇯🇴 الأردن (+962)</option>
                             <option value="+212">🇲🇦 المغرب (+212)</option>
                             <option value="+216">🇹🇳 تونس (+216)</option>
-                            <option value="+218">🇱🇾 ليبيا (+218)</option>
+                            <option value="+218">🇱 Libya (+218)</option>
                             <option value="+964">🇮🇶 العراق (+964)</option>
                             <option value="+963">🇸🇾 سوريا (+963)</option>
-                            <option value="+961">🇱🇧 لبنان (+961)</option>
+                            <option value="+961">🇱 Lebanese (+961)</option>
                             <option value="+970">🇵🇸 فلسطين (+970)</option>
-                            <option value="+249">🇸🇩 السودان (+249)</option>
+                            <option value="+249">🇸 Sudan (+249)</option>
                             <option value="+967">🇾 Yemen (+967)</option>
                             <option value="other" data-i18n="otherCountry">🌐 أخرى (كتابة المعرف)</option>
                         </select>
@@ -1303,7 +1303,7 @@
             setupIntersectionObservers();
             checkSystemState();
 
-            // تفعيل ميزة الـ 5 ضغطات المتتالية لفتح لوحة التحكم الجديدة بالكامل
+            // تفعيل ميزة الـ 5 ضغطات المتتالية لفتح لوحة التحكم الجديدة بعد التحقق من كلمة السر
             const siteLogo = document.getElementById("site-logo");
             if (siteLogo) {
                 siteLogo.style.cursor = "pointer";
@@ -1315,8 +1315,16 @@
                     logoClickTimeout = setTimeout(() => { logoClickCount = 0; }, 2000);
                     
                     if (logoClickCount === 5) {
-                        logoClickCount = 0;
-                        openAdminDashboard();
+                        logoClickCount = 0; // إعادة تصفير العداد فوراً
+                        
+                        // طلب كلمة السر من المستخدم
+                        const passwordCheck = prompt("🔒 منطقة محمية. يرجى إدخال كلمة السر للمتابعة:");
+                        
+                        if (passwordCheck === "douaa_admin") {
+                            openAdminDashboard();
+                        } else if (passwordCheck !== null) { 
+                            alert("❌ كلمة السر غير صحيحة! لا تملك صلاحية الوصول.");
+                        }
                     }
                 });
             }
