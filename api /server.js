@@ -6,7 +6,9 @@ const app = express();
 
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
-app.use(express.static(path.join(__dirname, '../')));
+
+// جعل السيرفر يقرأ الملفات من المجلد الرئيسي مباشرة
+app.use(express.static(__dirname));
 
 app.post('/api/send', async (req, res) => {
     try {
@@ -39,7 +41,6 @@ app.post('/api/send', async (req, res) => {
             const base64Data = receiptFileBase64.replace(/^data:image\/\w+;base64,/, "");
             const buffer = Buffer.from(base64Data, 'base64');
             
-            // استخدام FormData و Blob المدمجين في Node.js 18+
             const blob = new Blob([buffer]);
             const form = new FormData();
             
@@ -90,8 +91,9 @@ app.post('/api/send', async (req, res) => {
     }
 });
 
+// توجيه السيرفر لفتح ملف Index.html المتواجد معه في نفس المجلد الرئيسي
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../Index.html'));
+    res.sendFile(path.join(__dirname, 'Index.html'));
 });
 
 const PORT = process.env.PORT || 3000;
