@@ -1,18 +1,11 @@
 const express = require('express');
 const cors = require('cors');
-const FormData = require('form-data');
-const path = require('path'); // تمت إضافة هذه المكتبة للتعامل مع مسارات الملفات
+const path = require('path');
 
 const app = express();
 
-// تفعيل ميزة CORS للسماح لواجهة موقعكِ بإرسال الطلبات للسيرفر بدون قيود
 app.use(cors());
-
-// جلب البيانات بصيغة JSON ورفع الحد الأقصى لحجم البيانات لاستيعاب صور الإيصالات
 app.use(express.json({ limit: '10mb' }));
-
-// --- الإضافة الجديدة: جعل السيرفر يعرض الملفات الثابتة (Index.html) ---
-// بما أن server.js داخل مجلد api، نستخدم '../' للرجوع للمجلد الرئيسي حيث يوجد Index.html
 app.use(express.static(path.join(__dirname, '../')));
 
 app.post('/api/send', async (req, res) => {
@@ -45,20 +38,23 @@ app.post('/api/send', async (req, res) => {
         if (receiptFileBase64) {
             const base64Data = receiptFileBase64.replace(/^data:image\/\w+;base64,/, "");
             const buffer = Buffer.from(base64Data, 'base64');
+            
+            // استخدام FormData و Blob المدمجين في Node.js 18+
+            const blob = new Blob([buffer]);
             const form = new FormData();
+            
             form.append('chat_id', CHAT_ID);
             form.append('caption', caption);
 
             let endpoint = 'sendPhoto';
             let fieldName = 'photo';
 
-            // التحقق إذا كان المرفق PDF
             if (receiptFileName && receiptFileName.toLowerCase().endsWith('.pdf')) {
                 endpoint = 'sendDocument';
                 fieldName = 'document';
             }
 
-            form.append(fieldName, buffer, { filename: receiptFileName || 'receipt.png' });
+            form.append(fieldName, blob, receiptFileName || 'receipt.png');
 
             const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/${endpoint}`, {
                 method: 'POST',
@@ -73,7 +69,6 @@ app.post('/api/send', async (req, res) => {
             }
         }
 
-        // في حال عدم وجود مرفق
         const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -95,8 +90,6 @@ app.post('/api/send', async (req, res) => {
     }
 });
 
-// --- توجيه أي مسار آخر غير الـ API ليقوم بفتح موقعك (Index.html) ---
-// ملاحظة: نظام Render حساس لحالة الأحرف، لذا كتبنا Index.html بحرف كبير كما هو في ملفاتك
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../Index.html'));
 });
