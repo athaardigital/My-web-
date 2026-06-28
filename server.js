@@ -10,6 +10,17 @@ app.use(express.json({ limit: '10mb' }));
 // جَعْلُ السِّيرْفَرِ يَقْرَأُ الْمِلَفَّاتِ مِنَ الْمُجَلَّدِ الرَّئِيسِيِّ مُبَاشَرَةً
 app.use(express.static(__dirname));
 
+// نِقْطَةُ التَّحَقُّقِ مِنْ كَلِمَةِ السِّرِّ (الْحِمَايَةُ)
+app.post('/api/login', (req, res) => {
+    const { password } = req.body;
+    // التَّحَقُّقُ مِنْ مُطَابَقَةِ الرَّقْمِ السِّرِّيِّ مَعَ مُتَغَيِّرَاتِ الْبِيئَةِ
+    if (password === process.env.ADMIN_PASSWORD) {
+        return res.status(200).json({ success: true, message: 'دُخُولٌ نَاجِحٌ' });
+    } else {
+        return res.status(401).json({ success: false, message: 'كَلِمَةُ سِرٍّ خَاطِئَةٌ' });
+    }
+});
+
 app.post('/api/send', async (req, res) => {
     try {
         const { name, email, phone, service, idea, paymentMode, ref, finalDue, receiptFileBase64, receiptFileName } = req.body;
