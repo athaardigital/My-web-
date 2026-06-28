@@ -1419,7 +1419,7 @@
 
             const sendToServer = (data) => {
 
-                fetch("https://my-web-lohr.onrender.com/api/send", {
+                fetch("/api/send", {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
