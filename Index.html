@@ -1303,45 +1303,72 @@
             setupIntersectionObservers();
             checkSystemState();
 
-            // تفعيل ميزة الـ 5 ضغطات المتتالية لفتح لوحة التحكم الجديدة بعد التحقق من كلمة السر
+            // تفعيل ميزة الـ 5 ضغطات المتتالية لفتح لوحة التحكم الجديدة بعد التحقق من كلمة السر عَبْرَ السِّيرْفَرِ
             const siteLogo = document.getElementById("site-logo");
             if (siteLogo) {
                 siteLogo.style.cursor = "pointer";
-                siteLogo.addEventListener("click", () => {
+                siteLogo.addEventListener("click", async () => {
                     logoClickCount++;
                     clearTimeout(logoClickTimeout);
                     
-                    // تصفير العداد بعد ثانيتين لضمان الخصوصية والأمان
                     logoClickTimeout = setTimeout(() => { logoClickCount = 0; }, 2000);
                     
                     if (logoClickCount === 5) {
-                        logoClickCount = 0; // إعادة تصفير العداد فوراً
+                        logoClickCount = 0; 
                         
-                        // طلب كلمة السر من المستخدم
-                        const passwordCheck = prompt("🔒 منطقة محمية. يرجى إدخال كلمة السر للمتابعة:");
-                        
-                        if (passwordCheck === "douaa_admin") {
-                            openAdminDashboard();
-                        } else if (passwordCheck !== null) { 
-                            alert("❌ كلمة السر غير صحيحة! لا تملك صلاحية الوصول.");
+                        const passwordCheck = prompt("🔒 مَنْطِقَةٌ مَحْمِيَّةٌ. يُرْجَى إِدْخَالُ كَلِمَةِ السِّرِّ لِلْمُتَابَعَةِ:");
+                        if (passwordCheck === null) return;
+
+                        try {
+                            const response = await fetch('/api/login', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ password: passwordCheck })
+                            });
+                            
+                            const result = await response.json();
+                            if (result.success) {
+                                openAdminDashboard();
+                            } else {
+                                alert(result.message || "❌ كَلِمَةُ سِرٍّ خَاطِئَةٌ!");
+                            }
+                        } catch (error) {
+                            console.error('خَطَأٌ فِي الِاتِّصَالِ بِالسِّيرْفَرِ:', error);
+                            alert("❌ حَدَثَ خَطَأٌ فِي الِاتِّصَالِ؛ يُرْجَى التَّأَكُّدُ مِنْ تَشْغِيلِ السِّيرْفَرِ.");
                         }
                     }
                 });
             }
 
-            // الاحتفاظ بالوصول للوحة الكلاسيكية القديمة احتياطاً
+            // الاحتفاظ بالوصول للوحة الكلاسيكية القديمة مَعَ رَبْطِهَا بِالسِّيرْفَرِ أَيْضًا لِلْأَمَانِ
             if (siteLogo) {
-                siteLogo.addEventListener('contextmenu', (e) => {
+                siteLogo.addEventListener('contextmenu', async (e) => {
                     e.preventDefault();
                     logoClicks++;
                     clearTimeout(logoClickTimer);
                     if (logoClicks >= 5) {
-                        const pass = prompt("الوصول السري للوحة الكلاسيكية. أدخل المفتاح:");
-                        if (pass === "douaa_admin") {
-                            showAdminPanel();
-                            localStorage.setItem("athaar_admin_logged", "true");
-                        }
                         logoClicks = 0;
+                        const pass = prompt("الوصول السري للوحة الكلاسيكية. أدخل المفتاح:");
+                        if (pass === null) return;
+
+                        try {
+                            const response = await fetch('/api/login', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ password: pass })
+                            });
+                            
+                            const result = await response.json();
+                            if (result.success) {
+                                showAdminPanel();
+                                localStorage.setItem("athaar_admin_logged", "true");
+                            } else {
+                                alert(result.message || "❌ كَلِمَةُ سِرٍّ خَاطِئَةٌ!");
+                            }
+                        } catch (error) {
+                            console.error('خَطَأٌ فِي الِاتِّصَالِ بِالسِّيرْفَرِ:', error);
+                            alert("❌ حَدَثَ خَطَأٌ فِي الِاتِّصَالِ.");
+                        }
                     }
                     logoClickTimer = setTimeout(() => { logoClicks = 0; }, 2000);
                 });
@@ -1351,7 +1378,6 @@
                 showAdminPanel();
             }
             
-            // تحميل بيانات لوحة التحكم الشاملة عند الإقلاع
             loadAdminDashboardData();
         });
 
@@ -1368,7 +1394,6 @@
         }
 
         function loadAdminDashboardData() {
-            // مزامنة أعداد الطلبات من الـ LocalStorage الحالي للموقع
             const localStats = localStorage.getItem("athaar_orders_stats") || localStorage.getItem("admin_stats"); 
             if (localStats) {
                 const stats = JSON.parse(localStats);
@@ -1376,11 +1401,9 @@
                 document.getElementById("adminTotalRequests").innerText = total;
             }
 
-            // جلب آخر خدمة تم طلبها فعلياً من نظام الاستمارات
             const lastService = localStorage.getItem("last_requested_service") || "لا يوجد طلبات جديدة حالياً";
             document.getElementById("adminLastService").innerText = lastService;
 
-            // جلب بنك الأفكار
             const savedIdeas = JSON.parse(localStorage.getItem("admin_ideas") || "[]");
             const ideasContainer = document.getElementById("adminIdeasContainer");
             ideasContainer.innerHTML = "";
@@ -1388,7 +1411,6 @@
                 ideasContainer.innerHTML += `<div class="data-list-item"><i class="fa-regular fa-comment"></i> ${idea}</div>`;
             });
 
-            // جلب نماذج المشاريع المضافة
             const savedProjects = JSON.parse(localStorage.getItem("admin_projects") || "[]");
             const projectsContainer = document.getElementById("adminProjectsContainer");
             if(savedProjects.length > 0) {
@@ -1787,7 +1809,6 @@
                         
                         updateAdminStats(serviceVal);
                         
-                        // حفظ الخدمة الأخيرة لتحديث إحصائيات لوحة التحكم فوراً
                         localStorage.setItem("last_requested_service", textServiceName);
 
                         clearDraft();
@@ -1824,5 +1845,4 @@
         }
     </script>
 </body>
-</html>
-
+    </html>
