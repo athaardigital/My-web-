@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>آثار الرقمية | لوحة التحكم السحابية الآمنة</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Chakra+Petch:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Cairo', sans-serif; background-color: #0c0c0e; color: #e4e4e7; margin: 0; padding: 2rem; }
+        .admin-wrap { max-width: 1200px; margin: 0 auto; }
+        .admin-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #27272a; padding-bottom: 1.5rem; margin-bottom: 2rem; }
+        .admin-header h2 { color: #d4af37; font-family: 'Chakra Petch', sans-serif; margin: 0; letter-spacing: 1px; }
+        .logout-btn { background: #ef4444; color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 8px; cursor: pointer; font-weight: bold; font-family: 'Cairo'; transition: 0.3s; }
+        .logout-btn:hover { background: #b91c1c; }
+        .order-card { background: #18181b; border: 1px solid #27272a; padding: 1.5rem; border-radius: 14px; margin-bottom: 1.5rem; border-right: 4px solid #d4af37; }
+        .order-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-top: 1rem; background: #09090b; padding: 1rem; border-radius: 8px; }
+        .grid-item { font-size: 0.95rem; color: #a1a1aa; }
+        .grid-item strong { color: #f4f4f5; display: block; margin-bottom: 0.2rem; }
+        .login-panel { max-width: 400px; margin: 15vh auto; background: #18181b; padding: 2.5rem; border-radius: 16px; border: 1px solid #27272a; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        .login-field { width: 100%; background: #09090b; border: 1px solid #27272a; color: #fff; padding: 0.8rem; border-radius: 8px; font-family: 'Cairo', sans-serif; margin-bottom: 1.2rem; box-sizing: border-box; text-align: center; }
+        .login-btn { background: #d4af37; color: #000; border: none; padding: 0.8rem 1.5rem; border-radius: 8px; cursor: pointer; font-weight: 700; width: 100%; font-family: 'Cairo', sans-serif; transition: 0.3s; }
+        .login-btn:hover { background: #b5922e; }
+        .no-orders { text-align: center; color: #71717a; padding: 3rem; font-size: 1.2rem; }
+        .tag-idea { background: #27272a; color: #d4af37; padding: 0.5rem 1rem; border-radius: 6px; margin-top: 0.5rem; inline-size: max-content; font-size: 0.9rem; border: 1px dashed #d4af37; }
+    </style>
+</head>
+<body>
+
+    <div id="loginArea" class="login-panel">
+        <h3 style="color: #d4af37; margin-bottom: 0.5rem;"><i class="fa-solid fa-shield-halved"></i> نظام الإدارة الآمن</h3>
+        <p style="color: #71717a; font-size: 0.85rem; margin-bottom: 1.5rem;">يرجى إدخال كلمة مرور المشفرة الخاصة بآثار الرقمية</p>
+        <input type="password" id="passCode" class="login-field" placeholder="كلمة المرور">
+        <button onclick="submitLogin()" class="login-btn">تحقق وتأكيد الجلسة</button>
+    </div>
+
+    <div id="dashboardArea" class="admin-wrap" style="display: none;">
+        <div class="admin-header">
+            <h2><i class="fa-solid fa-server"></i> آثار الرقمية | السجلات السحابية (MongoDB)</h2>
+            <button class="logout-btn" onclick="triggerLogout()"><i class="fa-solid fa-right-from-bracket"></i> خروج آمن</button>
+        </div>
+
+        <h3 style="color: #f4f4f5; margin-bottom: 1.5rem;"><i class="fa-solid fa-list-check" style="color: #d4af37;"></i> الطلبات الواردة والمحفوظة تاريخياً</h3>
+        <div id="ordersContainer">
+            </div>
+    </div>
+
+    <script>
+        const STORAGE_KEY = "athaar_secure_token";
+
+        document.addEventListener("DOMContentLoaded", () => {
+            evaluateSession();
+        });
+
+        function evaluateSession() {
+            const token = localStorage.getItem(STORAGE_KEY);
+            if (!token) {
+                document.getElementById("loginArea").style.display = "block";
+                document.getElementById("dashboardArea").style.display = "none";
+            } else {
+                document.getElementById("loginArea").style.display = "none";
+                document.getElementById("dashboardArea").style.display = "block";
+                fetchCloudOrders();
+            }
+        }
+
+        async function submitLogin() {
+            const password = document.getElementById("passCode").value;
+            const response = await fetch('/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ password })
+            });
+            const data = await response.json();
+            if (data.success) {
+                localStorage.setItem(STORAGE_KEY, data.token);
+                evaluateSession();
+            } else {
+                alert(data.message || "كلمة السر خاطئة تماماً.");
+            }
+        }
+
+        function triggerLogout() {
+            localStorage.removeItem(STORAGE_KEY);
+            evaluateSession();
+        }
+
+        async function fetchCloudOrders() {
+            const token = localStorage.getItem(STORAGE_KEY);
+            const response = await fetch('/api/admin/orders', {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            const data = await response.json();
+            
+            if (!data.success) {
+                triggerLogout();
+                return;
+            }
+
+            const container = document.getElementById("ordersContainer");
+            container.innerHTML = "";
+
+            if (!data.orders || data.orders.length === 0) {
+                container.innerHTML = `<div class="no-orders"><i class="fa-regular fa-folder-open" style="font-size:3rem; display:block; margin-bottom:1rem;"></i> لا يوجد أي طلبات محفوظة في قاعدة البيانات السحابية حالياً.</div>`;
+                return;
+            }
+
+            data.orders.forEach(order => {
+                container.innerHTML += `
+                    <div class="order-card">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <strong style="color:#d4af37; font-size:1.1rem;"><i class="fa-solid fa-user"></i> ${order.name || 'غير محدد'}</strong>
+                            <span style="color:#71717a; font-size:0.85rem;"><i class="fa-solid fa-clock"></i> ${order.requestTime || 'غير مسجل'}</span>
+                        </div>
+                        <div class="order-grid">
+                            <div class="grid-item"><strong>البريد الإلكتروني</strong>${order.email || 'غَيْرُ مُحَدَّدٍ'}</div>
+                            <div class="grid-item"><strong>رقم الهاتف</strong>${order.phone || 'غَيْرُ مُحَدَّدٍ'}</div>
+                            <div class="grid-item"><strong>الخدمة المطلوبة</strong>${order.service || 'غَيْرُ مُحَدَّدٍ'}</div>
+                            <div class="grid-item"><strong>طريقة الدفع</strong>${order.paymentMode || 'غَيْرُ مُحَدَّدٍ'}</div>
+                            <div class="grid-item"><strong>رقم المرجع (Ref)</strong>${order.ref || 'لا يوجد'}</div>
+                            <div class="grid-item"><strong>المبلغ المستحق</strong>${order.finalDue || 'غَيْرُ مُحَدَّدٍ'}</div>
+                        </div>
+                        ${order.idea ? `<div class="tag-idea"><strong><i class="fa-regular fa-lightbulb"></i> الفكرة المقترحة:</strong> ${order.idea}</div>` : ''}
+                    </div>
+                `;
+            });
+        }
+    </script>
+</body>
+</html>
+
