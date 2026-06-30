@@ -6,7 +6,7 @@
     <title>آثار الرقمية | Athaar Digital</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&family=Chakra+Petch:wght@400;600;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Chakra+Petch:wght@400;600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -50,20 +50,24 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            transition: background-color var(--transition-speed), color var(--transition-speed), border-color var(--transition-speed), box-shadow var(--transition-speed);
+        }
+
+        body, input, select, textarea, button {
+            font-family: 'Chakra Petch', 'Cairo', sans-serif;
+            letter-spacing: 0.3px;
         }
 
         body {
-            font-family: 'Cairo', 'Inter', sans-serif;
             background-color: var(--bg-primary);
             color: var(--text-main);
             overflow-x: hidden;
             line-height: 1.6;
             background-image: 
-                linear-gradient(rgba(212, 175, 55, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(212, 175, 55, 0.03) 1px, transparent 1px);
+                linear-gradient(rgba(212, 175, 55, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(212, 175, 55, 0.02) 1px, transparent 1px);
             background-size: 40px 40px;
             background-attachment: fixed;
+            transition: background-color var(--transition-speed), color var(--transition-speed);
         }
 
         .navbar {
@@ -88,7 +92,6 @@
             color: var(--accent-color);
             text-decoration: none;
             letter-spacing: 1px;
-            font-family: 'Chakra Petch', sans-serif;
             cursor: pointer;
             user-select: none;
         }
@@ -106,12 +109,12 @@
             padding: 0.5rem 1rem;
             border-radius: 30px;
             cursor: pointer;
-            font-family: inherit;
             font-size: var(--font-nav);
             display: flex;
             align-items: center;
             gap: 0.5rem;
             font-weight: bold;
+            transition: 0.3s;
         }
 
         .btn-toggle:hover {
@@ -127,36 +130,34 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 90vh;
+            min-height: 85vh;
             position: relative;
         }
 
         .hero-title {
             font-size: var(--font-title);
             font-weight: 700;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             line-height: 1.3;
-            letter-spacing: 2px;
-            font-family: 'Chakra Petch', 'Cairo', sans-serif;
+            letter-spacing: 1px;
             background: linear-gradient(to right, #f3e5ab, var(--accent-color), #b5952f);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .typewriter-container {
-            min-height: 3.5rem;
+            min-height: 4rem;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 1rem;
+            margin-bottom: 2rem;
         }
 
         .typewriter-text {
-            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            font-size: clamp(1.1rem, 2.5vw, 1.6rem);
             color: var(--text-main);
             padding-right: 5px;
-            font-weight: 700;
-            animation: blink 0.75s step-end infinite;
+            font-weight: 600;
             border-left: 3px solid var(--accent-color);
         }
         
@@ -164,47 +165,6 @@
             border-left: none;
             border-right: 3px solid var(--accent-color);
             padding-left: 5px;
-            padding-right: 0;
-        }
-
-        @keyframes blink {
-            from, to { border-color: transparent }
-            50% { border-color: var(--accent-color); }
-        }
-
-        .hero-subtitle {
-            font-size: var(--font-subtitle);
-            color: var(--text-muted);
-            max-width: 700px;
-            margin-bottom: 2.5rem;
-            font-weight: 300;
-        }
-
-        .btn-primary {
-            background: transparent;
-            color: var(--accent-color) !important;
-            border: 1px solid var(--accent-color);
-            font-weight: 700;
-            padding: clamp(0.8rem, 2vw, 1rem) clamp(2rem, 4vw, 3rem);
-            font-size: var(--font-body);
-            border-radius: 8px;
-            cursor: pointer;
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-
-        .btn-primary:hover:not(:disabled) {
-            background: var(--accent-color);
-            color: #060a12 !important;
-            box-shadow: 0 0 20px var(--accent-glow);
-            transform: translateY(-3px);
-        }
-        
-        .btn-primary:disabled {
-            border-color: #555;
-            color: #555 !important;
-            cursor: not-allowed;
-            opacity: 0.7;
         }
 
         .section-container {
@@ -215,37 +175,36 @@
 
         .section-header {
             text-align: center;
-            margin-bottom: calc(var(--grid-gap) * 1.5);
+            margin-bottom: calc(var(--grid-gap) * 1.2);
         }
 
         .section-title {
-            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            font-size: clamp(1.6rem, 3vw, 2.2rem);
             color: var(--accent-color);
             margin-bottom: 1rem;
             position: relative;
             display: inline-block;
             font-weight: 700;
-            font-family: 'Chakra Petch', 'Cairo', sans-serif;
         }
 
         .section-title::after {
             content: '';
             position: absolute;
-            bottom: -15px;
+            bottom: -12px;
             left: 50%;
             transform: translateX(-50%);
-            width: 60px;
-            height: 3px;
+            width: 50px;
+            height: 2px;
             background-color: var(--accent-color);
-            border-radius: 2px;
         }
 
         .responsive-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(clamp(250px, 22vw, 350px), 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(clamp(260px, 25vw, 360px), 1fr));
             gap: var(--grid-gap);
         }
 
+        /* تعديل بطاقات الخدمات لدعم تأثير منتصف الشاشة */
         .interactive-card {
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
@@ -254,468 +213,87 @@
             text-align: center;
             backdrop-filter: blur(10px);
             position: relative;
-            overflow: hidden;
-            opacity: 0.6;
+            opacity: 0.4;
             transform: scale(0.96);
-            transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.5s ease, border-color 0.5s ease;
+            transition: opacity 0.4s ease, transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+            cursor: pointer;
         }
 
-        .interactive-card:hover, .interactive-card.center-focused {
+        /* الارتفاع والسطوع التلقائي عند التركيز بمنتصف الشاشة */
+        .interactive-card.center-focused {
             opacity: 1 !important;
-            transform: translateY(-15px) scale(1.04) !important;
-            border-color: var(--accent-color);
-            box-shadow: 0 10px 30px var(--accent-glow);
-            z-index: 2;
+            transform: translateY(-15px) scale(1.05) !important;
+            border-color: var(--accent-color) !important;
+            box-shadow: 0 12px 30px var(--accent-glow) !important;
         }
 
-        .card-icon {
-            font-size: 2.5rem;
-            color: var(--accent-color);
-            margin-bottom: 1.5rem;
-        }
-
-        .card-title {
-            color: #f3e5ab;
-            font-size: clamp(1.2rem, 1.8vw, 1.4rem);
-            margin-bottom: 15px;
-            font-weight: 600;
-            font-family: 'Chakra Petch', 'Cairo', sans-serif;
-        }
+        .card-icon { font-size: 2.5rem; color: var(--accent-color); margin-bottom: 1.5rem; }
+        .card-title { color: #f3e5ab; font-size: clamp(1.1rem, 1.5vw, 1.3rem); margin-bottom: 15px; font-weight: 600; }
         [data-theme="light"] .card-title { color: var(--accent-color); }
+        .card-text { font-size: 0.95rem; color: var(--text-muted); line-height: 1.7; }
+        .price-badge { display: inline-block; background: rgba(212, 175, 55, 0.06); border: 1px dashed rgba(212, 175, 55, 0.4); color: var(--accent-color); padding: 6px 14px; border-radius: 6px; font-weight: 700; font-size: 0.9rem; margin-top: 15px; }
 
-        .card-text {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            line-height: 1.8;
-        }
-
-        .price-badge {
-            display: inline-block;
-            background: rgba(212, 175, 55, 0.08);
-            border: 1px dashed rgba(212, 175, 55, 0.4);
-            color: var(--accent-color);
-            padding: 6px 16px;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            margin: 20px 0;
-            font-family: 'Chakra Petch', 'Cairo', sans-serif;
-        }
-
-        .portfolio-box {
-            border: 2px dashed var(--border-color);
-            border-radius: 12px;
-            padding: 40px 20px;
-            color: var(--text-muted);
-            font-style: italic;
-            background: rgba(0,0,0,0.2);
-            margin-top: 20px;
-        }
-
-        /* FAQ Styles */
-        .faq-container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        .faq-item {
+        /* معرض الأعمال السحابي */
+        .portfolio-card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            margin-bottom: 15px;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        .faq-question {
-            width: 100%;
-            text-align: start;
-            padding: 18px 20px;
-            background: transparent;
-            border: none;
-            color: var(--text-main);
-            font-size: 1.05rem;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-family: inherit;
-        }
-        .faq-question i {
-            color: var(--accent-color);
-            transition: transform 0.3s ease;
-        }
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            padding: 0 20px;
-            transition: max-height 0.3s ease, padding 0.3s ease;
-            color: var(--text-muted);
-            line-height: 1.7;
-            font-size: 0.95rem;
-        }
-        .faq-item.active .faq-answer {
-            max-height: 300px;
-            padding: 0 20px 20px 20px;
-        }
-        .faq-item.active .faq-question i {
-            transform: rotate(180deg);
-        }
-
-        /* Footer Styles */
-        footer {
-            border-top: 1px solid var(--border-color);
-            padding: 60px 20px 30px;
-            text-align: center;
-            background: var(--bg-secondary);
-            margin-top: 50px;
-        }
-        
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin-bottom: 30px;
-        }
-        
-        .social-btn {
-            color: #fff;
-            text-decoration: none;
-            padding: 10px 25px;
-            border-radius: 30px;
-            font-weight: 600;
-            font-size: 0.95rem;
-            transition: var(--transition-speed);
-            border: 1px solid transparent;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-family: 'Chakra Petch', sans-serif;
-        }
-        
-        .social-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-        
-        .wa-btn { background: #25D366; } 
-        .tg-btn { background: #0088cc; } 
-        .ig-btn { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
-
-        /* Modal & Form Styles */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(8px);
-            z-index: 2000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.4s, visibility 0.4s;
-            padding: 1rem;
-        }
-
-        .modal-overlay.active { opacity: 1; visibility: visible; }
-
-        .modal-window {
-            background-color: var(--bg-primary);
-            border: 1px solid var(--accent-color);
-            width: 100%;
-            max-width: 550px;
-            max-height: 90vh;
-            border-radius: 16px;
-            overflow-y: auto;
-            padding: 30px;
-            position: relative;
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.15);
-        }
-
-        .modal-window::-webkit-scrollbar { width: 8px; }
-        .modal-window::-webkit-scrollbar-track { background: var(--bg-secondary); border-radius: 8px; }
-        .modal-window::-webkit-scrollbar-thumb { background: var(--accent-color); border-radius: 8px; }
-
-        .modal-close {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-        [dir="ltr"] .modal-close { left: auto; right: 20px; }
-        .modal-close:hover { color: var(--accent-color); }
-
-        .form-title {
-            font-size: 1.4rem;
-            margin-bottom: 20px;
-            color: var(--accent-color);
-            font-weight: 700;
-            text-align: center;
-        }
-
-        .returning-banner {
-            background: rgba(212, 175, 55, 0.1);
-            border: 1px solid var(--accent-color);
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            text-align: center;
-            font-size: 0.9rem;
-            color: var(--text-main);
-        }
-        .btn-clear-draft {
-            background: var(--bg-secondary);
-            color: var(--accent-color);
-            border: 1px solid var(--accent-color);
-            padding: 6px 12px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            font-family: inherit;
-            transition: all 0.3s;
-        }
-        .btn-clear-draft:hover {
-            background: var(--accent-color);
-            color: #000;
-        }
-
-        .form-group { margin-bottom: 1.2rem; text-align: start; }
-        .form-label { display: block; margin-bottom: 0.5rem; font-size: 0.95rem; font-weight: 600; color: var(--text-main); }
-        .form-control {
-            width: 100%;
-            background-color: rgba(0,0,0,0.3);
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            padding: 12px 15px;
-            font-family: inherit;
-            font-size: 0.95rem;
-            border-radius: 8px;
-            outline: none;
-        }
-        [data-theme="light"] .form-control { background-color: #f1f3f5; }
-        .form-control:focus { border-color: var(--accent-color); box-shadow: inset 0 0 8px rgba(212, 175, 55, 0.1); }
-
-        .phone-input-group {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        .phone-input-group select { width: 35%; flex-grow: 1; }
-        .phone-input-group input[type="tel"] { width: 60%; flex-grow: 2; }
-        .phone-input-group input[type="text"] { width: 100%; margin-top: 5px; }
-
-        .addons-container {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 5px;
-        }
-        .addon-label {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 0.9rem;
-            color: var(--text-main);
-            cursor: pointer;
-            padding: 10px 12px;
-            background: rgba(0,0,0,0.2);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            transition: var(--transition-speed);
-        }
-        [data-theme="light"] .addon-label { background: #f1f3f5; }
-        .addon-label:hover { border-color: var(--accent-color); }
-        .addon-label input[type="checkbox"] {
-            accent-color: var(--accent-color);
-            transform: scale(1.2);
-            cursor: pointer;
-        }
-
-        .payment-toggle-zone {
-            display: flex;
-            background-color: rgba(0,0,0,0.2);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 0.3rem;
-            margin-bottom: 1.5rem;
-        }
-        .payment-option {
-            flex: 1; text-align: center; padding: 0.6rem; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.9rem; transition: all 0.3s;
-        }
-        .payment-option.active { background-color: var(--accent-color); color: #060a12; }
-
-        .payment-info-box {
-            background: rgba(0,0,0,0.2);
-            border: 1px dashed var(--border-color);
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 15px;
-            text-align: start;
-        }
-        [data-theme="light"] .payment-info-box { background: #f1f3f5; border-color: rgba(181, 149, 47, 0.4); }
-        .payment-method {
-            background: var(--bg-primary);
-            border-right: 3px solid var(--accent-color);
-            padding: 12px;
-            margin-bottom: 10px;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            color: var(--text-main);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        [dir="ltr"] .payment-method { border-right: none; border-left: 3px solid var(--accent-color); }
-        .payment-method p { margin: 5px 0; color: var(--text-muted); font-family: 'Inter', 'Cairo', sans-serif; }
-        .payment-method strong { color: var(--accent-color); display: block; margin-bottom: 8px; font-family: 'Chakra Petch', 'Cairo', sans-serif; }
-
-        .currency-calculator {
-            background: rgba(0,0,0,0.15);
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 1px solid var(--border-color);
-        }
-        .currency-calculator select {
-            padding: 5px;
-            border-radius: 4px;
-            background: var(--bg-secondary);
-            color: var(--text-main);
-            border: 1px solid var(--border-color);
-            outline: none;
-            font-family: inherit;
-        }
-
-        .receipt-card {
-            background-color: rgba(11, 18, 32, 0.9);
-            border: 1px dashed var(--accent-color);
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 1.5rem;
-        }
-        [data-theme="light"] .receipt-card { background-color: #f8f9fa; }
-        .receipt-row { display: flex; justify-content: space-between; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 8px; font-family: 'Chakra Petch', 'Cairo', sans-serif; }
-        .receipt-total { border-top: 1px solid var(--border-color); margin-top: 10px; padding-top: 10px; font-weight: 700; color: var(--accent-color); }
-
-        .form-feedback { padding: 12px; border-radius: 8px; font-size: 0.9rem; text-align: center; margin-top: 15px; display: none; font-weight: bold; }
-        .form-feedback.success { background: rgba(52, 211, 153, 0.15); color: #34d399; border: 1px solid #34d399; }
-        .form-feedback.error { background: rgba(248, 113, 113, 0.15); color: #f87171; border: 1px solid #f87171; }
-
-        /* استايلات لوحة التحكم المتقدمة الجديدة المتكاملة */
-        .admin-panel-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #09090b;
-            color: #fafafa;
-            z-index: 3000;
-            display: none;
-            overflow-y: auto;
-            padding: 2rem var(--site-margin);
-            font-family: 'Cairo', sans-serif;
-        }
-        .admin-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #27272a;
-            padding-bottom: 1rem;
-            margin-bottom: 2rem;
-        }
-        .admin-header h2 { font-size: 1.8rem; color: #a78bfa; font-weight: 700; }
-        .admin-close-btn {
-            background: #27272a;
-            color: #fff;
-            border: none;
-            padding: 0.5rem 1.2rem;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s;
-        }
-        .admin-close-btn:hover { background: #ef4444; }
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2.5rem;
-        }
-        .stat-card {
-            background: #18181b;
-            border: 1px solid #27272a;
-            padding: 1.5rem;
             border-radius: 12px;
+            padding: 1.5rem;
             text-align: center;
+            transition: 0.3s;
         }
-        .stat-card h3 { font-size: 1rem; color: #9ca3af; margin-bottom: 0.5rem; }
-        .stat-card .stat-value { font-size: 2rem; font-weight: 700; color: #34d399; }
-        .admin-content-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; }
-        @media (max-width: 768px) { .admin-content-layout { grid-template-columns: 1fr; } }
-        .admin-block { background: #18181b; border: 1px solid #27272a; padding: 2rem; border-radius: 16px; margin-bottom: 2rem; }
-        .admin-block h3 { margin-top: 0; margin-bottom: 1.5rem; color: #f4f4f5; border-right: 4px solid #a78bfa; padding-right: 0.5rem; }
-        [dir="ltr"] .admin-block h3 { border-right: none; border-left: 4px solid #a78bfa; padding-left: 0.5rem; }
-        .admin-input-group { margin-bottom: 1.2rem; }
-        .admin-input-group label { display: block; margin-bottom: 0.5rem; color: #cbd5e1; font-size: 0.9rem; }
-        .admin-field {
-            width: 100%;
-            background: #09090b;
-            border: 1px solid #27272a;
-            color: #fff;
-            padding: 10px 12px;
-            border-radius: 6px;
-            outline: none;
-            font-family: inherit;
-        }
-        .admin-field:focus { border-color: #a78bfa; }
-        .admin-btn {
-            background: #a78bfa;
-            color: #000;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 700;
-            font-family: inherit;
-            transition: all 0.3s;
-        }
-        .admin-btn:hover { background: #c084fc; transform: translateY(-2px); }
-        .data-list-item {
-            background: #27272a;
-            padding: 12px;
-            border-radius: 6px;
-            margin-bottom: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.95rem;
-        }
-        .delete-btn { background: none; border: none; color: #f87171; cursor: pointer; font-size: 1.1rem; }
-        .delete-btn:hover { color: #ef4444; }
+        .portfolio-card:hover { border-color: var(--accent-color); transform: translateY(-5px); }
+        .portfolio-link { color: var(--accent-color); text-decoration: none; font-weight: bold; font-size: 0.9rem; margin-top: 10px; display: inline-block; }
+
+        /* FAQ */
+        .faq-container { max-width: 800px; margin: 0 auto; }
+        .faq-item { background: var(--bg-card); border: 1px solid var(--border-color); margin-bottom: 12px; border-radius: 8px; overflow: hidden; }
+        .faq-question { width: 100%; text-align: start; padding: 16px 20px; background: transparent; border: none; color: var(--text-main); font-size: 1rem; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .faq-question i { color: var(--accent-color); transition: transform 0.3s; }
+        .faq-answer { max-height: 0; overflow: hidden; padding: 0 20px; transition: max-height 0.3s, padding 0.3s; color: var(--text-muted); font-size: 0.95rem; }
+        .faq-item.active .faq-answer { max-height: 200px; padding: 0 20px 16px 20px; }
+        .faq-item.active .faq-question i { transform: rotate(180deg); }
+
+        /* الأزرار والمودال والفيدباك */
+        .btn-primary { background: transparent; color: var(--accent-color) !important; border: 1px solid var(--accent-color); font-weight: 700; padding: 0.8rem 2.5rem; font-size: var(--font-body); border-radius: 8px; cursor: pointer; text-decoration: none; transition: 0.3s; }
+        .btn-primary:hover { background: var(--accent-color); color: #060a12 !important; box-shadow: 0 0 20px var(--accent-glow); transform: translateY(-3px); }
+        
+        .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); backdrop-filter:blur(8px); z-index:2000; display:flex; justify-content:center; align-items:center; opacity:0; visibility:hidden; transition: 0.3s; padding:1rem; }
+        .modal-overlay.active { opacity:1; visibility:visible; }
+        .modal-window { background: var(--bg-primary); border:1px solid var(--accent-color); width:100%; max-width:550px; max-height:90vh; border-radius:16px; overflow-y:auto; padding:30px; position:relative; }
+        .modal-close { position:absolute; top:20px; left:20px; background:none; border:none; color:var(--text-muted); font-size:1.5rem; cursor:pointer; }
+        [dir="ltr"] .modal-close { left:auto; right:20px; }
+        
+        .form-group { margin-bottom: 1rem; text-align: start; }
+        .form-label { display: block; margin-bottom: 0.4rem; font-size: 0.9rem; color: var(--text-main); }
+        .form-control { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: var(--text-main); padding: 10px 14px; border-radius: 6px; box-sizing: border-box; }
+        .form-control:focus { border-color: var(--accent-color); outline:none; }
+        
+        .payment-options { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+        .payment-option { background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 12px; border-radius: 6px; text-align: center; cursor: pointer; font-weight: bold; }
+        .payment-option.active { border-color: var(--accent-color); background: rgba(212,175,55,0.1); color: var(--accent-color); }
+        
+        .receipt-card { background: rgba(11,18,32,0.9); border: 1px dashed var(--accent-color); border-radius: 8px; padding: 15px; margin-top: 1rem; }
+        .receipt-row { display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 6px; }
+        .receipt-total { border-top: 1px solid var(--border-color); margin-top: 8px; padding-top: 8px; font-weight: 700; color: var(--accent-color); }
+        
+        .form-feedback { padding: 12px; border-radius: 6px; text-align: center; margin-top: 1rem; display: none; font-weight: bold; }
+        .form-feedback.success { background: rgba(52,211,153,0.15); color: #34d399; }
+        .form-feedback.error { background: rgba(248,113,113,0.15); color: #f87171; }
+
+        footer { border-top: 1px solid var(--border-color); padding: 40px 20px; text-align: center; background: var(--bg-secondary); margin-top: 40px; }
+        .social-links { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; }
+        .social-btn { color: #fff; text-decoration: none; padding: 8px 20px; border-radius: 20px; font-weight: 600; display: flex; align-items: center; gap: 6px; font-size: 0.9rem; }
+        .wa-btn { background: #25D366; } .tg-btn { background: #0088cc; } .ig-btn { background: linear-gradient(45deg, #e6683c, #cc2366, #bc1888); }
     </style>
 </head>
 <body>
+
     <nav class="navbar">
         <a class="nav-logo" id="site-logo">Athaar Digital</a>
         <div class="nav-controls">
             <button class="btn-toggle" onclick="toggleLanguage()" id="langBtn">English</button>
-            <button class="btn-toggle" onclick="toggleTheme()" id="themeBtn">
-                <i class="fa-solid fa-sun"></i>
-            </button>
+            <button class="btn-toggle" onclick="toggleTheme()" id="themeBtn"><i class="fa-solid fa-sun"></i></button>
         </div>
     </nav>
 
@@ -724,51 +302,15 @@
         <div class="typewriter-container">
             <span class="typewriter-text" id="typewriter"></span>
         </div>
-        <p class="hero-subtitle" data-i18n="heroSubtitle">نَصْنَعُ الْفَارِقَ الرَّقْمِيَّ لِمَشْرُوعِكَ! نُقَدِّمُ خِدْمَاتٍ مُتَكَامِلَةً تَبْدَأُ مِنْ بِنَاءِ الْهَوِيَّةِ الْبَصَرِيَّةِ، تَطْوِيرِ الْمَوَاقِعِ الِاحْتِرَافِيَّةِ، وَأَتْمَتَةِ الْأَعْمَالِ الذَّكِيَّةِ عَبْرَ الْبُوتَاتِ.</p>
-        <button class="btn-primary" onclick="openModal()" data-i18n="heroBtn">احجز مقعدك التقني الآن</button>
+        <button class="btn-primary" onclick="openModal()" data-i18n="orderBtn">ابدأ مشروعك الآن</button>
     </header>
 
-    <section class="section-container">
+    <section class="section-container" id="portfolio">
         <div class="section-header">
-            <h2 class="section-title" data-i18n="featuresTitle">لِمَاذَا آثَار الرَّقْمِيَّةِ؟</h2>
+            <h2 class="section-title" data-i18n="portfolioTitle">أَعْمَالُنَا السَّابِقَةُ</h2>
         </div>
-        <div class="responsive-grid">
-            <div class="interactive-card">
-                <i class="fa-solid fa-code card-icon"></i>
-                <h3 class="card-title" data-i18n="feature1Title">إتقان وجودة برمجية</h3>
-                <p class="card-text" data-i18n="feature1Desc">نكتب أكواداً نظيفة، متوافقة ومحسنة لمحركات البحث بشكل كامل لضمان جودة الأداء التقني النهائي وتطابقه مع رؤيتك.</p>
-            </div>
-            <div class="interactive-card">
-                <i class="fa-solid fa-lightbulb card-icon"></i>
-                <h3 class="card-title" data-i18n="feature2Title">حلول مخصصة فريدة</h3>
-                <p class="card-text" data-i18n="feature2Desc">نبتعد كليًا عن الأفكار والقوالب التقليدية المستهلكة لنوفر لك هوية تجارية تقنية حصرية تناسب طموحك.</p>
-            </div>
-            <div class="interactive-card">
-                <i class="fa-solid fa-cubes card-icon"></i>
-                <h3 class="card-title" data-i18n="feature3Title">بنية تقنية متطورة</h3>
-                <p class="card-text" data-i18n="feature3Desc">الدمج بين الكفاءة البرمجية العالية وأحدث المعايير الرقمية لضمان سرعة فائقة وأمان متكامل لمعالجة طلباتك.</p>
-            </div>
-            <div class="interactive-card">
-                <i class="fa-solid fa-headset card-icon"></i>
-                <h3 class="card-title" data-i18n="feature4Title">مرونة ودعم مستمر</h3>
-                <p class="card-text" data-i18n="feature4Desc">نقف بجانبك حتى بعد التسليم، نقدم لك دعماً تقنياً ومرونة في التحديثات لضمان استمرارية نجاح مشروعك.</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="section-container">
-        <div class="section-header">
-            <h2 class="section-title" data-i18n="portfolioTitle">أَعْمَالِنَا السَّابِقَةِ</h2>
-        </div>
-        <div class="responsive-grid">
-            <div class="interactive-card">
-                <h3 class="card-title" data-i18n="port1Title">مشروع أتمتة رقمية</h3>
-                <div class="portfolio-box" data-i18n="portSoon">جاري تجهيز وعرض رَوَابِط النَّمَاذِجِ قَرِيبًا...</div>
-            </div>
-            <div class="interactive-card">
-                <h3 class="card-title" data-i18n="port2Title">منصة هبوط ذكية</h3>
-                <div class="portfolio-box" data-i18n="portSoon">جاري تجهيز وعرض رَوَابِط النَّمَاذِجِ قَرِيبًا...</div>
-            </div>
+        <div id="portfolioContainer" class="responsive-grid">
+            <p style="color:var(--text-muted); text-align:center; grid-column: 1/-1;">جاري جلب أحدث المشاريع من السيرفر السحابي...</p>
         </div>
     </section>
 
@@ -776,23 +318,23 @@
         <div class="section-header">
             <h2 class="section-title" data-i18n="servicesTitle">خِدْمَاتُنَا وَبَاقَاتُنَا</h2>
         </div>
-        <div class="responsive-grid">
-            <div class="interactive-card">
-                <i class="fa-brands fa-telegram card-icon" style="color: #0088cc;"></i>
+        <div class="responsive-grid" id="servicesGrid">
+            <div class="interactive-card" onclick="openModalWithService('Telegram Bot')">
+                <i class="fa-solid fa-robot card-icon"></i>
                 <h3 class="card-title" data-i18n="ser1Title">تطوير بوتات تليجرام المتقدمة</h3>
-                <p class="card-text" data-i18n="ser1Desc">أنظمة أتمتة وإدارة متكاملة، ربط قواعد البيانات، بوابات دفع، وإشعار فوري ذكي على مدار الساعة.</p>
+                <p class="card-text" data-i18n="ser1Desc">أنظمة أتمتة متكاملة، ربط بقواعد البيانات، وبوابات دفع مع إشعارات ذكية وفورية على مدار الساعة.</p>
                 <div class="price-badge" data-i18n="ser1Price">يبدأ من 5000 DA</div>
             </div>
-            <div class="interactive-card center-focused">
-                <i class="fa-solid fa-laptop-code card-icon" style="color: #d4af37;"></i>
+            <div class="interactive-card" onclick="openModalWithService('Web App')">
+                <i class="fa-solid fa-laptop-code card-icon"></i>
                 <h3 class="card-title" data-i18n="ser2Title">تطوير المواقع وتطبيقات الويب</h3>
-                <p class="card-text" data-i18n="ser2Desc">مواقع تعريفية، منصات هبوط احترافية، ومتاجر إلكترونية متجاوبة وسريعة تضمن أفضل تجربة مستخدم.</p>
+                <p class="card-text" data-i18n="ser2Desc">موقع تعريفي، منصات هبوط، ومتاجر إلكترونية متجاوبة وسريعة تضمن أفضل تجربة مستخدم هندسية.</p>
                 <div class="price-badge" data-i18n="ser2Price">يبدأ من 15000 DA</div>
             </div>
-            <div class="interactive-card">
-                <i class="fa-solid fa-video card-icon" style="color: #ff4444;"></i>
+            <div class="interactive-card" onclick="openModalWithService('Motion Graphics')">
+                <i class="fa-solid fa-video card-icon"></i>
                 <h3 class="card-title" data-i18n="ser3Title">صناعة الفيديو والموشن جرافيك</h3>
-                <p class="card-text" data-i18n="ser3Desc">تصميم فيديوهات إعلانية جذابة وموشن جرافيك احترافي يروي قصة نجاح مشروعك بأسلوب تسويقي مبتكر.</p>
+                <p class="card-text" data-i18n="ser3Desc">تصميم فيديوهات إعلانية جذابة تروي قصة نجاح مشروعك بأسلوب تسويقي مبتكر يعزز مبيعاتك.</p>
                 <div class="price-badge" data-i18n="ser3Price">يبدأ من 5000 DA</div>
             </div>
         </div>
@@ -808,661 +350,313 @@
                     <span data-i18n="faqQ1">ما هي مدة تسليم المشروع؟</span>
                     <i class="fa-solid fa-chevron-down"></i>
                 </button>
-                <div class="faq-answer"><p data-i18n="faqA1">تعتمد المدة على حجم المشروع ومتطلباته، ولكن تتراوح منصات الهبوط والبوتات القياسية بين 3 إلى 7 أيام عمل عادةً.</p></div>
+                <div class="faq-answer" data-i18n="faqA1">تعتمد المدة على حجم المتطلبات، ولكن تتراوح منصات الهبوط والبوتات المخصصة بين 3 إلى 7 أيام عمل عادةً.</div>
             </div>
             <div class="faq-item">
                 <button class="faq-question" onclick="toggleFaq(this)">
                     <span data-i18n="faqQ2">كيف تضمنون جودة وأمان الأكواد؟</span>
                     <i class="fa-solid fa-chevron-down"></i>
                 </button>
-                <div class="faq-answer"><p data-i18n="faqA2">نتبع أفضل الممارسات البرمجية العالمية، مع إجراء اختبارات أمان شاملة للأكواد ونقاط الاتصال لضمان خلوها تماماً من أي ثغرات.</p></div>
-            </div>
-            <div class="faq-item">
-                <button class="faq-question" onclick="toggleFaq(this)">
-                    <span data-i18n="faqQ3">ما هي طرق الدفع المتاحة؟</span>
-                    <i class="fa-solid fa-chevron-down"></i>
-                </button>
-                <div class="faq-answer"><p data-i18n="faqA3">نقبل الدفع عبر التحويل البنكي أو البريدي (BaridiMob لداخل الجزائر)، المحافظ الإلكترونية، والعملات الرقمية المشفرة (USDT)، ليتمكن عملاؤنا من كل الدول من الدفع بسهولة.</p></div>
-            </div>
-            <div class="faq-item">
-                <button class="faq-question" onclick="toggleFaq(this)">
-                    <span data-i18n="faqQ4">هل يمكنني طلب تعديلات بعد تسليم المشروع؟</span>
-                    <i class="fa-solid fa-chevron-down"></i>
-                </button>
-                <div class="faq-answer"><p data-i18n="faqA4">بالتأكيد! نوفر فترة دعم فني مجانية بعد التسليم لمعالجة أي أخطاء، كما يمكن الاتفاق على خطط صيانة وتحديثات مرنة بأسعار مناسبة لضمان تطور مشروعك.</p></div>
+                <div class="faq-answer" data-i18n="faqA2">نحن نعتمد بنية تحتية سحابية آمنة (Mongoose/JWT) ونكتب كوداً متوافقاً مع أفضل المعايير العالمية البرمجية لضمان الحماية المطلقة وسرعة الاستجابة.</div>
             </div>
         </div>
     </section>
 
-    <footer>
-        <div class="social-links">
-            <a href="https://wa.me/213654793936" class="social-btn wa-btn" target="_blank" rel="noopener">
-                <i class="fa-brands fa-whatsapp"></i> Whatsapp
-            </a>
-            <a href="https://t.me/AthaarDigitalBot" class="social-btn tg-btn" target="_blank" rel="noopener">
-                <i class="fa-brands fa-telegram"></i> Telegram
-            </a>
-            <a href="https://instagram.com/AthaarDigital" class="social-btn ig-btn" target="_blank" rel="noopener">
-                <i class="fa-brands fa-instagram"></i> Instagram
-            </a>
-        </div>
-        <p style="color: var(--text-muted); font-size: 0.9rem;">© 2026 Athaar Digital. <span data-i18n="footerRights">جميع الحقوق محفوظة.</span></p>
-    </footer>
-
-    <div id="adminPanelOverlay" class="admin-panel-overlay">
-        <div class="admin-header">
-            <h2><i class="fa-solid fa-gauge"></i> لوحة تحكم آثار الرقمية المتقدمة</h2>
-            <button class="admin-close-btn" onclick="closeAdminDashboard()">إغلاق اللوحة</button>
-        </div>
-        
-        <div class="stats-grid">
-            <div class="stat-card">
-                <h3>إجمالي عدد الطلبات المرسلة</h3>
-                <div class="stat-value" id="adminTotalOrders">0</div>
-            </div>
-            <div class="stat-card">
-                <h3>آخر خدمة تم طلبها</h3>
-                <div class="stat-value" id="adminLastService" style="font-size:1.2rem; color:#ef4444; padding-top:0.5rem;">لا يوجد طلبات جديدة حالياً</div>
-            </div>
-        </div>
-
-        <div class="admin-content-layout">
-            <div class="admin-block">
-                <h3><i class="fa-solid fa-plus"></i> إضافة نموذج عمل جديد لمعرض الأعمال</h3>
-                <form id="adminProjectForm" onsubmit="handleAdminSubmit(event)">
-                    <div class="admin-input-group">
-                        <label>اسم المشروع (بالعربية)</label>
-                        <input type="text" id="adminProjTitleAr" class="admin-field" required placeholder="مثال: متجر الكتروني متطور">
-                    </div>
-                    <div class="admin-input-group">
-                        <label>اسم المشروع (بالإنجليزية)</label>
-                        <input type="text" id="adminProjTitleEn" class="admin-field" required placeholder="Example: Advanced E-Commerce">
-                    </div>
-                    <div class="admin-input-group">
-                        <label>رابط المعاينة أو حالة العرض</label>
-                        <input type="text" id="adminProjLink" class="admin-field" required placeholder="مثال: https://example.com أو جاري العرض">
-                    </div>
-                    <button type="submit" class="admin-btn">حفظ وإضافة النموذج</button>
-                </form>
-            </div>
-
-            <div>
-                <div class="admin-block">
-                    <h3><i class="fa-solid fa-lightbulb"></i> الأفكار السريعة المحفوظة</h3>
-                    <div class="admin-input-group">
-                        <input type="text" id="adminQuickIdeaInput" class="admin-field" placeholder="اكتب فكرة سريعة هنا...">
-                    </div>
-                    <button class="admin-btn" style="background:#2563eb;" onclick="addQuickIdea()">إضافة فكرة</button>
-                    <div id="adminIdeasContainer" style="margin-top: 1.5rem;"></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="admin-block" style="margin-top:2rem;">
-            <h3><i class="fa-solid fa-folder-open"></i> النماذج المضافة حالياً للموقع</h3>
-            <div id="adminProjectsContainer">
-                <p style="color:#71717a;">لم تقم بإضافة نماذج جديدة بعد.</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="orderModal">
+    <div id="orderModal" class="modal-overlay">
         <div class="modal-window">
             <button class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="form-title" data-i18n="formMainTitle">طلب خدمة</h3>
-            
-            <div id="returningUserBanner" class="returning-banner" style="display: none;">
-                <span data-i18n="welcomeBack">مرحباً بعودتك! قمنا باستعادة بيانات طلبك السابق غير المكتمل.</span>
-                <button type="button" class="btn-clear-draft" onclick="clearDraft()" data-i18n="startNewReq">مسح البيانات وبدء طلب جديد</button>
-            </div>
-
+            <h3 class="form-title" data-i18n="formTitle">طلب مشروع تقني جديد</h3>
             <form id="orderForm" onsubmit="handleFormSubmit(event)">
                 <div class="form-group">
-                    <label class="form-label" data-i18n="formName">الاسم الكامل</label>
-                    <input type="text" id="formName" class="form-control" required oninput="saveDraft()">
+                    <label class="form-label" data-i18n="labelName">الاسم الكامل</label>
+                    <input type="text" id="formName" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label" data-i18n="formEmail">البريد الإلكتروني</label>
-                    <input type="email" id="formEmail" class="form-control" required oninput="saveDraft()">
+                    <label class="form-label" data-i18n="labelEmail">البريد الإلكتروني</label>
+                    <input type="email" id="formEmail" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label" data-i18n="formPhone">رقم الهاتف</label>
-                    <div class="phone-input-group">
-                        <select id="formCountryCode" class="form-control" onchange="toggleCustomCountryCode()">
-                            <option value="+213">🇩🇿 الجزائر (+213)</option>
-                            <option value="+966">🇸🇦 السعودية (+966)</option>
-                            <option value="+20">🇪🇬 مصر (+20)</option>
-                            <option value="+971">🇦酋 الإمارات (+971)</option>
-                            <option value="custom" data-i18n="otherCountry">🌐 دولة أخرى (اكتب الرمز)</option>
-                        </select>
-                        <input type="tel" id="formPhone" class="form-control" placeholder="654793936" required oninput="saveDraft()">
-                        <input type="text" id="formCustomCountryCode" class="form-control" placeholder="+1" style="display: none;" oninput="saveDraft()">
-                    </div>
+                    <label class="form-label" data-i18n="labelPhone">رقم الهاتف</label>
+                    <input type="tel" id="formPhone" class="form-control" required placeholder="0555112233">
                 </div>
                 <div class="form-group">
-                    <label class="form-label" data-i18n="formServiceSelect">الخدمة المطلوبة</label>
+                    <label class="form-label" data-i18n="labelService">الخدمة الأساسية</label>
                     <select id="formService" class="form-control" onchange="updateReceipt()">
-                        <option value="bot" data-i18n="optBot" selected>بوتات تليجرام - تبدأ من 5000 DA</option>
-                        <option value="web" data-i18n="optWeb">تطوير الويب - تبدأ من 15000 DA</option>
-                        <option value="video" data-i18n="optVid">صناعة الفيديو والموشن - تبدأ من 5000 DA</option>
+                        <option value="bot" data-i18n="optBot">تطوير بوت تليجرام مخصص (5000 DA)</option>
+                        <option value="web" data-i18n="optWeb">تطوير موقع / منصة ويب (15000 DA)</option>
+                        <option value="motion" data-i18n="optMotion">فيديو وموشن جرافيك (5000 DA)</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-label" data-i18n="formIdea">تفاصيل وفكرة المشروع</label>
-                    <textarea id="formIdeaText" class="form-control" rows="4" required oninput="saveDraft()"></textarea>
-                    <div class="addons-container">
-                        <label class="addon-label">
-                            <input type="checkbox" id="extHosting" onchange="updateReceipt()">
-                            <span>استضافة وحجز دومين عالمي سحابي (+5000 DA)</span>
-                        </label>
-                        <label class="addon-label">
-                            <input type="checkbox" id="extExpress" onchange="updateReceipt()">
-                            <span>تسليم فائق السرعة خلال 48 ساعة (+4000 DA)</span>
-                        </label>
-                        <label class="addon-label">
-                            <input type="checkbox" id="extSupport" onchange="updateReceipt()">
-                            <span>دعم فني وتحديثات ممتدة لـ 3 أشهر (+3000 DA)</span>
-                        </label>
-                    </div>
+                    <label class="form-label" data-i18n="labelIdea">اشرح فكرتك باختصار</label>
+                    <textarea id="formIdea" class="form-control" rows="3"></textarea>
+                </div>
+
+                <div class="form-group" style="background: rgba(0,0,0,0.2); padding: 10px; border-radius: 6px;">
+                    <label class="form-label" style="color:var(--accent-color)">إضافات تقنية متقدمة:</label>
+                    <label style="display:block; margin:5px 0;"><input type="checkbox" id="extHosting" onchange="updateReceipt()"> استضافة سحابية + داتابيز مخصصة لمدة سنة (+4000 DA)</label>
+                    <label style="display:block; margin:5px 0;"><input type="checkbox" id="extExpress" onchange="updateReceipt()"> تسليم فائق السرعة خلال 48 ساعة (+5000 DA)</label>
+                </div>
+
+                <label class="form-label">طريقة الدفع المفضلة:</label>
+                <div class="payment-options">
+                    <div class="payment-option active" id="payBaridi" onclick="setPaymentMode('BaridiMob / CCP')">BaridiMob</div>
+                    <div class="payment-option" id="payCrypto" onclick="setPaymentMode('Crypto (USDT)')">Crypto (USDT)</div>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label" data-i18n="formPayment">طريقة الدفع واحتساب القيمة</label>
-                    <div class="payment-toggle-zone">
-                        <div class="payment-option active" id="payBaridi" onclick="setPaymentMode('BaridiMob / CCP')">BaridiMob</div>
-                        <div class="payment-option" id="payCrypto" onclick="setPaymentMode('Crypto (USDT)')">Crypto (USDT)</div>
-                    </div>
-                    
-                    <div class="payment-info-box">
-                        <div id="infoBaridi" class="payment-method">
-                            <strong>التحويل بريدياً (الجزائر):</strong>
-                            <p>الحساب الجاري (CCP): 0022334455 RIP 66</p>
-                            <p>أو عَبْرَ بريدي موب RIP: 00799999002233445566</p>
-                        </div>
-                        <div id="infoCrypto" class="payment-method" style="display: none;">
-                            <strong>الدفع بالعملات الرقمية (USDT TRC20):</strong>
-                            <p style="word-break: break-all;">Wallet: TXxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</p>
-                        </div>
-                    </div>
-
-                    <div class="currency-calculator">
-                        <span data-i18n="currencyNote">الأسعار بالدينار. اختر عملة للتحويل المرئي:</span>
-                        <select id="currencySelect" onchange="updateReceipt()">
-                            <option value="DZD">DZD (DA)</option>
-                            <option value="USD">USD ($)</option>
-                            <option value="EUR">EUR (€)</option>
-                        </select>
-                    </div>
-
-                    <div class="receipt-card">
-                        <div class="receipt-row">
-                            <span data-i18n="receiptBase">سعر الخدمة الأساسي:</span>
-                            <span id="receiptBasePrice">5000 DA</span>
-                        </div>
-                        <div class="receipt-row">
-                            <span>إضافات وتطويرات خاصة:</span>
-                            <span id="receiptExtrasPrice">0 DA</span>
-                        </div>
-                        <div class="receipt-row receipt-total">
-                            <span data-i18n="receiptTotal">الإجمالي التقديري النهائى:</span>
-                            <span id="receiptTotalPrice">5000 DA</span>
-                        </div>
-                    </div>
+                    <label class="form-label" id="receiptFileLabel">قم بإرفاق لقطة شاشة للوصل (اختياري للصورة أو PDF)</label>
+                    <input type="file" id="formReceiptFile" class="form-control" accept="image/*,application/pdf">
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label">إرفاق إثبات الدفع أو وصل تحويل الأموال (مستحسن لسرعة البدء)</label>
-                    <input type="file" id="formFile" class="form-control" accept="image/*,application/pdf">
+                <div class="receipt-card">
+                    <div class="receipt-row"><span>السعر الأساسي:</span><span id="rcpBase">5000 DA</span></div>
+                    <div class="receipt-row"><span>الإضافات التقنية:</span><span id="rcpExt">0 DA</span></div>
+                    <div class="receipt-total"><span>المجموع الكلي المستحق:</span><span id="rcpTotal">5000 DA</span></div>
                 </div>
 
-                <button type="submit" class="btn-primary" style="width:100%; margin-top:10px;" id="submitBtn" data-i18n="formSubmit">إرسال وتأكيد الطلب</button>
-                <div id="formFeedbackZone" class="form-feedback"></div>
+                <div id="feedbackZone" class="form-feedback"></div>
+                <button type="submit" id="submitBtn" class="btn-primary" style="width: 100%; margin-top: 15px;" data-i18n="submitBtn">إرسال الطلب بشكل آمن</button>
             </form>
         </div>
     </div>
 
+    <footer>
+        <div class="social-links">
+            <a href="#" class="social-btn wa-btn"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+            <a href="#" class="social-btn tg-btn"><i class="fa-brands fa-telegram"></i> Telegram</a>
+            <a href="#" class="social-btn ig-btn"><i class="fa-brands fa-instagram"></i> Instagram</a>
+        </div>
+        <p>&copy; 2026 آثار الرقمية. جميع الحقوق محفوظة بنظام التشفير السحابي.</p>
+    </footer>
+
     <script>
-        let currentLang = 'ar';
-        let currentTheme = 'dark';
-        let activePaymentMode = 'BaridiMob / CCP';
-        let logoClickCount = 0;
-        let logoClickTimeout;
-
-        const prices = { bot: 5000, web: 15000, video: 5000 };
-        const addonPrices = { hosting: 5000, express: 4000, support: 3000 };
-        const exchangeRates = { DZD: 1, USD: 0.0073, EUR: 0.0067 };
-        const currencySymbols = { DZD: 'DA', USD: '$', EUR: '€' };
-
-        const dictionary = {
-            ar: {
-                heroTitle: "آثَار الرَّقْمِيَّةِ",
-                heroSubtitle: "نَصْنَعُ الْفَارِقَ الرَّقْمِيَّ لِمَشْرُوعِكَ! نُقَدِّمُ خِدْمَاتٍ مُتَكَامِلَةً تَبْدَأُ مِنْ بِنَاءِ الْهَوِيَّةِ الْبَصَرِيَّةِ، تَطْوِيرِ الْمَوَاقِعِ الِاحْتِرَافِيَّةِ، وَأَتْمَتَةِ الْأَعْمَالِ الذَّكِيَّةِ عَبْرَ الْبُوتَاتِ.",
-                heroBtn: "احجز مقعدك التقني الآن",
-                featuresTitle: "لِمَاذَا آثَار الرَّقْمِيَّةِ؟",
-                feature1Title: "إتقان وجودة برمجية",
-                feature1Desc: "نكتب أكواداً نظيفة، متوافقة ومحسنة لمحركات البحث بشكل كامل لضمان جودة الأداء التقني النهائي وتطابقه مع رؤيتك.",
-                feature2Title: "حلول مخصصة فريدة",
-                feature2Desc: "نبتعد كليًا عن الأفكار والقوالب التقليدية المستهلكة لنوفر لك هوية تجارية تقنية حصرية تناسب طموحك.",
-                feature3Title: "بنية تقنية متطورة",
-                feature3Desc: "الدمج بين الكفاءة البرمجية العالية وأحدث المعايير الرقمية لضمان سرعة فائقة وأمان متكامل لمعالجة طلباتك.",
-                feature4Title: "مرونة ودعم مستمر",
-                feature4Desc: "نقف بجانبك حتى بعد التسليم، نقدم لك دعماً تقنياً ومرونة في التحديثات لضمان استمرارية نجاح مشروعك.",
-                portfolioTitle: "أَعْمَالِنَا السَّابِقَةِ",
-                port1Title: "مشروع أتمتة رقمية",
-                port2Title: "منصة هبوط ذكية",
-                portSoon: "جاري تجهيز وعرض رَوَابِط النَّمَاذِجِ قَرِيبًا...",
-                servicesTitle: "خِدْمَاتُنَا وَبَاقَاتُنَا",
-                ser1Title: "تطوير بوتات تليجرام المتقدمة",
-                ser1Desc: "أنظمة أتمتة وإدارة متكاملة، ربط قواعد البيانات، بوابات دفع، وإشعار فوري ذكي على مدار الساعة.",
-                ser1Price: "يبدأ من 5000 DA",
-                ser2Title: "تطوير المواقع وتطبيقات الويب",
-                ser2Desc: "مواقع تعريفية، منصات هبوط احترافية، ومتاجر إلكترونية متجاوبة وسريعة تضمن أفضل تجربة مستخدم.",
-                ser2Price: "يبدأ من 15000 DA",
-                ser3Title: "صناعة الفيديو والموشن جرافيك",
-                ser3Desc: "تصميم فيديوهات إعلانية جذابة وموشن جرافيك احترافي يروي قصة نجاح مشروعك بأسلوب تسويقي مبتكر.",
-                ser3Price: "يبدأ من 5000 DA",
-                faqTitle: "الأَسْئِلَةُ الشَّائِعَةُ",
-                faqQ1: "ما هي مدة تسليم المشروع؟",
-                faqA1: "تعتمد المدة على حجم المشروع ومتطلباته، ولكن تتراوح منصات الهبوط والبوتات القياسية بين 3 إلى 7 أيام عمل عادةً.",
-                faqQ2: "كيف تضمنون جودة وأمان الأكواد؟",
-                faqA2: "نتبع أفضل الممارسات البرمجية العالمية، مع إجراء اختبارات أمان شاملة للأكواد ونقاط الاتصال لضمان خلوها تماماً من أي ثغرات.",
-                faqQ3: "ما هي طرق الدفع المتاحة؟",
-                faqA3: "نقبل الدفع عبر التحويل البنكي أو البريدي (BaridiMob لداخل الجزائر)، المحافظ الإلكترونية، والعملات الرقمية المشفرة (USDT)، ليتمكن عملاؤنا من كل الدول من الدفع بسهولة.",
-                faqQ4: "هل يمكنني طلب تعديلات بعد تسليم المشروع؟",
-                faqA4: "بالتأكيد! نوفر فترة دعم فني مجانية بعد التسليم لمعالجة أي أخطاء، كما يمكن الاتفاق على خطط صيانة وتحديثات مرنة بأسعار مناسبة لضمان تطور مشروعك.",
-                footerRights: "جميع الحقوق محفوظة.",
-                formMainTitle: "طلب خدمة",
-                welcomeBack: "مرحباً بعودتك! قمنا باستعادة بيانات طلبك السابق غير المكتمل.",
-                startNewReq: "مسح البيانات وبدء طلب جديد",
-                formName: "الاسم الكامل",
-                formEmail: "البريد الإلكتروني",
-                formPhone: "رقم الهاتف",
-                otherCountry: "🌐 دولة أخرى (اكتب الرمز)",
-                formServiceSelect: "الخدمة المطلوبة",
-                optBot: "بوتات تليجرام - تبدأ من 5000 DA",
-                optWeb: "تطوير الويب - تبدأ من 15000 DA",
-                optVid: "صناعة الفيديو والموشن - تبدأ من 5000 DA",
-                formIdea: "تفاصيل وفكرة المشروع",
-                formPayment: "طريقة الدفع واحتساب القيمة",
-                currencyNote: "الأسعار بالدينار. اختر عملة للتحويل المرئي:",
-                receiptBase: "سعر الخدمة الأساسي:",
-                receiptTotal: "الإجمالي التقديري النهائى:",
-                formSubmit: "إرسال وتأكيد الطلب",
-                successFeedback: "تَمَّ إِرْسَالُ الطَّلَبِ بِنَجَاحٍ!",
-                errorFeedback: "حدث خطأ غير متوقع أثناء إرسال طلبك، يرجى المحاولة مرة أخرى."
+        // مولد المؤثرات الصوتية الاحترافية باستخدام Web Audio API بدون ملفات خارجية لموثوقية 100%
+        const AudioFX = {
+            ctx: null,
+            init() { if (!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)(); },
+            playTypewriter() {
+                this.init(); if (!this.ctx) return;
+                const osc = this.ctx.createOscillator(); const gain = this.ctx.createGain();
+                osc.type = 'triangle'; osc.frequency.setValueAtTime(350 + Math.random() * 150, this.ctx.currentTime);
+                gain.gain.setValueAtTime(0.015, this.ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + 0.04);
+                osc.connect(gain); gain.connect(this.ctx.destination);
+                osc.start(); osc.stop(this.ctx.currentTime + 0.04);
             },
-            en: {
-                heroTitle: "Athaar Digital",
-                heroSubtitle: "We make the digital difference for your project! Providing integrated services starting from building visual identity, developing professional websites, to smart business automation via bots.",
-                heroBtn: "Reserve Your Tech Seat Now",
-                featuresTitle: "Why Athaar Digital?",
-                feature1Title: "Mastery & Code Quality",
-                feature1Desc: "We write clean, semantic, and completely SEO-optimized code to ensure ultimate performance matching your vision.",
-                feature2Title: "Unique Custom Solutions",
-                feature2Desc: "We steer completely clear of worn-out traditional templates to provide an exclusive digital identity for your ambition.",
-                feature3Title: "Advanced Tech Stack",
-                feature3Desc: "Blending high programming efficiency with the latest digital standards to guarantee ultra-speed and bulletproof security.",
-                feature4Title: "Flexibility & Ongoing Support",
-                feature4Desc: "We stand by you even after delivery, providing technical support and updates to ensure continuous success.",
-                portfolioTitle: "Our Portfolio",
-                port1Title: "Digital Automation Project",
-                port2Title: "Smart Landing Page",
-                portSoon: "Links and previews will be displayed soon...",
-                servicesTitle: "Our Services & Packages",
-                ser1Title: "Advanced Telegram Bot Development",
-                ser1Desc: "Full automation systems, database syncing, payment integration, and smart automated real-time alerts 24/7.",
-                ser1Price: "Starts at 5000 DA",
-                ser2Title: "Web Development & Applications",
-                ser2Desc: "Portfolio sites, landing pages, and responsive e-commerce stores designed for optimal user experience.",
-                ser2Price: "Starts at 15000 DA",
-                ser3Title: "Video Creation & Motion Graphics",
-                ser3Desc: "Engaging commercial videos and professional motion graphics to pitch your project creatively.",
-                ser3Price: "Starts at 5000 DA",
-                faqTitle: "Frequently Asked Questions",
-                faqQ1: "What is the project delivery timeline?",
-                faqA1: "Timeline depends on size and scope, but standard landing pages and bots usually take between 3 to 7 business days.",
-                faqQ2: "How do you ensure code safety and quality?",
-                faqA2: "We adhere to international coding best practices and perform meticulous security checks to guarantee bug-free deployment.",
-                faqQ3: "What payment methods do you accept?",
-                faqA3: "We accept bank transfers (BaridiMob for DZ), E-wallets, and Crypto (USDT) to make it easy for global clients.",
-                faqQ4: "Can I request modifications after delivery?",
-                faqA4: "Absolutely! We offer free post-delivery support for bugs, and flexible maintenance plans for updates.",
-                footerRights: "All rights reserved.",
-                formMainTitle: "Order Service",
-                welcomeBack: "Welcome back! We restored your previous request data.",
-                startNewReq: "Clear data & start new request",
-                formName: "Full Name",
-                formEmail: "Email Address",
-                formPhone: "Phone Number",
-                otherCountry: "🌐 Other (Type code)",
-                formServiceSelect: "Target Service",
-                optBot: "Telegram Bots - Starts at 5000 DA",
-                optWeb: "Web Development - Starts at 15000 DA",
-                optVid: "Video Creation - Starts at 5000 DA",
-                formIdea: "Project Details",
-                formPayment: "Payment Method & Pricing",
-                currencyNote: "Prices in DZD. Select currency to convert:",
-                receiptBase: "Base Service Price:",
-                receiptTotal: "Estimated Total:",
-                formSubmit: "Submit & Confirm Order",
-                successFeedback: "Your order has been submitted successfully!",
-                errorFeedback: "An unexpected error occurred. Please try again later."
+            playHover() {
+                this.init(); if (!this.ctx) return;
+                const osc = this.ctx.createOscillator(); const gain = this.ctx.createGain();
+                osc.type = 'sine'; osc.frequency.setValueAtTime(550, this.ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(750, this.ctx.currentTime + 0.06);
+                gain.gain.setValueAtTime(0.006, this.ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + 0.06);
+                osc.connect(gain); gain.connect(this.ctx.destination);
+                osc.start(); osc.stop(this.ctx.currentTime + 0.06);
+            },
+            playSuccess() {
+                this.init(); if (!this.ctx) return;
+                const now = this.ctx.currentTime;
+                [440, 554.37, 659.25, 880].forEach((f, idx) => {
+                    const osc = this.ctx.createOscillator(); const gain = this.ctx.createGain();
+                    osc.type = 'sine'; osc.frequency.setValueAtTime(f, now + idx * 0.07);
+                    gain.gain.setValueAtTime(0.02, now + idx * 0.07);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.07 + 0.2);
+                    osc.connect(gain); gain.connect(this.ctx.destination);
+                    osc.start(now + idx * 0.07); osc.stop(now + idx * 0.07 + 0.2);
+                });
             }
         };
 
-        const typewriterWordsAr = ["نطور بوتات تليجرام مخصصة", "نبني منصات ومواقع ويب متطورة", "نصمم موشن جرافيك وفيديو احترافي", "نؤتمت أعمالك لتوفير وقتك وجهدك"];
-        const typewriterWordsEn = ["We develop custom Telegram bots", "We build advanced web apps & sites", "We design professional motion graphics", "We automate your business workflows"];
+        // الترجمات والقواميس الموحدة للموقع
+        const dictionary = {
+            ar: {
+                heroTitle: "آثَار الرَّقْمِيَّةِ", orderBtn: "ابدأ مشروعك الآن", portfolioTitle: "أَعْمَالُنَا السَّابِقَةُ",
+                servicesTitle: "خِدْمَاتُنَا وَبَاقَاتُنَا", formTitle: "طلب مشروع تقني جديد", submitBtn: "إرسال الطلب بشكل آمن",
+                successFeedback: "تم إرسال طلبك وحفظه سحابياً بنجاح!", errorFeedback: "حدث خطأ أثناء الإرسال، حاول مجدداً.",
+                ser1Title: "تطوير بوتات تليجرام المتقدمة", ser2Title: "تطوير المواقع وتطبيقات الويب", ser3Title: "صناعة الفيديو والموشن جرافيك",
+                labelName: "الاسم الكامل", labelEmail: "البريد الإلكتروني", labelPhone: "رقم الهاتف", labelService: "الخدمة الأساسية",
+                labelIdea: "اشرح فكرتك باختصار", optBot: "تطوير بوت تليجرام مخصص (5000 DA)", optWeb: "تطوير موقع / منصة ويب (15000 DA)", optMotion: "فيديو وموشن جرافيك (5000 DA)",
+                faqTitle: "الأَسْئِلَةُ الشَّائِعَةُ", faqQ1: "ما هي مدة تسليم المشروع؟", faqA1: "تعتمد المدة على حجم المتطلبات، ولكن تتراوح منصات الهبوط والبوتات المخصصة بين 3 إلى 7 أيام عمل عادةً.",
+                faqQ2: "كيف تضمنون جودة وأمان الأكواد؟", faqA2: "نحن نعتمد بنية تحتية سحابية آمنة (Mongoose/JWT) ونكتب كوداً متوافقاً مع أفضل المعايير العالمية البرمجية لضمان الحماية المطلقة وسرعة الاستجابة."
+            },
+            en: {
+                heroTitle: "ATHAAR DIGITAL", orderBtn: "Start Your Project", portfolioTitle: "OUR PORTFOLIO",
+                servicesTitle: "OUR SERVICES & PACKAGES", formTitle: "Request a New Tech Project", submitBtn: "Submit Secure Request",
+                successFeedback: "Your order has been sent and backed up securely!", errorFeedback: "An error occurred, please try again.",
+                ser1Title: "Advanced Telegram Bot Development", ser2Title: "Web Development & Applications", ser3Title: "Video & Motion Graphics Creation",
+                labelName: "Full Name", labelEmail: "Email Address", labelPhone: "Phone Number", labelService: "Core Service",
+                labelIdea: "Briefly explain your idea", optBot: "Custom Telegram Bot Development (5000 DA)", optWeb: "Web Platform / Site Development (15000 DA)", optMotion: "Video & Motion Graphics (5000 DA)",
+                faqTitle: "FREQUENTLY ASKED QUESTIONS", faqQ1: "What is the project delivery time?", faqA1: "Delivery ranges from 3 to 7 business days depending on the project complexity and scope.",
+                faqQ2: "How do you guarantee code security?", faqA2: "We leverage robust cloud backends (Mongoose/JWT) and write highly optimized, standardized code for top-tier performance and bulletproof security."
+            }
+        };
 
-        let typewriterIndex = 0;
-        let charIndex = 0;
-        let isDeleting = false;
-        let typewriterTimeout;
+        let currentLang = 'ar';
+        let currentTheme = 'dark';
+        let activePaymentMode = 'BaridiMob / CCP';
 
-        window.addEventListener("DOMContentLoaded", () => {
-            const savedTheme = localStorage.getItem("athaar_theme") || "dark";
-            currentTheme = savedTheme;
-            document.documentElement.setAttribute("data-theme", currentTheme);
+        const typewriterTxtAr = "نطور بوتات تليجرام مخصصة ونبني منصات ومواقع ويب متطورة تؤتمت أعمالك بالكامل.";
+        const typewriterTxtEn = "We develop custom Telegram bots and build advanced web applications that fully automate your workflows.";
 
-            const savedLang = localStorage.getItem("athaar_lang") || "ar";
-            currentLang = savedLang;
-            
-            renderLanguage();
-            updateThemeUIElements();
-            loadFormDraft();
+        document.addEventListener("DOMContentLoaded", () => {
+            runTypewriterEffect();
+            fetchPortfolioProjects();
+            setupScrollFocusTracking();
+            attachHoverSounds();
             updateReceipt();
-            setupIntersectionObservers();
-            checkSystemState();
+        });
 
-            // ميزة الـ 5 ضغطات على الشعار لفتح لوحة التحكم المتقدمة
-            const siteLogo = document.getElementById("site-logo");
-            if (siteLogo) {
-                siteLogo.addEventListener("click", async () => {
-                    logoClickCount++;
-                    clearTimeout(logoClickTimeout);
-                    logoClickTimeout = setTimeout(() => { logoClickCount = 0; }, 2000);
-                    
-                    if (logoClickCount === 5) {
-                        logoClickCount = 0;
-                        const passwordCheck = prompt("🔒 مَنْطِقَةٌ مَحْمِيَّةٌ. يُرْجَى إِدْخَالُ كَلِمَةِ السِّرِّ لِلْمُتَابَعَةِ:");
-                        if (passwordCheck === null) return;
-                        
-                        try {
-                            const response = await fetch('/api/login', {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify({ password: passwordCheck })
-                            });
-                            const data = await response.json();
-                            if (data.success) {
-                                openAdminDashboard();
-                            } else {
-                                alert("❌ كلمة السر خاطئة!");
-                            }
-                        } catch (err) {
-                            alert("❌ خطأ بالاتصال بالسيرفر: " + err.message);
-                        }
+        // تأثير الكتابة: يتم كتابة النص البرمجي مرة واحدة ويتوقف مع تشغيل صوت النقر الميكانيكي الروبوتي
+        function runTypewriterEffect() {
+            const container = document.getElementById("typewriter");
+            if (!container) return;
+            const text = currentLang === 'ar' ? typewriterTxtAr : typewriterTxtEn;
+            container.innerText = "";
+            let i = 0;
+            function type() {
+                if (i < text.length) {
+                    container.innerText += text.charAt(i);
+                    i++;
+                    AudioFX.playTypewriter();
+                    setTimeout(type, 50);
+                }
+            }
+            type();
+        }
+
+        // جلب معرض المشاريع السحابية من قاعدة البيانات وعرضها تحت عنوان "أعمالنا السابقة"
+        async function fetchPortfolioProjects() {
+            const container = document.getElementById("portfolioContainer");
+            try {
+                const response = await fetch('/api/projects');
+                const data = await response.json();
+                if(data.success && data.projects.length > 0) {
+                    container.innerHTML = "";
+                    data.projects.forEach(proj => {
+                        const title = currentLang === 'ar' ? proj.titleAr : proj.titleEn;
+                        container.innerHTML += `
+                            <div class="portfolio-card">
+                                <i class="fa-solid fa-code-branch" style="color:var(--accent-color); font-size:1.8rem; margin-bottom:10px;"></i>
+                                <h4 style="margin:5px 0; color:#fff;">${title}</h4>
+                                <a href="${proj.link}" target="_blank" class="portfolio-link">رابط المعاينة المباشرة <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                            </div>`;
+                    });
+                } else {
+                    container.innerHTML = `<p style="color:var(--text-muted); text-align:center; grid-column:1/-1;">لا توجد أعمال معروضة حالياً في قاعدة البيانات السحابية.</p>`;
+                }
+            } catch (err) {
+                container.innerHTML = `<p style="color:var(--text-muted); text-align:center; grid-column:1/-1;">خطأ أثناء الاتصال بقاعدة البيانات السحابية لمعرض الأعمال.</p>`;
+            }
+            attachHoverSounds();
+        }
+
+        // خوارزمية ذكية لمراقبة التمرير ورفع/إضاءة البطاقة المتواجدة في منتصف الشاشة وتعتيم البقية
+        function setupScrollFocusTracking() {
+            function trackCenter() {
+                const cards = document.querySelectorAll('.interactive-card, .portfolio-card');
+                const centerY = window.innerHeight / 2;
+                cards.forEach(card => {
+                    const rect = card.getBoundingClientRect();
+                    const cardCenter = rect.top + rect.height / 2;
+                    if(Math.abs(centerY - cardCenter) < 180) {
+                        card.classList.add('center-focused');
+                    } else {
+                        card.classList.remove('center-focused');
                     }
                 });
             }
-        });
-
-        function toggleTheme() {
-            currentTheme = (currentTheme === "dark") ? "light" : "dark";
-            document.documentElement.setAttribute("data-theme", currentTheme);
-            localStorage.setItem("athaar_theme", currentTheme);
-            updateThemeUIElements();
+            window.addEventListener('scroll', trackCenter);
+            window.addEventListener('resize', trackCenter);
         }
 
-        function updateThemeUIElements() {
-            const themeBtn = document.getElementById("themeBtn");
-            if (themeBtn) {
-                themeBtn.innerHTML = currentTheme === "dark" 
-                    ? '<i class="fa-solid fa-sun"></i>' 
-                    : '<i class="fa-solid fa-moon"></i>';
-            }
-        }
-
-        function toggleLanguage() {
-            currentLang = (currentLang === "ar") ? "en" : "ar";
-            localStorage.setItem("athaar_lang", currentLang);
-            renderLanguage();
-        }
-
-        function renderLanguage() {
-            document.documentElement.setAttribute("dir", currentLang === "ar" ? "rtl" : "ltr");
-            document.documentElement.setAttribute("lang", currentLang);
-            
-            const langBtn = document.getElementById("langBtn");
-            if (langBtn) langBtn.innerText = currentLang === "ar" ? "English" : "العربية";
-
-            document.querySelectorAll("[data-i18n]").forEach(element => {
-                const key = element.getAttribute("data-i18n");
-                if (dictionary[currentLang][key]) {
-                    if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
-                        element.setAttribute("placeholder", dictionary[currentLang][key]);
-                    } else {
-                        element.innerText = dictionary[currentLang][key];
-                    }
-                }
+        // ربط الأصوات التنبيهية الذكية عند مرور الماوس على العناصر التفاعلية
+        function attachHoverSounds() {
+            const targets = document.querySelectorAll('.interactive-card, .portfolio-card, .btn-toggle, .btn-primary, .faq-question, .payment-option');
+            targets.forEach(el => {
+                el.onmouseenter = () => AudioFX.playHover();
             });
-
-            charIndex = 0;
-            typewriterIndex = 0;
-            isDeleting = false;
-            clearTimeout(typewriterTimeout);
-            runFixedTypewriterEffect();
-            renderDynamicProjects();
         }
 
-        function runFixedTypewriterEffect() {
-            const words = currentLang === "ar" ? typewriterWordsAr : typewriterWordsEn;
-            const currentWord = words[typewriterIndex];
-            const displayTxt = isDeleting 
-                ? currentWord.substring(0, charIndex--) 
-                : currentWord.substring(0, charIndex++);
-
-            const container = document.getElementById("typewriter");
-            if (container) container.innerText = displayTxt;
-
-            let speed = isDeleting ? 40 : 80;
-
-            if (!isDeleting && charIndex === currentWord.length + 1) {
-                speed = 2000;
-                isDeleting = true;
-            } else if (isDeleting && charIndex < 0) {
-                isDeleting = false;
-                typewriterIndex = (typewriterIndex + 1) % words.length;
-                charIndex = 0;
-                speed = 400;
-            }
-
-            typewriterTimeout = setTimeout(runFixedTypewriterEffect, speed);
-        }
-
-        function toggleFaq(btn) {
-            const item = btn.parentElement;
-            item.classList.toggle("active");
-        }
-
-        function openModal() {
-            document.getElementById("orderModal").classList.add("active");
-        }
-
-        function closeModal() {
-            document.getElementById("orderModal").classList.remove("active");
-        }
-
-        function toggleCustomCountryCode() {
-            const select = document.getElementById("formCountryCode");
-            const customInput = document.getElementById("formCustomCountryCode");
-            if (select.value === "custom") {
-                customInput.style.display = "block";
-                customInput.required = true;
-            } else {
-                customInput.style.display = "none";
-                customInput.required = false;
-            }
-            saveDraft();
+        // تحديث الفاتورة الحية التفاعلية والأرقام الهندسية
+        function updateReceipt() {
+            const service = document.getElementById("formService").value;
+            let basePrice = service === 'web' ? 15000 : 5000;
+            let extPrice = 0;
+            
+            if(document.getElementById("extHosting").checked) extPrice += 4000;
+            if(document.getElementById("extExpress").checked) extPrice += 5000;
+            
+            const total = basePrice + extPrice;
+            
+            document.getElementById("rcpBase").innerText = `${basePrice} DA`;
+            document.getElementById("rcpExt").innerText = `${extPrice} DA`;
+            document.getElementById("rcpTotal").innerText = `${total} DA`;
         }
 
         function setPaymentMode(mode) {
             activePaymentMode = mode;
             document.getElementById("payBaridi").classList.remove("active");
             document.getElementById("payCrypto").classList.remove("active");
+            if(mode.includes('Baridi')) document.getElementById("payBaridi").classList.add("active");
+            else document.getElementById("payCrypto").classList.add("active");
+        }
+
+        function openModal() { document.getElementById("orderModal").classList.add("active"); }
+        function openModalWithService(srv) {
+            const sel = document.getElementById("formService");
+            if(srv.includes('Bot')) sel.value = 'bot';
+            else if(srv.includes('Web')) sel.value = 'web';
+            else sel.value = 'motion';
+            updateReceipt(); openModal();
+        }
+        function closeModal() { document.getElementById("orderModal").classList.remove("active"); }
+
+        function toggleFaq(btn) { btn.parentElement.classList.toggle("active"); }
+
+        function toggleTheme() {
+            currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute("data-theme", currentTheme);
+            document.getElementById("themeBtn").innerHTML = currentTheme === 'dark' ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            document.documentElement.setAttribute("dir", currentLang === 'ar' ? 'rtl' : 'ltr');
+            document.documentElement.setAttribute("lang", currentLang);
+            document.getElementById("langBtn").innerText = currentLang === 'ar' ? 'English' : 'العربية';
             
-            if (mode.includes('Baridi')) {
-                document.getElementById("payBaridi").classList.add("active");
-                document.getElementById("infoBaridi").style.display = "block";
-                document.getElementById("infoCrypto").style.display = "none";
-            } else {
-                document.getElementById("payCrypto").classList.add("active");
-                document.getElementById("infoBaridi").style.display = "none";
-                document.getElementById("infoCrypto").style.display = "block";
-            }
-            saveDraft();
+            // تحديث نصوص الواجهة المترجمة
+            document.querySelectorAll("[data-i18n]").forEach(el => {
+                const key = el.getAttribute("data-i18n");
+                if(dictionary[currentLang][key]) el.innerText = dictionary[currentLang][key];
+            });
+            runTypewriterEffect();
+            fetchPortfolioProjects();
         }
 
-        function updateReceipt() {
-            const selectedService = document.getElementById("formService").value;
-            const basePrice = prices[selectedService] || 5000;
-            let extrasTotal = 0;
-
-            if (document.getElementById("extHosting").checked) extrasTotal += addonPrices.hosting;
-            if (document.getElementById("extExpress").checked) extrasTotal += addonPrices.express;
-            if (document.getElementById("extSupport").checked) extrasTotal += addonPrices.support;
-
-            const totalDZD = basePrice + extrasTotal;
-            document.getElementById("receiptBasePrice").innerText = `${basePrice} DA`;
-            document.getElementById("receiptExtrasPrice").innerText = `${extrasTotal} DA`;
-
-            const currency = document.getElementById("currencySelect").value;
-            const rate = exchangeRates[currency] || 1;
-            const converted = (totalDZD * rate).toFixed(currency === 'DZD' ? 0 : 2);
-            const symbol = currencySymbols[currency] || currency;
-            
-            document.getElementById("receiptTotalPrice").innerText = `${converted} ${symbol}`;
-        }
-
-        function saveDraft() {
-            const countrySelect = document.getElementById("formCountryCode").value;
-            const customCode = document.getElementById("formCustomCountryCode").value;
-            
-            const draftData = {
-                name: document.getElementById("formName").value,
-                email: document.getElementById("formEmail").value,
-                countryCode: countrySelect,
-                customCountryCode: customCode,
-                phone: document.getElementById("formPhone").value,
-                service: document.getElementById("formService").value,
-                idea: document.getElementById("formIdeaText").value,
-                extHosting: document.getElementById("extHosting").checked,
-                extExpress: document.getElementById("extExpress").checked,
-                extSupport: document.getElementById("extSupport").checked,
-                paymentMode: activePaymentMode,
-                currency: document.getElementById("currencySelect").value
-            };
-            localStorage.setItem("athaar_order_draft", JSON.stringify(draftData));
-        }
-
-        function loadFormDraft() {
-            const raw = localStorage.getItem("athaar_order_draft");
-            if (!raw) return;
-            try {
-                const draft = JSON.parse(raw);
-                document.getElementById("formName").value = draft.name || "";
-                document.getElementById("formEmail").value = draft.email || "";
-                document.getElementById("formCountryCode").value = draft.countryCode || "+213";
-                document.getElementById("formCustomCountryCode").value = draft.customCountryCode || "";
-                document.getElementById("formPhone").value = draft.phone || "";
-                document.getElementById("formService").value = draft.service || "bot";
-                document.getElementById("formIdeaText").value = draft.idea || "";
-                
-                document.getElementById("extHosting").checked = !!draft.extHosting;
-                document.getElementById("extExpress").checked = !!draft.extExpress;
-                document.getElementById("extSupport").checked = !!draft.extSupport;
-                
-                document.getElementById("currencySelect").value = draft.currency || "DZD";
-                
-                if (draft.paymentMode) {
-                    setPaymentMode(draft.paymentMode);
-                }
-                toggleCustomCountryCode();
-                
-                if (draft.name || draft.phone || draft.idea) {
-                    document.getElementById("returningUserBanner").style.display = "flex";
-                }
-            } catch (e) {
-                console.error("Error loading draft", e);
-            }
-        }
-
-        function clearDraft() {
-            localStorage.removeItem("athaar_order_draft");
-            document.getElementById("orderForm").reset();
-            document.getElementById("extHosting").checked = false;
-            document.getElementById("extExpress").checked = false;
-            document.getElementById("extSupport").checked = false;
-            document.getElementById("returningUserBanner").style.display = "none";
-            setPaymentMode('BaridiMob / CCP');
-            document.getElementById("currencySelect").value = "DZD";
-            toggleCustomCountryCode();
-            updateReceipt();
-        }
-
-        function setupIntersectionObservers() {
-            const cards = document.querySelectorAll(".interactive-card");
-            if ("IntersectionObserver" in window) {
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            entry.target.style.opacity = "1";
-                            entry.target.style.transform = "scale(1) translateY(0)";
-                        }
-                    });
-                }, { threshold: 0.1 });
-                cards.forEach(card => {
-                    card.style.opacity = "0";
-                    card.style.transform = "scale(0.9) translateY(20px)";
-                    card.style.transition = "all 0.6s cubic-bezier(0.16, 1, 0.3, 1)";
-                    observer.observe(card);
-                });
-            } else {
-                cards.forEach(card => { card.style.opacity = "1"; card.style.transform = "none"; });
-            }
-        }
-
-        function handleFormSubmit(event) {
-            event.preventDefault();
+        // معالجة إرسال الفورم الآمن وتجهيز الملفات كـ Base64
+        function handleFormSubmit(e) {
+            e.preventDefault();
             const submitButton = document.getElementById("submitBtn");
-            const feedbackZone = document.getElementById("formFeedbackZone");
-
+            const feedbackZone = document.getElementById("feedbackZone");
             submitButton.disabled = true;
             feedbackZone.style.display = "block";
-            feedbackZone.className = "form-feedback success";
-            feedbackZone.innerText = currentLang === "ar" ? "جاري معالجة وإرسال طلبك الآمن..." : "Processing secure order request...";
-
-            const phonePrefix = document.getElementById("formCountryCode").value === "custom"
-                ? document.getElementById("formCustomCountryCode").value
-                : document.getElementById("formCountryCode").value;
+            feedbackZone.className = "form-feedback";
+            feedbackZone.innerText = "جاري معالجة طلبك وتشفيره سحابياً...";
 
             const serviceSelect = document.getElementById("formService");
-            const textServiceName = serviceSelect.options[serviceSelect.selectedIndex].text;
-
-            let addonsText = "";
-            if (document.getElementById("extHosting").checked) addonsText += " + [حجز واستضافة سحابية]";
-            if (document.getElementById("extExpress").checked) addonsText += " + [تسليم فائق السرعة 48 ساعة]";
-            if (document.getElementById("extSupport").checked) addonsText += " + [دعم فني ممتد 3 أشهر]";
-
-            const finalDueText = document.getElementById("receiptTotalPrice").innerText;
+            const selectedText = serviceSelect.options[serviceSelect.selectedIndex].text;
 
             const formDataObject = {
                 name: document.getElementById("formName").value,
                 email: document.getElementById("formEmail").value,
-                phone: phonePrefix + " " + document.getElementById("formPhone").value,
-                service: textServiceName,
-                idea: document.getElementById("formIdeaText").value + addonsText,
+                phone: document.getElementById("formPhone").value,
+                service: selectedText,
+                idea: document.getElementById("formIdea").value,
                 paymentMode: activePaymentMode,
-                finalDue: finalDueText
+                ref: "REF-" + Math.floor(Math.random() * 900000 + 100000),
+                finalDue: document.getElementById("rcpTotal").innerText
             };
 
             const sendToServer = (payload) => {
@@ -1471,20 +665,15 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 })
-                .then(async res => {
-                    const resData = await res.json();
-                    if (res.ok && resData.success) {
+                .then(res => res.json())
+                .then(resData => {
+                    if (resData.success) {
+                        AudioFX.playSuccess();
                         feedbackZone.className = "form-feedback success";
                         feedbackZone.innerText = dictionary[currentLang].successFeedback;
-                        
-                        updateAdminStats(serviceSelect.value);
-                        localStorage.setItem("last_requested_service", textServiceName);
-
-                        clearDraft();
-                        setTimeout(() => { 
-                            closeModal(); 
-                            feedbackZone.style.display = "none"; 
-                        }, 3500);
+                        document.getElementById("orderForm").reset();
+                        updateReceipt();
+                        setTimeout(() => { closeModal(); feedbackZone.style.display = "none"; }, 3500);
                     } else {
                         throw new Error(resData.message || "خطأ في السيرفر");
                     }
@@ -1492,19 +681,16 @@
                 .catch(error => {
                     feedbackZone.className = "form-feedback error";
                     feedbackZone.innerText = dictionary[currentLang].errorFeedback;
-                    console.error(error);
                 })
-                .finally(() => {
-                    submitButton.disabled = false;
-                });
+                .finally(() => { submitButton.disabled = false; });
             };
 
-            const fileInput = document.getElementById("formFile");
+            const fileInput = document.getElementById("formReceiptFile");
             if (fileInput && fileInput.files.length > 0) {
                 const file = fileInput.files[0];
                 const reader = new FileReader();
-                reader.onload = async (e) => {
-                    formDataObject.receiptFileBase64 = e.target.result;
+                reader.onload = async (event) => {
+                    formDataObject.receiptFileBase64 = event.target.result;
                     formDataObject.receiptFileName = file.name;
                     sendToServer(formDataObject);
                 };
@@ -1513,102 +699,7 @@
                 sendToServer(formDataObject);
             }
         }
-
-        function openAdminDashboard() {
-            document.getElementById("adminPanelOverlay").style.display = "block";
-            checkSystemState();
-        }
-
-        function closeAdminDashboard() {
-            document.getElementById("adminPanelOverlay").style.display = "none";
-        }
-
-        function checkSystemState() {
-            const totalOrders = parseInt(localStorage.getItem("admin_total_orders") || "0");
-            document.getElementById("adminTotalOrders").innerText = totalOrders;
-
-            const lastService = localStorage.getItem("last_requested_service") || "لا يوجد طلبات جديدة حالياً";
-            document.getElementById("adminLastService").innerText = lastService;
-
-            const savedIdeas = JSON.parse(localStorage.getItem("admin_ideas") || "[]");
-            const ideasContainer = document.getElementById("adminIdeasContainer");
-            ideasContainer.innerHTML = "";
-            savedIdeas.forEach((idea, index) => {
-                ideasContainer.innerHTML += `
-                    <div class="data-list-item">
-                        <span><i class="fa-regular fa-comment"></i> ${idea}</span>
-                        <button class="delete-btn" onclick="deleteQuickIdea(${index})"><i class="fa-solid fa-trash"></i></button>
-                    </div>`;
-            });
-
-            renderDynamicProjects();
-        }
-
-        function updateAdminStats(serviceVal) {
-            let totalOrders = parseInt(localStorage.getItem("admin_total_orders") || "0");
-            totalOrders++;
-            localStorage.setItem("admin_total_orders", totalOrders.toString());
-        }
-
-        function addQuickIdea() {
-            const input = document.getElementById("adminQuickIdeaInput");
-            if (!input.value.trim()) return;
-            const savedIdeas = JSON.parse(localStorage.getItem("admin_ideas") || "[]");
-            savedIdeas.push(input.value.trim());
-            localStorage.setItem("admin_ideas", JSON.stringify(savedIdeas));
-            input.value = "";
-            checkSystemState();
-        }
-
-        function deleteQuickIdea(index) {
-            const savedIdeas = JSON.parse(localStorage.getItem("admin_ideas") || "[]");
-            savedIdeas.splice(index, 1);
-            localStorage.setItem("admin_ideas", JSON.stringify(savedIdeas));
-            checkSystemState();
-        }
-
-        function handleAdminSubmit(e) {
-            e.preventDefault();
-            const titleAr = document.getElementById("adminProjTitleAr").value.trim();
-            const titleEn = document.getElementById("adminProjTitleEn").value.trim();
-            const link = document.getElementById("adminProjLink").value.trim();
-
-            const savedProjects = JSON.parse(localStorage.getItem("admin_projects") || "[]");
-            savedProjects.push({ titleAr, titleEn, link });
-            localStorage.setItem("admin_projects", JSON.stringify(savedProjects));
-
-            document.getElementById("adminProjectForm").reset();
-            checkSystemState();
-            renderDynamicProjects();
-        }
-
-        function deleteProject(index) {
-            const savedProjects = JSON.parse(localStorage.getItem("admin_projects") || "[]");
-            savedProjects.splice(index, 1);
-            localStorage.setItem("admin_projects", JSON.stringify(savedProjects));
-            checkSystemState();
-            renderDynamicProjects();
-        }
-
-        function renderDynamicProjects() {
-            const savedProjects = JSON.parse(localStorage.getItem("admin_projects") || "[]");
-            const container = document.getElementById("adminProjectsContainer");
-            
-            if (container) {
-                if (savedProjects.length > 0) {
-                    container.innerHTML = "";
-                    savedProjects.forEach((proj, index) => {
-                        container.innerHTML += `
-                            <div class="data-list-item">
-                                <span><strong>${proj.titleAr}</strong> (${proj.titleEn}) - <a href="${proj.link}" target="_blank" style="color:#a78bfa;">${proj.link}</a></span>
-                                <button class="delete-btn" onclick="deleteProject(${index})"><i class="fa-solid fa-trash"></i></button>
-                            </div>`;
-                    });
-                } else {
-                    container.innerHTML = '<p style="color:#71717a;">لم تقم بإضافة نماذج جديدة بعد.</p>';
-                }
-            }
-        }
     </script>
 </body>
 </html>
+
