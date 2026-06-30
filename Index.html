@@ -14,13 +14,13 @@
             --font-title: 'Chakra Petch', 'Cairo', sans-serif;
             --font-body: 'Cairo', 'Inter', sans-serif;
             
-            --bg-primary: #0a0a0c;
-            --bg-surface: #121216;
-            --bg-card: #181820;
+            --bg-primary: #0a0a0a;
+            --bg-surface: #121212;
+            --bg-card: #1a1a1a;
             --text-primary: #f4f4f5;
             --text-secondary: #a1a1aa;
-            --accent: #3b82f6;
-            --accent-glow: rgba(59, 130, 246, 0.3);
+            --accent: #D4AF37; /* الذهبى الفاخر لهوية آثار */
+            --accent-glow: rgba(212, 175, 55, 0.2);
             --success: #10b981;
             --error: #ef4444;
             --border-color: #27272a;
@@ -33,8 +33,8 @@
             --bg-card: #f1f5f9;
             --text-primary: #0f172a;
             --text-secondary: #475569;
-            --accent: #2563eb;
-            --accent-glow: rgba(37, 99, 235, 0.15);
+            --accent: #b59210;
+            --accent-glow: rgba(181, 146, 16, 0.15);
             --border-color: #e2e8f0;
         }
 
@@ -54,13 +54,12 @@
             line-height: 1.6;
         }
 
-        /* الهيدر وشريط التنقل */
         header {
             position: fixed;
             top: 0;
             width: 100%;
             z-index: 100;
-            background-color: rgba(18, 18, 22, 0.8);
+            background-color: rgba(18, 18, 18, 0.8);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border-color);
             transition: background-color var(--transition-speed);
@@ -116,18 +115,17 @@
 
         .btn-primary {
             background: var(--accent);
-            color: white;
+            color: #0a0a0a;
             padding: 0.6rem 1.5rem;
             border-radius: 8px;
             border: none;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             font-family: var(--font-body);
             transition: opacity 0.2s;
         }
         .btn-primary:hover { opacity: 0.9; }
 
-        /* قسم الهيرو الرئيسي */
         .hero {
             padding: 10rem 2rem 6rem;
             text-align: center;
@@ -169,7 +167,6 @@
             margin-bottom: 3rem;
         }
 
-        /* شبكة الخدمات والمحتوى */
         .main-container {
             max-width: 1400px;
             margin: 0 auto;
@@ -213,6 +210,7 @@
         .service-card:hover {
             transform: translateY(-5px);
             border-color: var(--accent);
+            box-shadow: 0 10px 30px var(--accent-glow);
         }
 
         .service-icon {
@@ -232,7 +230,6 @@
             font-size: 0.95rem;
         }
 
-        /* قسم الأسئلة الشائعة */
         .faq-section {
             max-width: 800px;
             margin: 0 auto 6rem;
@@ -269,21 +266,16 @@
             max-height: 200px;
         }
 
-        .faq-item i {
-            transition: transform 0.3s;
-        }
-        .faq-item.active i {
-            transform: rotate(180deg);
-        }
+        .faq-item i { transition: transform 0.3s; }
+        .faq-item.active i { transform: rotate(180deg); }
 
-        /* النافذة المنبثقة التفاعلية للطلب ومحرك الأسعار */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(8px);
             z-index: 1000;
             display: none;
@@ -301,7 +293,7 @@
             max-height: 90vh;
             overflow-y: auto;
             position: relative;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8);
             animation: modalSlide 0.3s ease;
         }
 
@@ -318,33 +310,12 @@
             align-items: center;
         }
 
-        .modal-header h2 {
-            font-family: var(--font-title);
-            font-size: 1.5rem;
-        }
+        .modal-header h2 { font-family: var(--font-title); font-size: 1.5rem; color: var(--accent); }
+        .close-btn { background: none; border: none; color: var(--text-secondary); font-size: 1.5rem; cursor: pointer; }
 
-        .close-btn {
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        .modal-body {
-            padding: 2rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            font-size: 0.95rem;
-        }
+        .modal-body { padding: 2rem; }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.95rem; }
 
         .form-control {
             width: 100%;
@@ -357,10 +328,7 @@
             font-size: 1rem;
             transition: border-color 0.2s;
         }
-        .form-control:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
+        .form-control:focus { outline: none; border-color: var(--accent); }
 
         .addons-container {
             background: var(--bg-card);
@@ -370,19 +338,9 @@
             margin-top: 0.5rem;
         }
 
-        .addon-item {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 0.75rem;
-            cursor: pointer;
-        }
+        .addon-item { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; cursor: pointer; }
         .addon-item:last-child { margin-bottom: 0; }
-        .addon-item input {
-            width: 18px;
-            height: 18px;
-            accent-color: var(--accent);
-        }
+        .addon-item input { width: 18px; height: 18px; accent-color: var(--accent); }
 
         .price-summary-box {
             background: var(--accent-glow);
@@ -393,31 +351,13 @@
             margin: 2rem 0 1.5rem;
         }
 
-        .price-summary-box h3 {
-            font-size: 1.1rem;
-            color: var(--text-primary);
-            margin-bottom: 0.5rem;
-        }
+        .price-summary-box h3 { font-size: 1.1rem; color: var(--text-primary); margin-bottom: 0.5rem; }
+        .price-amount { font-family: var(--font-title); font-size: 2.2rem; font-weight: 700; color: var(--accent); }
 
-        .price-amount {
-            font-family: var(--font-title);
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: var(--accent);
-        }
-
-        .form-feedback {
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
-            display: none;
-            font-weight: 600;
-            text-align: center;
-        }
+        .form-feedback { padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; display: none; font-weight: 600; text-align: center; }
         .form-feedback.success { background: rgba(16, 185, 129, 0.15); color: var(--success); }
         .form-feedback.error { background: rgba(239, 68, 68, 0.15); color: var(--error); }
 
-        /* تذييل الصفحة */
         footer {
             background: var(--bg-surface);
             border-top: 1px solid var(--border-color);
@@ -427,54 +367,9 @@
             font-size: 0.9rem;
         }
 
-        .footer-socials {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-        .footer-socials a {
-            color: var(--text-secondary);
-            font-size: 1.3rem;
-            transition: color 0.2s;
-        }
+        .footer-socials { display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 1.5rem; }
+        .footer-socials a { color: var(--text-secondary); font-size: 1.3rem; transition: color 0.2s; }
         .footer-socials a:hover { color: var(--accent); }
-
-        /* لوحة تحكم المسؤول المدمجة (تراكب سفلي مخفي) */
-        .admin-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #09090b;
-            z-index: 2000;
-            display: none;
-            overflow-y: auto;
-            padding: 2rem;
-        }
-
-        .admin-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .admin-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-
-        .stat-card {
-            background: #18181b;
-            border: 1px solid #27272a;
-            border-radius: 12px;
-            padding: 1.5rem;
-        }
-
-        .stat-card h4 { color: #a1a1aa; font-size: 0.9rem; margin-bottom: 0.5rem; }
-        .stat-card .num { font-size: 1.8rem; font-weight: 700; color: #3b82f6; }
     </style>
 </head>
 <body>
@@ -527,7 +422,7 @@
         <div class="faq-section">
             <div class="faq-item">
                 <div class="faq-question">
-                    <span data-txt="faqQ1">ما هي المدة المتوقعة لتسليم المشروع؟</span>
+                    <span data-txt="faqQ1">ما هي المدة المتوقعة لتسليم المشروع?</span>
                     <i class="fa-solid fa-chevron-down"></i>
                 </div>
                 <div class="faq-answer" data-txt="faqA1">تعتمد المدة على حجم المشروع ومتطلباته، وبشكل عام تستغرق البوتات والمواقع من 3 إلى 7 أيام عمل، مع إمكانية اختيار ميزة التسليم السريع.</div>
@@ -628,43 +523,6 @@
         <p>&copy; 2026 آثار الرقمية | Athaar Digital. جميع الحقوق محفوظة.</p>
     </footer>
 
-    <div class="admin-overlay" id="dashboard-overlay">
-        <div class="admin-container">
-            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #27272a; padding-bottom: 1.5rem;">
-                <div>
-                    <h2 style="font-family: var(--font-title); font-size: 1.8rem; color: #fff;">لوحة المراقبة وإدارة النظام ⚙️</h2>
-                    <p style="color: #a1a1aa; margin-top: 0.25rem;">متابعة إحصائيات الطلبات ومعرض الأعمال لحظياً</p>
-                </div>
-                <button class="btn-primary" id="close-admin-btn" style="background: #ef4444;">إغلاق اللوحة</button>
-            </div>
-
-            <div class="admin-grid">
-                <div class="stat-card">
-                    <h4>إجمالي طلبات الويب</h4>
-                    <div class="num" id="stat-web">0</div>
-                </div>
-                <div class="stat-card">
-                    <h4>إجمالي طلبات البوتات</h4>
-                    <div class="num" id="stat-bot">0</div>
-                </div>
-                <div class="stat-card">
-                    <h4>إجمالي طلبات التصميم</h4>
-                    <div class="num" id="stat-design">0</div>
-                </div>
-            </div>
-            
-            <div style="background: #18181b; border: 1px solid #27272a; padding: 2rem; border-radius: 16px; margin-top: 2rem;">
-                <h3 style="margin-bottom: 1.5rem; font-family: var(--font-title);">إضافة مشروع حي لمعرض الأعمال العميل</h3>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
-                    <input type="text" class="form-control" id="adm-p-ar" placeholder="العنوان بالعربية" style="background:#09090b;">
-                    <input type="text" class="form-control" id="adm-p-en" placeholder="العنوان بالإنجليزية" style="background:#09090b;">
-                    <input type="url" class="form-control" id="adm-p-link" placeholder="رابط المشروع الحي" style="background:#09090b;">
-                </div>
-                <button class="btn-primary" id="adm-save-project" style="margin-top: 1rem; width: 100%;">نشر المشروع في المعرض</button>
-            </div>
-        </div>
-    </div>
-
     <script>
         const dictionary = {
             ar: {
@@ -689,7 +547,6 @@
         let currentLang = "ar";
         let loopIdx = 0, charIdx = 0, isDeleting = false;
 
-        // إدارة تأثير الآلة الكاتبة التفاعلي المتجاوب مع اللغة
         function handleTypewriter() {
             const list = currentLang === "ar" ? wordsAr : wordsEn;
             const currentStr = list[loopIdx % list.length];
@@ -715,7 +572,6 @@
             setTimeout(handleTypewriter, typeSpeed);
         }
 
-        // معالجة فتح وإغلاق النافذة المنبثقة وحاسبة الأسعار الحية
         const modal = document.getElementById("order-modal");
         const serviceSelect = document.getElementById("form-select-service");
         const calcCheckboxes = document.querySelectorAll(".addon-calc");
@@ -744,7 +600,6 @@
         document.getElementById("hero-action-btn").addEventListener("click", () => openModalWithService('web'));
         document.getElementById("close-modal-btn").addEventListener("click", closeModal);
 
-        // آلية التبديل بين المظهرين الداكن والفاتح
         document.getElementById("theme-btn").addEventListener("click", () => {
             const currentTheme = document.documentElement.getAttribute("data-theme");
             const newTheme = currentTheme === "dark" ? "light" : "dark";
@@ -752,7 +607,6 @@
             document.getElementById("theme-btn").innerHTML = newTheme === "dark" ? '<i class="fa-solid fa-moon"></i>' : '<i class="fa-solid fa-sun"></i>';
         });
 
-        // آلية التبديل بين اللغتين وإعادة هيكلة الصفحة بالكامل
         document.getElementById("lang-btn").addEventListener("click", () => {
             currentLang = currentLang === "ar" ? "en" : "ar";
             document.documentElement.dir = currentLang === "ar" ? "rtl" : "ltr";
@@ -766,7 +620,6 @@
             calculateLivePrice();
         });
 
-        // إدارة الأسئلة الشائعة وتأثيراتها الحركية الاكوردين
         document.querySelectorAll(".faq-question").forEach(q => {
             q.addEventListener("click", () => {
                 const item = q.parentElement;
@@ -774,7 +627,6 @@
             });
         });
 
-        // حماية البيانات عبر نظام حفظ واستعادة المسودات تلقائياً (Draft Management)
         const trackedInputs = ["form-input-name", "form-input-email", "form-input-phone", "form-input-idea"];
         trackedInputs.forEach(id => {
             document.getElementById(id).addEventListener("input", () => {
@@ -800,38 +652,8 @@
         }
         function clearDraft() { localStorage.removeItem("athaar_order_draft"); }
 
-        // التحقق من إحصائيات لوحة التحكم المحلية المبدئية
-        function updateAdminStats(serviceType) {
-            let key = "admin_stat_" + serviceType;
-            let currentCount = parseInt(localStorage.getItem(key)) || 0;
-            localStorage.setItem(key, currentCount + 1);
-            if(document.getElementById("stat-" + serviceType)) {
-                document.getElementById("stat-" + serviceType).textContent = currentCount + 1;
-            }
-        }
+        window.addEventListener("DOMContentLoaded", handleTypewriter);
 
-        // تشغيل الآلة الكاتبة التلقائي عند الولوج
-        window.addEventListener("DOMContentLoaded", () => {
-            handleTypewriter();
-            // تهيئة إحصائيات لوحة الإدارة التجريبية المدمجة
-            ["web", "bot", "design"].forEach(s => {
-                if(document.getElementById("stat-" + s)) {
-                    document.getElementById("stat-" + s).textContent = localStorage.getItem("admin_stat_" + s) || 0;
-                }
-            });
-        });
-
-        // آلية مراقبة اختصارات لوحة التحكم الإدارية السرية (Ctrl + Shift + A) لفتح اللوحة المدمجة
-        window.addEventListener("keydown", (e) => {
-            if (e.ctrlKey && e.shiftKey && (e.key === 'A' || e.key === 'a' || e.key === 'ش')) {
-                document.getElementById("dashboard-overlay").style.display = "block";
-            }
-        });
-        document.getElementById("close-admin-btn").addEventListener("click", () => {
-            document.getElementById("dashboard-overlay").style.display = "none";
-        });
-
-        // تحسين أمني حرج: فحص نوع الملف وحجمه مباشرة عند الاختيار لحماية الخادم وقاعدة البيانات
         let base64FileString = "";
         let base64FileName = "";
 
@@ -841,15 +663,13 @@
             base64FileName = "";
 
             if (file) {
-                // الفحص الأول: التأكد من أن الملف هو صورة حقيقية فقط لمنع الثغرات
                 if (!file.type.startsWith("image/")) {
-                    alert("خطأ أمني: يرجى إرفاق ملف صورة حقيقي فقط (PNG, JPG, JPEG) لإيصال السداد البنكي.");
+                    alert("خطأ أمني: يرجى إرفاق ملف صورة حقيقي فقط (PNG, JPG, JPEG).");
                     this.value = "";
                     return;
                 }
-                // الفحص الثاني: التأكد من أن حجم الصورة لا يتعدى 2 ميجابايت لمنع هجمات التضخم واستنزاف الذاكرة
                 if (file.size > 2 * 1024 * 1024) {
-                    alert("تنبيه الحجم: حجم إيصال الدفع كبير جداً! الحد الأقصى المسموح به هو 2 ميجابايت لحفظ كفاءة واستقرار السيرفر.");
+                    alert("تنبيه الحجم: الحد الأقصى المسموح به هو 2 ميجابايت.");
                     this.value = "";
                     return;
                 }
@@ -863,30 +683,26 @@
             }
         });
 
-        // معالجة نموذج البيانات وشحنها بالكامل وبأمان مطلق إلى خادم التطبيق السحابي الخلفي
         document.getElementById("order-form").addEventListener("submit", function(e) {
             e.preventDefault();
             
             const submitButton = document.getElementById("submit-order-btn");
             const feedbackZone = document.getElementById("form-status");
-            const serviceVal = serviceSelect.value;
-            const textServiceName = serviceSelect.options[serviceSelect.selectedIndex].text;
 
             submitButton.disabled = true;
             feedbackZone.style.display = "none";
 
+            // إصلاح أسماء الحقول لتتطابق تمامًا مع المخطط في السيرفر (OrderSchema)
             const formDataObject = {
                 name: document.getElementById("form-input-name").value,
                 email: document.getElementById("form-input-email").value,
                 phone: document.getElementById("form-input-phone").value,
-                service: serviceVal,
-                idea: document.getElementById("form-input-idea").value,
-                paymentMode: document.getElementById("form-select-pay").value,
-                ref: document.getElementById("form-input-ref").value,
-                finalDue: costDisplay.textContent,
-                requestTime: new Date().toLocaleString("ar-SA"),
-                receiptFileBase64: base64FileString,
-                receiptFileName: base64FileName
+                serviceType: serviceSelect.value, // تم التعديل لتطابق السيرفر
+                description: document.getElementById("form-input-idea").value, // تم التعديل لتطابق السيرفر
+                paymentMethod: document.getElementById("form-select-pay").value, // تم التعديل لتطابق السيرفر
+                referenceNumber: document.getElementById("form-input-ref").value, // تم التعديل لتطابق السيرفر
+                amount: parseFloat(costDisplay.textContent), // تم التعديل لتطابق السيرفر
+                receiptImage: base64FileString // تم التعديل لتطابق السيرفر
             };
 
             fetch('/api/send', {
@@ -903,8 +719,6 @@
                 feedbackZone.className = "form-feedback success";
                 feedbackZone.innerText = dictionary[currentLang].successFeedback || "تم الإرسال بنجاح!";
                 
-                updateAdminStats(serviceVal);
-                localStorage.setItem("last_requested_service", textServiceName);
                 clearDraft();
                 
                 setTimeout(() => { 
