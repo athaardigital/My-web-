@@ -1,187 +1,149 @@
-require('dotenv').config();
 const express = require('express');
-const cors = require('cors');
-const path = require('path');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const cors = require('cors');
+const path = require('path');
+require('dotenv').config();
 
 const app = express();
+const PORT = process.env.PORT || 5000;
 
+// التحقق الصارم من وجود مفاتيح البيئة الحساسة لضمان أمان النظام وحظر الثغرات
+if (!process.env.JWT_SECRET) {
+    console.error("خطأ فادح: لم يتم تعيين متغير البيئة JWT_SECRET الحساس بملف الـ .env!");
+    process.exit(1);
+}
+const JWT_SECRET = process.env.JWT_SECRET;
+
+// الإعدادات الوسيطة (Middleware)
 app.use(cors());
-app.use(express.json({ limit: '10mb' }));
+app.use(express.json({ limit: '5mb' })); // تقليص حد الاستقبال لحماية السيرفر وقاعدة البيانات من التضخم
+app.use(express.urlencoded({ limit: '5mb', extended: true }));
+app.use(express.static(path.join(__dirname)));
 
-// إتاحة قراءة الملفات من المجلد الرئيسي
-app.use(express.static(__dirname));
+// الاتصال بقاعدة البيانات MongoDB
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/athaar_digital';
+mongoose.connect(MONGODB_URI)
+    .then(() => console.log('تم الاتصال بقاعدة بيانات MongoDB بنجاح.'))
+    .catch(err => console.error('خطأ في الاتصال بقاعدة البيانات:', err));
 
-// الاتصال بقاعدة بيانات MongoDB
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/athaar";
-mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log('Connected successfully to MongoDB Atlas'))
-    .catch(err => console.error('MongoDB connection error:', err));
-
-// هيكل الطلبات السحابية
+// مخطط نماذج البيانات (Mongoose Schemas & Models)
 const OrderSchema = new mongoose.Schema({
-    name: String,
-    email: String,
-    phone: String,
-    service: String,
-    idea: String,
-    paymentMode: String,
-    ref: String,
-    finalDue: String,
-    requestTime: String,
+    name: { type: String, required: true },
+    email: { type: String, required: true },
+    phone: { type: String, required: true },
+    serviceType: { type: String, required: true },
+    description: { type: String, required: true },
+    paymentMethod: { type: String, required: true },
+    referenceNumber: { type: String },
+    amount: { type: Number, required: true },
+    receiptImage: { type: String }, // مخزن كـ Base64 (تم تقييد الحجم في الواجهة الأمامية)
     createdAt: { type: Date, default: Date.now }
 });
-const Order = mongoose.model('Order', OrderSchema);
 
-// هيكل المشاريع السحابية
 const ProjectSchema = new mongoose.Schema({
-    titleAr: String,
-    titleEn: String,
-    link: String,
+    titleAr: { type: String, required: true },
+    titleEn: { type: String, required: true },
+    projectLink: { type: String, required: true },
     createdAt: { type: Date, default: Date.now }
 });
+
+const Order = mongoose.model('Order', OrderSchema);
 const Project = mongoose.model('Project', ProjectSchema);
 
-// وسيط آمن لحماية لوحة التحكم
+// دالة التحقق الوسيطة للمسؤول (Admin Authentication Middleware)
 const verifyAdmin = (req, res, next) => {
-    const token = req.headers['authorization']?.split(' ')[1];
-    if (!token) return res.status(403).json({ success: false, message: 'غير مسموح بالدخول، التوكن مفقود.' });
-    
-    jwt.verify(token, process.env.JWT_SECRET || 'ATHAAR_SECRET_KEY', (err, decoded) => {
-        if (err) return res.status(401).json({ success: false, message: 'جلسة غير صالحة أو منتهية.' });
-        req.admin = decoded;
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+
+    if (!token) {
+        return res.status(401).json({ message: 'وصول مرفوض: التوكن غير موجود!' });
+    }
+
+    jwt.verify(token, JWT_SECRET, (err, user) => {
+        if (err) {
+            return res.status(403).json({ message: 'وصول مرفوض: التوكن غير صالح أو منتهي الصلاحية!' });
+        }
+        req.user = user;
         next();
     });
 };
 
-// تسجيل الدخول للإدارة
-app.post('/api/login', (req, res) => {
+// مسارات واجهات برمجية التطبيق (APIs Routes)
+
+// 1. تسجيل دخول المسؤول بمقارنة الهاش المشفر الآمن بدلاً من النص المكشوف
+app.post('/api/login', async (req, res) => {
     const { password } = req.body;
-    if (password === process.env.ADMIN_PASSWORD) {
-        const token = jwt.sign({ role: 'admin' }, process.env.JWT_SECRET || 'ATHAAR_SECRET_KEY', { expiresIn: '24h' });
-        return res.status(200).json({ success: true, token, message: 'دُخُولٌ نَاجِحٌ' });
-    } else {
-        return res.status(401).json({ success: false, message: 'كَلِمَةُ سِرٍّ خَاطِئَةٌ' });
+    const hashedPassword = process.env.ADMIN_PASSWORD_HASH;
+
+    if (!hashedPassword) {
+        return res.status(500).json({ message: 'خطأ داخلي: لم يتم ضبط الهاش المشفر للمسؤول بالسيرفر.' });
+    }
+
+    try {
+        const isMatch = await bcrypt.compare(password, hashedPassword);
+        if (!isMatch) {
+            return res.status(401).json({ message: 'كلمة المرور غير صحيحة!' });
+        }
+
+        // توليد توكن JWT آمن وموقع صالح لمدة 24 ساعة
+        const token = jwt.sign({ role: 'admin' }, JWT_SECRET, { expiresIn: '24h' });
+        return res.json({ token });
+    } catch (error) {
+        return res.status(500).json({ message: 'حدث خطأ أثناء معالجة تسجيل الدخول.' });
     }
 });
 
-// استقبال طلبات المستخدمين وحفظها سحابياً وإرسالها للتليجرام
+// 2. استقبال طلبات العملاء الجديدة وحفظها في قاعدة البيانات
 app.post('/api/send', async (req, res) => {
     try {
-        const { name, email, phone, service, idea, paymentMode, ref, finalDue, receiptFileBase64, receiptFileName } = req.body;
-        const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-        const CHAT_ID = process.env.TELEGRAM_CHAT_ID;
-
-        if (!BOT_TOKEN || !CHAT_ID) {
-            return res.status(500).json({ success: false, message: 'إِعْدَادَاتُ الْبُوتِ غَيْرُ مُكْتَمِلَةٍ.' });
-        }
-
-        const requestTime = new Date().toLocaleString('ar-DZ', { timeZone: 'Africa/Algiers' });
-
-        const newOrder = new Order({ name, email, phone, service, idea, paymentMode, ref, finalDue, requestTime });
+        const newOrder = new Order(req.body);
         await newOrder.save();
-
-        const caption = `🌟 طَلَبٌ جَدِيدٌ | آثَار الرَّقْمِيَّة 🌟\n` +
-            `⏱️ الوَقْت: ${requestTime}\n` +
-            `──────────────────\n` +
-            `👤 الاسْم: ${name || 'غَيْرُ مُحَدَّدٍ'}\n` +
-            `📧 البَرِيد: ${email || 'غَيْرُ مُحَدَّدٍ'}\n` +
-            `📱 الهَاتِف: ${phone || 'غَيْرُ مُحَدَّدٍ'}\n` +
-            `──────────────────\n` +
-            `💼 الخِدْمَة: ${service || 'غَيْرُ مُحَدَّدٍ'}\n` +
-            `💡 الفِكْرَة: ${idea || 'لَا يُوجَدُ'}\n` +
-            `──────────────────\n` +
-            `💳 طَرِيقَة الدَّفْع: ${paymentMode || 'غَيْرُ مُحَدَّدٍ'}\n` +
-            `🧾 رَقْم المَرْجِع: ${ref || 'لَا يُوجَدُ'}\n` +
-            `💰 المَبْلَغ المُسْتَحَق: ${finalDue || 'غَيْرُ مُحَدَّدٍ'}`;
-
-        if (receiptFileBase64) {
-            const base64Data = receiptFileBase64.replace(/^data:image\/\w+;base64,/, "");
-            const buffer = Buffer.from(base64Data, 'base64');
-            const blob = new Blob([buffer]);
-            const form = new FormData();
-            form.append('chat_id', CHAT_ID);
-            form.append('caption', caption);
-
-            let endpoint = 'sendPhoto';
-            let fieldName = 'photo';
-            if (receiptFileName && receiptFileName.toLowerCase().endsWith('.pdf')) {
-                endpoint = 'sendDocument';
-                fieldName = 'document';
-            }
-            form.append(fieldName, blob, receiptFileName || 'receipt.png');
-
-            const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/${endpoint}`, { method: 'POST', body: form });
-            const data = await response.json();
-            if(data.ok) return res.status(200).json({ success: true, message: 'تَمَّتِ الْعَمَلِيَّةُ بِنَجَاحٍ.' });
-        }
-
-        const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ chat_id: CHAT_ID, text: caption })
-        });
-        const data = await response.json();
-        if (data.ok) return res.status(200).json({ success: true, message: 'تَمَّ الإِرْسَالُ!' });
-        return res.status(400).json({ success: false, message: data.description });
-
+        res.status(201).json({ message: 'تم إرسال طلبك بنجاح! سنقوم بمراجعته والتواصل معك قريباً.' });
     } catch (error) {
-        return res.status(500).json({ success: false, message: error.message });
+        console.error('خطأ في حفظ الطلب:', error);
+        res.status(500).json({ message: 'حدث خطأ أثناء إرسال الطلب، يرجى المحاولة لاحقاً.' });
     }
 });
 
-// جلب المشاريع للعامة
-app.get('/api/projects', async (req, res) => {
-    try {
-        const projects = await Project.find().sort({ createdAt: -1 });
-        return res.status(200).json({ success: true, projects });
-    } catch (err) {
-        return res.status(500).json({ success: false, message: err.message });
-    }
-});
-
-// إضافة مشروع جديد
-app.post('/api/admin/projects', verifyAdmin, async (req, res) => {
-    try {
-        const { titleAr, titleEn, link } = req.body;
-        const newProject = new Project({ titleAr, titleEn, link });
-        await newProject.save();
-        return res.status(200).json({ success: true });
-    } catch (err) {
-        return res.status(500).json({ success: false, message: err.message });
-    }
-});
-
-// حذف مشروع
-app.delete('/api/admin/projects/:id', verifyAdmin, async (req, res) => {
-    try {
-        await Project.findByIdAndDelete(req.params.id);
-        return res.status(200).json({ success: true });
-    } catch (err) {
-        return res.status(500).json({ success: false, message: err.message });
-    }
-});
-
-// جلب الطلبات للمسؤول
+// 3. جلب جميع طلبات العملاء (مسار محمي للمسؤولين فقط مرتب تنازلياً)
 app.get('/api/admin/orders', verifyAdmin, async (req, res) => {
     try {
         const orders = await Order.find().sort({ createdAt: -1 });
-        return res.status(200).json({ success: true, orders });
-    } catch (err) {
-        return res.status(500).json({ success: false, message: err.message });
+        res.json(orders);
+    } catch (error) {
+        res.status(500).json({ message: 'خطأ في جلب الطلبات.' });
     }
 });
 
-// التوجيه الصارم والمستقر للوحة التحكم لمنع مشاكل الوصول الاستاتيكي
+// 4. إضافة مشروع جديد لمعرض الأعمال (مسار محمي)
+app.post('/api/admin/projects', verifyAdmin, async (req, res) => {
+    try {
+        const newProject = new Project(req.body);
+        await newProject.save();
+        res.status(201).json({ message: 'تم إضافة المشروع بنجاح إلى معرض الأعمال!' });
+    } catch (error) {
+        res.status(500).json({ message: 'خطأ في إضافة المشروع.' });
+    }
+});
+
+// 5. حذف مشروع من معرض الأعمال نهائياً (مسار محمي)
+app.delete('/api/admin/projects/:id', verifyAdmin, async (req, res) => {
+    try {
+        await Project.findByIdAndDelete(req.params.id);
+        res.json({ message: 'تم حذف المشروع بنجاح من المعرض!' });
+    } catch (error) {
+        res.status(500).json({ message: 'خطأ في حذف المشروع.' });
+    }
+});
+
+// توجيه افتراضي لخدمة واجهة لوحة تحكم المسؤول
 app.get('/admin', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'admin.html'));
+    res.sendFile(path.join(__dirname, 'admin.html'));
 });
 
-// التوجيه الافتراضي لباقي المسارات
-app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'Index.html'));
+// تشغيل خادم التطبيق
+app.listen(PORT, () => {
+    console.log(`السيرفر يعمل بكفاءة على المنفذ الاستمعاعي: http://localhost:${PORT}`);
 });
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server optimized on port ${PORT}`));
