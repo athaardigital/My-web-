@@ -10,16 +10,16 @@ const app = express();
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 
-// جَعْلُ السِّيرْفَرِ يَقْرَأُ الْمِلَفَّاتِ مِنَ الْمُجَلَّدِ الرَّئِيسِيِّ مُبَاشَرَةً
+// جعل السيرفر يقرأ الملفات من المجلد الرئيسي مباشرة
 app.use(express.static(__dirname));
 
-// 1. الاتصال بقاعدة بيانات MongoDB السحابية لضمان حفظ الطلبات
+// 1. الاتصال بقاعدة بيانات MongoDB السحابية لضمان حفظ البيانات
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/athaar";
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('Connected successfully to MongoDB Atlas'))
     .catch(err => console.error('MongoDB connection error:', err));
 
-// 2. بناء الهيكل السحابي للطلبات (Schema) لحفظها بشكل دائم
+// 2. بناء الهيكل السحابي للطلبات (Orders Schema) لحفظها بشكل دائم
 const OrderSchema = new mongoose.Schema({
     name: String,
     email: String,
@@ -34,6 +34,15 @@ const OrderSchema = new mongoose.Schema({
 });
 const Order = mongoose.model('Order', OrderSchema);
 
+// 3. بناء الهيكل السحابي للمشاريع (Portfolio Schema) لربط معرض الأعمال بالداتابيز
+const ProjectSchema = new mongoose.Schema({
+    titleAr: String,
+    titleEn: String,
+    link: String,
+    createdAt: { type: Date, default: Date.now }
+});
+const Project = mongoose.model('Project', ProjectSchema);
+
 // وسيط آمن لحماية لوحة التحكم والتحقق من التوكن الصادر (JWT Middleware)
 const verifyAdmin = (req, res, next) => {
     const token = req.headers['authorization']?.split(' ')[1];
@@ -46,7 +55,7 @@ const verifyAdmin = (req, res, next) => {
     });
 };
 
-// نُقْطَةُ اتِّصَالٍ آمِنَةٍ لِلتَّحَقُّقِ مِنْ كَلِمَةِ السِّرِّ عَبْرَ السِّيرْفَرِ وإصدار JWT
+// نقطة اتصال آمنة للتحقق من كلمة السر عبر السيرفر وإصدار JWT
 app.post('/api/login', (req, res) => {
     const { password } = req.body;
     if (password === process.env.ADMIN_PASSWORD) {
@@ -58,6 +67,7 @@ app.post('/api/login', (req, res) => {
     }
 });
 
+// استقبال الطلبات من المستخدمين وحفظها سحابياً وإرسالها للتليجرام
 app.post('/api/send', async (req, res) => {
     try {
         const { name, email, phone, service, idea, paymentMode, ref, finalDue, receiptFileBase64, receiptFileName } = req.body;
@@ -71,13 +81,12 @@ app.post('/api/send', async (req, res) => {
 
         const requestTime = new Date().toLocaleString('ar-DZ', { timeZone: 'Africa/Algiers' });
 
-        // [تطوير احترافي]: حفظ الطلب في قاعدة البيانات فوراً لضمان عدم ضياعه كنسخة احتياطية سحابية ثابتة
+        // حفظ الطلب في قاعدة البيانات فوراً كنسخة احتياطية سحابية ثابتة
         try {
             const newOrder = new Order({ name, email, phone, service, idea, paymentMode, ref, finalDue, requestTime });
             await newOrder.save();
         } catch (dbError) {
             console.error('Database Save Error:', dbError);
-            // يستمر الإرسال للتليجرام حتى لو تعطلت الداتابيز مؤقتاً لضمان مرونة الموقع
         }
 
         const caption = `🌟 طَلَبٌ جَدِيدٌ | آثَار الرَّقْمِيَّة 🌟\n` +
@@ -97,7 +106,6 @@ app.post('/api/send', async (req, res) => {
         if (receiptFileBase64) {
             const base64Data = receiptFileBase64.replace(/^data:image\/\w+;base64,/, "");
             const buffer = Buffer.from(base64Data, 'base64');
-            
             const blob = new Blob([buffer]);
             const form = new FormData();
             
@@ -130,15 +138,12 @@ app.post('/api/send', async (req, res) => {
         const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                chat_id: CHAT_ID,
-                text: caption
-            })
+            body: JSON.stringify({ chat_id: CHAT_ID, text: caption })
         });
 
         const data = await response.json();
         if (data.ok) {
-            return res.status(200).json({ success: true, message: 'تَمَّ إِرْسَالُ الطَّلَبِ بِنَجَاحٍ!' });
+            return res.status(200).json({ success: true, message: 'تَمَّ إِرْسَالُ الطَّلَبِ بِنَجَاح!' });
         } else {
             return res.status(400).json({ success: false, message: data.description });
         }
@@ -148,7 +153,39 @@ app.post('/api/send', async (req, res) => {
     }
 });
 
-// [نقطة اتصال جديدة للوحة التحكم]: جلب الطلبات السحابية بأمان تام
+// [إدارة المشاريع - عام]: جلب المشاريع لعرضها في الصفحة الرئيسية مباشرة من المونجو
+app.get('/api/projects', async (req, res) => {
+    try {
+        const projects = await Project.find().sort({ createdAt: -1 });
+        return res.status(200).json({ success: true, projects });
+    } catch (err) {
+        return res.status(500).json({ success: false, message: err.message });
+    }
+});
+
+// [إدارة المشاريع - مسؤول]: إضافة مشروع جديد لقاعدة البيانات السحابية
+app.post('/api/admin/projects', verifyAdmin, async (req, res) => {
+    try {
+        const { titleAr, titleEn, link } = req.body;
+        const newProject = new Project({ titleAr, titleEn, link });
+        await newProject.save();
+        return res.status(200).json({ success: true, message: 'تم حفظ العمل الجديد بنجاح في قاعدة البيانات!' });
+    } catch (err) {
+        return res.status(500).json({ success: false, message: err.message });
+    }
+});
+
+// [إدارة المشاريع - مسؤول]: حذف مشروع من قاعدة البيانات نهائياً
+app.delete('/api/admin/projects/:id', verifyAdmin, async (req, res) => {
+    try {
+        await Project.findByIdAndDelete(req.params.id);
+        return res.status(200).json({ success: true, message: 'تم حذف العمل بنجاح.' });
+    } catch (err) {
+        return res.status(500).json({ success: false, message: err.message });
+    }
+});
+
+// جلب الطلبات السحابية المحفوظة بأمان تام للوحة التحكم
 app.get('/api/admin/orders', verifyAdmin, async (req, res) => {
     try {
         const orders = await Order.find().sort({ createdAt: -1 });
@@ -158,12 +195,12 @@ app.get('/api/admin/orders', verifyAdmin, async (req, res) => {
     }
 });
 
-// توجيه السيرفر لفتح صفحة لوحة التحكم المنفصلة والآمنة عند طلب /admin
+// توجيه السيرفر لفتح صفحة لوحة التحكم المنفصلة عند طلب /admin
 app.get('/admin', (req, res) => {
     res.sendFile(path.join(__dirname, 'admin.html'));
 });
 
-// تَوْجِيهُ السِّيرْفَرِ لِفَتْحِ مِلَفِّ Index.html الْمُتَوَاجِدِ مَعَهُ فِي نَفْسِ الْمُجَلَّدِ الرَّئِيسِيِّ لجميع المسارات الأخرى
+// توجيه السيرفر لفتح ملف Index.html لجميع المسارات الأخرى
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'Index.html'));
 });
