@@ -4,210 +4,192 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>لوحة التحكم السحابية | آثار الرقمية</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Chakra+Petch:wght@600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: 'Chakra Petch', 'Cairo', sans-serif; background-color: #0c0c0e; color: #e4e4e7; margin: 0; padding: 1rem; box-sizing: border-box; }
-        .admin-wrap { max-width: 1200px; margin: 0 auto; padding: 10px; }
-        .admin-header { display: flex; flex-direction: column; gap: 1rem; border-bottom: 1px solid #27272a; padding-bottom: 1.5rem; margin-bottom: 2rem; }
-        @media (min-width: 768px) { .admin-header { flex-direction: row; justify-content: space-between; align-items: center; } }
-        .admin-header h2 { color: #d4af37; margin: 0; font-size: 1.4rem; }
-        .logout-btn { background: #ef4444; color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 8px; cursor: pointer; font-weight: bold; font-family: inherit; }
-        
-        .admin-grid-layout { display: grid; grid-template-columns: 1fr; gap: 2rem; }
-        @media (min-width: 992px) { .admin-grid-layout { grid-template-columns: 2fr 1fr; } }
-
-        .admin-block { background: #18181b; border: 1px solid #27272a; padding: 1.2rem; border-radius: 12px; }
-        .admin-input-group { margin-bottom: 1rem; }
-        .admin-field { width: 100%; background: #09090b; border: 1px solid #27272a; color: #fff; padding: 0.7rem; border-radius: 6px; font-family: inherit; box-sizing: border-box; }
-        .admin-btn { background: #d4af37; color: #000; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: 700; font-family: inherit; width: 100%; transition: 0.2s; }
-        .admin-btn:hover { background: #b5922e; }
-
-        .order-card { background: #18181b; border: 1px solid #27272a; padding: 1.2rem; border-radius: 14px; margin-bottom: 1.5rem; border-right: 4px solid #d4af37; }
-        .order-grid { display: grid; grid-template-columns: 1fr; gap: 0.8rem; margin-top: 1rem; background: #09090b; padding: 1rem; border-radius: 8px; }
-        @media (min-width: 480px) { .order-grid { grid-template-columns: 1fr 1fr; } }
-        .grid-item { font-size: 0.9rem; color: #a1a1aa; word-break: break-all; }
-        .grid-item strong { color: #f4f4f5; display: block; margin-bottom: 0.2rem; }
-        
-        .login-panel { max-width: 400px; margin: 10vh auto; background: #18181b; padding: 2rem; border-radius: 16px; border: 1px solid #27272a; text-align: center; box-sizing: border-box; }
-        .data-list-item { background: #09090b; padding: 12px; border-radius: 6px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; border: 1px solid #27272a; gap: 10px; }
-        .delete-btn { background: none; border: none; color: #f87171; cursor: pointer; font-size: 1.1rem; }
+        body {
+            background-color: #0f172a; color: #f1f5f9; font-family: system-ui, sans-serif; margin: 0; padding: 0;
+        }
+        .panel { padding: 2rem; max-width: 1300px; margin: 0 auto; display: none; }
+        .login-container {
+            max-width: 400px; margin: 15vh auto; background: #1e293b; padding: 2.5rem;
+            border-radius: 12px; border: 1px solid #334155; text-align: center;
+        }
+        input, select, button, textarea {
+            width: 100%; padding: 0.75rem; border-radius: 6px; border: 1px solid #334155;
+            background: #0f172a; color: white; box-sizing: border-box; margin-bottom: 1.25rem;
+        }
+        button { background: #3b82f6; cursor: pointer; font-weight: bold; border: none; }
+        button:hover { background: #2563eb; }
+        .header-panel { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; padding-bottom: 1rem; }
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+        .order-card { background: #1e293b; border: 1px solid #334155; border-radius: 10px; padding: 1.5rem; }
+        .badge { display: inline-block; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem; font-weight: bold; background: #10b981; }
+        .receipt-preview { width: 100%; max-height: 200px; object-fit: contain; background: #0f172a; border-radius: 6px; margin-top: 1rem; cursor: pointer; }
+        .project-section { background: #1e293b; padding: 2rem; border-radius: 12px; margin-top: 3rem; border: 1px solid #334155; }
     </style>
 </head>
 <body>
 
-    <div id="loginArea" class="login-panel">
-        <h3 style="color: #d4af37; margin-bottom: 0.5rem;"><i class="fa-solid fa-shield-halved"></i> نظام الإدارة الآمن</h3>
-        <p style="color: #71717a; font-size: 0.85rem; margin-bottom: 1.5rem;">يرجى إدخال كلمة المرور السحابية للدخول</p>
-        <input type="password" id="passCode" class="admin-field" style="text-align:center; margin-bottom: 1.5rem;" placeholder="كلمة المرور">
-        <button onclick="submitLogin()" class="admin-btn">تأكيد الجلسة</button>
+<!-- واجهة حجب وحماية اللوحة - تسجيل الدخول -->
+<div class="login-container" id="login-panel">
+    <h2>تسجيل دخول الإدارة</h2>
+    <p style="color: #94a3b8; font-size: 0.9rem;">الوصول مخصص للمسؤولين المصرح لهم بمفاتيح التشفير فقط</p>
+    <input type="password" id="admin-pass" placeholder="أدخل كلمة المرور الإدارية">
+    <button id="login-btn">دخول آمن بالنظام</button>
+</div>
+
+<!-- لوحة التحكم الإدارية المفتوحة بالتوكن -->
+<div class="panel" id="main-panel">
+    <div class="header-panel">
+        <div>
+            <h1>لوحة إدارة الطلبات والمشاريع ⚙️</h1>
+            <p style="color: #94a3b8; margin: 0;">مراجعة فورية لمدفوعات العملاء والتحكم في معرض الأعمال</p>
+        </div>
+        <button id="logout-btn" style="width: auto; background: #ef4444; padding: 0.5rem 1.5rem;">تسجيل خروج</button>
     </div>
 
-    <div id="dashboardArea" class="admin-wrap" style="display: none;">
-        <div class="admin-header">
-            <h2><i class="fa-solid fa-server"></i> السجلات والتحكم السحابي الموحد</h2>
-            <button class="logout-btn" onclick="triggerLogout()"><i class="fa-solid fa-right-from-bracket"></i> خروج</button>
-        </div>
-
-        <div class="admin-grid-layout">
-            <div>
-                <div class="admin-block" style="margin-bottom: 1.5rem;">
-                    <h3 style="color:#d4af37; margin-top:0;">إضافة عمل جديد إلى الموقع (MongoDB)</h3>
-                    <form id="adminProjectForm" onsubmit="handleAdminSubmit(event)">
-                        <div style="display:grid; grid-template-columns: 1fr; gap: 1rem;">
-                            <div class="admin-input-group">
-                                <label style="font-size:0.85rem; color:#a1a1aa;">اسم المشروع (بالعربية)</label>
-                                <input type="text" id="adminProjTitleAr" class="admin-field" required>
-                            </div>
-                            <div class="admin-input-group">
-                                <label style="font-size:0.85rem; color:#a1a1aa;">اسم المشروع (بالإنجليزية)</label>
-                                <input type="text" id="adminProjTitleEn" class="admin-field" required>
-                            </div>
-                        </div>
-                        <div class="admin-input-group">
-                            <label style="font-size:0.85rem; color:#a1a1aa;">رابط الموقع أو المعاينة</label>
-                            <input type="url" id="adminProjLink" class="admin-field" required>
-                        </div>
-                        <button type="submit" class="admin-btn" style="background:#34d399;">نشر العمل في قاعدة البيانات</button>
-                    </form>
-                </div>
-
-                <h3 style="color: #f4f4f5;"><i class="fa-solid fa-list-check" style="color: #d4af37;"></i> الطلبات التاريخية المستلمة</h3>
-                <div id="ordersContainer"></div>
-            </div>
-
-            <div>
-                <div class="admin-block">
-                    <h3 style="color:#d4af37; margin-top:0;">النماذج المعروضة حالياً</h3>
-                    <div id="adminProjectsContainer"></div>
-                </div>
-            </div>
-        </div>
+    <h2 style="margin-top: 2.5rem;">الطلبات الواردة الحالية (<span id="orders-count">0</span>)</h2>
+    <div class="cards-grid" id="orders-container">
+        <!-- تُبنى بطاقات طلبات العملاء ديناميكياً هنا -->
     </div>
 
-    <script>
-        const STORAGE_KEY = "athaar_secure_token";
+    <!-- قسم إدارة معرض الأعمال والمشاريع الحية -->
+    <div class="project-section">
+        <h2>إضافة مشروع جديد لمعرض الأعمال</h2>
+        <form id="project-form" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; align-items: end;">
+            <div>
+                <label>العنوان بالعربية:</label>
+                <input type="text" id="p-title-ar" required style="margin: 0; margin-top: 0.5rem;">
+            </div>
+            <div>
+                <label>العنوان بالإنجليزية:</label>
+                <input type="text" id="p-title-en" required style="margin: 0; margin-top: 0.5rem;">
+            </div>
+            <div>
+                <label>رابط المشروع التفاعلي:</label>
+                <input type="url" id="p-link" required style="margin: 0; margin-top: 0.5rem;">
+            </div>
+            <button type="submit" style="grid-column: span 3; margin: 0; margin-top: 1rem;">نشر المشروع الحي في المعرض</button>
+        </form>
+    </div>
+</div>
 
-        document.addEventListener("DOMContentLoaded", evaluateSession);
+<script>
+    const tokenKey = 'athaar_admin_token';
 
-        function evaluateSession() {
-            const token = localStorage.getItem(STORAGE_KEY);
-            if (!token) {
-                document.getElementById("loginArea").style.display = "block";
-                document.getElementById("dashboardArea").style.display = "none";
-            } else {
-                document.getElementById("loginArea").style.display = "none";
-                document.getElementById("dashboardArea").style.display = "block";
-                fetchCloudOrders();
-                fetchAdminProjects();
-            }
+    window.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem(tokenKey)) {
+            showMainPanel();
         }
+    });
 
-        async function submitLogin() {
-            const password = document.getElementById("passCode").value;
+    // برمجية إرسال واستقبال طلب الولوج عبر السيرفر
+    document.getElementById('login-btn').addEventListener('click', async () => {
+        const password = document.getElementById('admin-pass').value;
+        try {
             const response = await fetch('/api/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ password })
             });
             const data = await response.json();
-            if (data.success) {
-                localStorage.setItem(STORAGE_KEY, data.token);
-                evaluateSession();
+            
+            if (response.ok) {
+                localStorage.setItem(tokenKey, data.token);
+                showMainPanel();
             } else {
-                alert(data.message);
+                alert('خطأ في الولوج: ' + data.message);
             }
+        } catch (err) {
+            alert('فشل الاتصال بالخادم الخلفي.');
         }
+    });
 
-        function triggerLogout() {
-            localStorage.removeItem(STORAGE_KEY);
-            evaluateSession();
-        }
+    document.getElementById('logout-btn').addEventListener('click', () => {
+        localStorage.removeItem(tokenKey);
+        location.reload();
+    });
 
-        async function fetchCloudOrders() {
-            const token = localStorage.getItem(STORAGE_KEY);
+    function showMainPanel() {
+        document.getElementById('login-panel').style.display = 'none';
+        document.getElementById('main-panel').style.display = 'block';
+        fetchOrders();
+    }
+
+    // استدعاء وعرض طلبات العملاء بالاعتماد على توكن JWT الموثق
+    async function fetchOrders() {
+        try {
             const response = await fetch('/api/admin/orders', {
-                headers: { 'Authorization': `Bearer ${token}` }
+                headers: { 'Authorization': 'Bearer ' + localStorage.getItem(tokenKey) }
             });
-            const data = await response.json();
-            if (!data.success) return triggerLogout();
-
-            const container = document.getElementById("ordersContainer");
-            container.innerHTML = "";
-            if (data.orders.length === 0) {
-                container.innerHTML = '<p style="color:#71717a; text-align:center; padding:2rem;">لا توجد طلبات بعد.</p>';
+            
+            if (response.status === 401 || response.status === 403) {
+                alert('انتهت صلاحية الجلسة الآمنة الموثقة، يرجى إعادة تسجيل الدخول.');
+                localStorage.removeItem(tokenKey);
+                location.reload();
                 return;
             }
 
-            data.orders.forEach(order => {
-                container.innerHTML += `
-                    <div class="order-card">
-                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:5px;">
-                            <strong style="color:#d4af37;">${order.name || 'غير محدد'}</strong>
-                            <span style="color:#71717a; font-size:0.8rem;">${order.requestTime || ''}</span>
-                        </div>
-                        <div class="order-grid">
-                            <div class="grid-item"><strong>البريد</strong>${order.email || '-'}</div>
-                            <div class="grid-item"><strong>الهاتف</strong>${order.phone || '-'}</div>
-                            <div class="grid-item"><strong>الخدمة</strong>${order.service || '-'}</div>
-                            <div class="grid-item"><strong>الدفع</strong>${order.paymentMode || '-'}</div>
-                            <div class="grid-item"><strong>المجموع</strong>${order.finalDue || '-'}</div>
-                        </div>
-                        ${order.idea ? `<div style="background:#27272a; padding:8px; border-radius:6px; margin-top:10px; font-size:0.9rem; color:#d4af37;"><strong>الوصف:</strong> ${order.idea}</div>` : ''}
-                    </div>`;
-            });
-        }
-
-        async function fetchAdminProjects() {
-            const response = await fetch('/api/projects');
-            const data = await response.json();
-            const container = document.getElementById("adminProjectsContainer");
-            container.innerHTML = "";
-            if (data.projects && data.projects.length > 0) {
-                data.projects.forEach(proj => {
-                    container.innerHTML += `
-                        <div class="data-list-item">
-                            <span style="word-break:break-all;"><strong>${proj.titleAr}</strong></span>
-                            <button class="delete-btn" onclick="deleteProject('${proj._id}')"><i class="fa-solid fa-trash"></i></button>
-                        </div>`;
-                });
-            } else {
-                container.innerHTML = '<p style="color:#71717a; text-align:center;">لا توجد نماذج.</p>';
-            }
-        }
-
-        async function handleAdminSubmit(e) {
-            e.preventDefault();
-            const titleAr = document.getElementById("adminProjTitleAr").value;
-            const titleEn = document.getElementById("adminProjTitleEn").value;
-            const link = document.getElementById("adminProjLink").value;
-            const token = localStorage.getItem(STORAGE_KEY);
+            const orders = await response.json();
+            document.getElementById('orders-count').innerText = orders.length;
             
+            const container = document.getElementById('orders-container');
+            container.innerHTML = '';
+
+            orders.forEach(order => {
+                const card = document.createElement('div');
+                card.className = 'order-card';
+                card.innerHTML = `
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <h3 style="margin:0; color:#3b82f6;">${order.name}</h3>
+                        <span class="badge">${order.amount} ريال</span>
+                    </div>
+                    <p style="margin: 0.5rem 0; font-size:0.9rem; color:#94a3b8;">📧 ${order.email} | 📞 ${order.phone}</p>
+                    <div style="background:#0f172a; padding:0.75rem; border-radius:6px; margin:1rem 0;">
+                        <strong>الخدمة:</strong> ${order.serviceType}<br>
+                        <strong>الوصف:</strong> ${order.description}
+                    </div>
+                    <p style="margin:0; font-size:0.85rem;"><strong>الوسيلة:</strong> ${order.paymentMethod} | <strong>المرجع:</strong> ${order.referenceNumber || 'لا يوجد'}</p>
+                    ${order.receiptImage ? `<img src="${order.receiptImage}" class="receipt-preview" onclick="window.open(this.src)" title="اضغط لفتح الإيصال بحجمه الكامل">` : '<p style="color:#ef4444; font-size:0.85rem; margin-top:1rem;">لم يتم إرفاق إيصال الدفع البنكي!</p>'}
+                    <p style="font-size:0.75rem; color:#64748b; margin-top:0.75rem; text-align:left;">${new Date(order.createdAt).toLocaleString('ar-SA')}</p>
+                `;
+                container.appendChild(card);
+            });
+        } catch (err) {
+            console.error('خطأ أثناء جلب الطلبات الواردة:', err);
+        }
+    }
+
+    // إرسال ونشر مشروع جديد إلى قاعدة البيانات
+    document.getElementById('project-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const payload = {
+            titleAr: document.getElementById('p-title-ar').value,
+            titleEn: document.getElementById('p-title-en').value,
+            projectLink: document.getElementById('p-link').value
+        };
+
+        try {
             const response = await fetch('/api/admin/projects', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-                body: JSON.stringify({ titleAr, titleEn, link })
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem(tokenKey)
+                },
+                body: JSON.stringify(payload)
             });
             const data = await response.json();
-            if(data.success) {
-                document.getElementById("adminProjectForm").reset();
-                fetchAdminProjects();
-            } else {
+            
+            if (response.ok) {
                 alert(data.message);
+                this.reset();
+            } else {
+                alert('فشل إضافة المشروع الحية: ' + data.message);
             }
+        } catch (err) {
+            alert('حدث خطأ فني أثناء محاولة إرسال البيانات.');
         }
-
-        async function deleteProject(id) {
-            if(!confirm("هل أنت متأكد؟")) return;
-            const token = localStorage.getItem(STORAGE_KEY);
-            const response = await fetch(`/api/admin/projects/${id}`, {
-                method: 'DELETE',
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-            const data = await response.json();
-            if(data.success) fetchAdminProjects();
-        }
-    </script>
+    });
+</script>
 </body>
 </html>
 
