@@ -6,9 +6,8 @@
     <title>آثار الرقمية | Athaar Digital</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Chakra+Petch:wght@400;600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&family=Chakra+Petch:wght@400;600;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css\">\n    
     <style>
         :root {
             --font-title: clamp(1.8rem, 4vw, 3.2rem);
@@ -18,662 +17,1591 @@
             
             --section-padding: clamp(5rem, 8vw, 8rem);
             --card-padding: clamp(1.5rem, 3vw, 2.5rem);
-            --grid-gap: clamp(1.5rem, 3vw, 3rem);
-            --site-margin: clamp(5%, 10vw, 12%);
             
-            --transition-speed: 0.4s;
-            
-            --bg-primary: #060a12;
-            --bg-secondary: #0b1220;
-            --bg-card: rgba(11, 18, 32, 0.7);
-            --text-main: #e6edf3;
-            --text-muted: #8b949e;
-            --accent-color: #d4af37;
-            --accent-glow: rgba(212, 175, 55, 0.25);
-            --nav-bg: rgba(6, 10, 18, 0.85);
-            --border-color: rgba(212, 175, 55, 0.15);
+            /* Dark Theme Colors */
+            --bg-main: #070708;
+            --bg-surface: #0f0f12;
+            --bg-card: #141419;
+            --border-color: #22222a;
+            --text-main: #f4f4f7;
+            --text-muted: #a1a1aa;
+            --accent: #d4af37; /* الذهبي الإمبراطوري */
+            --accent-glow: rgba(212, 175, 55, 0.15);
+            --accent-hover: #f3cf55;
+            --neon-blue: #38bdf8;
+            --card-shadow: 0 10px 30px -10px rgba(0,0,0,0.7);
         }
 
         [data-theme="light"] {
-            --bg-primary: #f8f9fa;
-            --bg-secondary: #ffffff;
-            --bg-card: rgba(255, 255, 255, 0.85);
-            --text-main: #1a202c;
-            --text-muted: #5a6578;
-            --accent-color: #b5952f;
-            --accent-glow: rgba(181, 149, 47, 0.2);
-            --nav-bg: rgba(248, 249, 250, 0.85);
-            --border-color: rgba(181, 149, 47, 0.3);
+            --bg-main: #f8f9fa;
+            --bg-surface: #ffffff;
+            --bg-card: #f1f3f5;
+            --border-color: #dee2e6;
+            --text-main: #212529;
+            --text-muted: #6c757d;
+            --accent: #b58900;
+            --accent-glow: rgba(181, 137, 0, 0.1);
+            --accent-hover: #947000;
+            --neon-blue: #0284c7;
+            --card-shadow: 0 10px 30px -15px rgba(0,0,0,0.1);
         }
 
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-        }
-
-        body, input, select, textarea, button {
-            font-family: 'Chakra Petch', 'Cairo', sans-serif;
-            letter-spacing: 0.3px;
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
         }
 
         body {
-            background-color: var(--bg-primary);
+            background-color: var(--bg-main);
             color: var(--text-main);
+            font-family: 'Cairo', sans-serif;
             overflow-x: hidden;
-            line-height: 1.6;
-            background-image: 
-                linear-gradient(rgba(212, 175, 55, 0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(212, 175, 55, 0.02) 1px, transparent 1px);
-            background-size: 40px 40px;
-            background-attachment: fixed;
-            transition: background-color var(--transition-speed), color var(--transition-speed);
+            line-height: 1.7;
         }
 
-        .navbar {
+        html[lang="en"] body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Navbar Style */
+        nav {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             z-index: 1000;
-            background: var(--nav-bg);
+            background: rgba(7, 7, 8, 0.75);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border-color);
-            padding: 1rem var(--site-margin);
+            padding: 1rem 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .nav-logo {
-            font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+            font-family: 'Chakra Petch', sans-serif;
             font-weight: 700;
-            color: var(--accent-color);
-            text-decoration: none;
-            letter-spacing: 1px;
+            font-size: 1.5rem;
+            color: var(--text-main);
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
             user-select: none;
+        }
+
+        .nav-logo span {
+            color: var(--accent);
         }
 
         .nav-controls {
             display: flex;
-            gap: 1rem;
             align-items: center;
+            gap: 1rem;
         }
 
-        .btn-toggle {
-            background: transparent;
+        .nav-btn {
+            background: none;
             border: 1px solid var(--border-color);
-            color: var(--accent-color);
+            color: var(--text-main);
             padding: 0.5rem 1rem;
-            border-radius: 30px;
+            border-radius: 6px;
             cursor: pointer;
+            font-family: inherit;
             font-size: var(--font-nav);
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            font-weight: bold;
-            transition: 0.3s;
         }
 
-        .btn-toggle:hover {
-            border-color: var(--accent-color);
-            box-shadow: 0 0 15px var(--accent-glow);
-            transform: translateY(-2px);
+        .nav-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
         }
 
+        /* Hero Section */
         .hero {
-            padding: calc(var(--section-padding) + 4rem) var(--site-margin) var(--section-padding) var(--site-margin);
-            text-align: center;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
             justify-content: center;
-            min-height: 85vh;
+            align-items: center;
+            text-align: center;
+            padding: 0 10%;
+            margin-top: 60px;
             position: relative;
         }
 
-        .hero-title {
+        .hero h1 {
             font-size: var(--font-title);
             font-weight: 700;
             margin-bottom: 1.5rem;
             line-height: 1.3;
-            letter-spacing: 1px;
-            background: linear-gradient(to right, #f3e5ab, var(--accent-color), #b5952f);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            max-width: 900px;
         }
 
-        .typewriter-container {
-            min-height: 4rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 2rem;
+        .hero p {
+            font-size: var(--font-subtitle);
+            color: var(--text-muted);
+            max-width: 750px;
+            margin-bottom: 2.5rem;
         }
 
-        .typewriter-text {
-            font-size: clamp(1.1rem, 2.5vw, 1.6rem);
-            color: var(--text-main);
-            padding-right: 5px;
+        .typewriter-wrapper {
+            font-family: 'Chakra Petch', 'Cairo', sans-serif;
+            font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+            color: var(--accent);
             font-weight: 600;
-            border-left: 3px solid var(--accent-color);
-        }
-        
-        [dir="ltr"] .typewriter-text {
-            border-left: none;
-            border-right: 3px solid var(--accent-color);
-            padding-left: 5px;
+            margin-bottom: 2rem;
+            min-height: 2.5rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
 
+        .cursor {
+            display: inline-block;
+            width: 3px;
+            height: 1.6rem;
+            background-color: var(--accent);
+            animation: blink 0.75s step-end infinite;
+        }
+
+        @keyframes blink {
+            from, to { background-color: transparent }
+            50% { background-color: var(--accent); }
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: #070708;
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px var(--accent-glow);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary:disabled {
+            background-color: var(--text-muted);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Sections Grid Layout */
         .section-container {
-            padding: var(--section-padding) var(--site-margin);
+            padding: var(--section-padding) 10%;
             max-width: 1400px;
             margin: 0 auto;
         }
 
-        .section-header {
-            text-align: center;
-            margin-bottom: calc(var(--grid-gap) * 1.2);
-        }
-
         .section-title {
-            font-size: clamp(1.6rem, 3vw, 2.2rem);
-            color: var(--accent-color);
-            margin-bottom: 1rem;
+            font-size: calc(var(--font-title) * 0.75);
+            text-align: center;
+            margin-bottom: 4rem;
             position: relative;
-            display: inline-block;
-            font-weight: 700;
         }
 
         .section-title::after {
             content: '';
-            position: absolute;
-            bottom: -12px;
-            left: 50%;
-            transform: translateX(-50%);
+            display: block;
             width: 50px;
-            height: 2px;
-            background-color: var(--accent-color);
+            height: 3px;
+            background-color: var(--accent);
+            margin: 1rem auto 0;
         }
 
-        .responsive-grid {
+        .grid-cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(clamp(260px, 25vw, 360px), 1fr));
-            gap: var(--grid-gap);
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
         }
 
-        /* تعديل بطاقات الخدمات لدعم تأثير منتصف الشاشة */
         .interactive-card {
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 16px;
             padding: var(--card-padding);
-            text-align: center;
-            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
             position: relative;
-            opacity: 0.4;
-            transform: scale(0.96);
-            transition: opacity 0.4s ease, transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+            overflow: hidden;
+        }
+
+        .interactive-card:hover, .interactive-card.center-focused {
+            border-color: var(--accent);
+            box-shadow: 0 15px 35px -10px var(--accent-glow);
+        }
+
+        .interactive-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--text-main);
+        }
+
+        .interactive-card p {
+            color: var(--text-muted);
+            font-size: var(--font-body);
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Portfolio Specific */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .portfolio-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 220px;
+        }
+
+        .portfolio-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .portfolio-icon-wrap {
+            font-size: 1.8rem;
+            color: var(--neon-blue);
+            margin-bottom: 1rem;
+        }
+
+        .portfolio-link-btn {
+            align-self: flex-start;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .portfolio-soon {
+            grid-column: 1 / -1;
+            text-align: center;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        /* FAQ Section */
+        .faq-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .faq-item {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .faq-trigger {
+            width: 100%;
+            background: none;
+            border: none;
+            padding: 1.2rem 1.5rem;
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: right;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             cursor: pointer;
         }
 
-        /* الارتفاع والسطوع التلقائي عند التركيز بمنتصف الشاشة */
-        .interactive-card.center-focused {
-            opacity: 1 !important;
-            transform: translateY(-15px) scale(1.05) !important;
-            border-color: var(--accent-color) !important;
-            box-shadow: 0 12px 30px var(--accent-glow) !important;
+        html[lang="en"] .faq-trigger {
+            text-align: left;
         }
 
-        .card-icon { font-size: 2.5rem; color: var(--accent-color); margin-bottom: 1.5rem; }
-        .card-title { color: #f3e5ab; font-size: clamp(1.1rem, 1.5vw, 1.3rem); margin-bottom: 15px; font-weight: 600; }
-        [data-theme="light"] .card-title { color: var(--accent-color); }
-        .card-text { font-size: 0.95rem; color: var(--text-muted); line-height: 1.7; }
-        .price-badge { display: inline-block; background: rgba(212, 175, 55, 0.06); border: 1px dashed rgba(212, 175, 55, 0.4); color: var(--accent-color); padding: 6px 14px; border-radius: 6px; font-weight: 700; font-size: 0.9rem; margin-top: 15px; }
+        .faq-trigger i {
+            transition: transform 0.3s ease;
+            color: var(--text-muted);
+        }
 
-        /* معرض الأعمال السحابي */
-        .portfolio-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 1.5rem;
+        .faq-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            padding: 0 1.5rem;
+            color: var(--text-muted);
+            font-size: var(--font-body);
+        }
+
+        .faq-item.active .faq-trigger i {
+            transform: rotate(180deg);
+            color: var(--accent);
+        }
+
+        .faq-item.active .faq-content {
+            max-height: 200px;
+            padding-bottom: 1.5rem;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: 2rem 5%;
             text-align: center;
-            transition: 0.3s;
+            color: var(--text-muted);
+            font-size: 0.95rem;
         }
-        .portfolio-card:hover { border-color: var(--accent-color); transform: translateY(-5px); }
-        .portfolio-link { color: var(--accent-color); text-decoration: none; font-weight: bold; font-size: 0.9rem; margin-top: 10px; display: inline-block; }
 
-        /* FAQ */
-        .faq-container { max-width: 800px; margin: 0 auto; }
-        .faq-item { background: var(--bg-card); border: 1px solid var(--border-color); margin-bottom: 12px; border-radius: 8px; overflow: hidden; }
-        .faq-question { width: 100%; text-align: start; padding: 16px 20px; background: transparent; border: none; color: var(--text-main); font-size: 1rem; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-        .faq-question i { color: var(--accent-color); transition: transform 0.3s; }
-        .faq-answer { max-height: 0; overflow: hidden; padding: 0 20px; transition: max-height 0.3s, padding 0.3s; color: var(--text-muted); font-size: 0.95rem; }
-        .faq-item.active .faq-answer { max-height: 200px; padding: 0 20px 16px 20px; }
-        .faq-item.active .faq-question i { transform: rotate(180deg); }
+        /* Modal & Form Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 5, 6, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            overflow-y: auto;
+        }
 
-        /* الأزرار والمودال والفيدباك */
-        .btn-primary { background: transparent; color: var(--accent-color) !important; border: 1px solid var(--accent-color); font-weight: 700; padding: 0.8rem 2.5rem; font-size: var(--font-body); border-radius: 8px; cursor: pointer; text-decoration: none; transition: 0.3s; }
-        .btn-primary:hover { background: var(--accent-color); color: #060a12 !important; box-shadow: 0 0 20px var(--accent-glow); transform: translateY(-3px); }
-        
-        .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); backdrop-filter:blur(8px); z-index:2000; display:flex; justify-content:center; align-items:center; opacity:0; visibility:hidden; transition: 0.3s; padding:1rem; }
-        .modal-overlay.active { opacity:1; visibility:visible; }
-        .modal-window { background: var(--bg-primary); border:1px solid var(--accent-color); width:100%; max-width:550px; max-height:90vh; border-radius:16px; overflow-y:auto; padding:30px; position:relative; }
-        .modal-close { position:absolute; top:20px; left:20px; background:none; border:none; color:var(--text-muted); font-size:1.5rem; cursor:pointer; }
-        [dir="ltr"] .modal-close { left:auto; right:20px; }
-        
-        .form-group { margin-bottom: 1rem; text-align: start; }
-        .form-label { display: block; margin-bottom: 0.4rem; font-size: 0.9rem; color: var(--text-main); }
-        .form-control { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: var(--text-main); padding: 10px 14px; border-radius: 6px; box-sizing: border-box; }
-        .form-control:focus { border-color: var(--accent-color); outline:none; }
-        
-        .payment-options { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
-        .payment-option { background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 12px; border-radius: 6px; text-align: center; cursor: pointer; font-weight: bold; }
-        .payment-option.active { border-color: var(--accent-color); background: rgba(212,175,55,0.1); color: var(--accent-color); }
-        
-        .receipt-card { background: rgba(11,18,32,0.9); border: 1px dashed var(--accent-color); border-radius: 8px; padding: 15px; margin-top: 1rem; }
-        .receipt-row { display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 6px; }
-        .receipt-total { border-top: 1px solid var(--border-color); margin-top: 8px; padding-top: 8px; font-weight: 700; color: var(--accent-color); }
-        
-        .form-feedback { padding: 12px; border-radius: 6px; text-align: center; margin-top: 1rem; display: none; font-weight: bold; }
-        .form-feedback.success { background: rgba(52,211,153,0.15); color: #34d399; }
-        .form-feedback.error { background: rgba(248,113,113,0.15); color: #f87171; }
+        .modal-window {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            animation: modalFadeIn 0.3s ease;
+        }
 
-        footer { border-top: 1px solid var(--border-color); padding: 40px 20px; text-align: center; background: var(--bg-secondary); margin-top: 40px; }
-        .social-links { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; }
-        .social-btn { color: #fff; text-decoration: none; padding: 8px 20px; border-radius: 20px; font-weight: 600; display: flex; align-items: center; gap: 6px; font-size: 0.9rem; }
-        .wa-btn { background: #25D366; } .tg-btn { background: #0088cc; } .ig-btn { background: linear-gradient(45deg, #e6683c, #cc2366, #bc1888); }
+        @keyframes modalFadeIn {
+            from { transform: translateY(15px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            font-size: 1.4rem;
+            color: var(--accent);
+        }
+
+        .close-modal-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .close-modal-btn:hover {
+            color: var(--text-main);
+        }
+
+        /* Form Controls */
+        .order-form-body {
+            padding: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .form-control {
+            width: 100%;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        /* Extensions & Options */
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            background-color: var(--bg-card);
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .checkbox-label input {
+            accent-color: var(--accent);
+            width: 17px;
+            height: 17px;
+        }
+
+        /* Payment UI Layout */
+        .payment-methods-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .payment-option {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .payment-option.active {
+            border-color: var(--accent);
+            background-color: rgba(212, 175, 55, 0.05);
+            color: var(--accent);
+        }
+
+        .payment-info-box {
+            background-color: var(--bg-card);
+            border: 1px dashed var(--border-color);
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        /* Invoice Summary Block */
+        .invoice-summary {
+            background-color: rgba(212, 175, 55, 0.04);
+            border: 1px solid var(--accent);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .invoice-summary h3 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+            border-bottom: 1px dashed rgba(212, 175, 55, 0.3);
+            padding-bottom: 0.5rem;
+        }
+
+        .invoice-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.6rem;
+            font-size: 0.95rem;
+        }
+
+        .invoice-row.total {
+            font-weight: 700;
+            font-size: 1.2rem;
+            border-top: 1px solid rgba(212, 175, 55, 0.3);
+            padding-top: 0.6rem;
+            margin-top: 0.6rem;
+            color: var(--text-main);
+        }
+
+        .btn-submit-order {
+            width: 100%;
+            background-color: var(--accent);
+            color: #070708;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn-submit-order:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .btn-submit-order:disabled {
+            background-color: var(--text-muted);
+            cursor: not-allowed;
+        }
+
+        /* Feedback Zone */
+        .form-feedback {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            display: none;
+        }
+
+        .form-feedback.info { background: rgba(56, 189, 248, 0.1); border: 1px solid var(--neon-blue); color: var(--neon-blue); }
+        .form-feedback.success { background: rgba(16, 185, 129, 0.1); border: 1px solid #10b981; color: #10b981; }
+        .form-feedback.error { background: rgba(239, 68, 68, 0.1); border: 1px solid #ef4444; color: #ef4444; }
+
+        /* Banners */
+        .banner-alert {
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid var(--accent);
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        /* Secret Admin Panel Minimal Style Overlay */
+        .admin-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0c0c0e;
+            z-index: 5000;
+            display: none;
+            padding: 3rem 10%;
+            overflow-y: auto;
+        }
+
+        .admin-close {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            background: none;
+            border: 1px solid #27272a;
+            color: white;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        html[lang="en"] .admin-close {
+            left: auto;
+            right: 2rem;
+        }
+
+        .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .admin-box {
+            background: #141419;
+            border: 1px solid #27272a;
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        .admin-box h3 {
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            font-family: 'Chakra Petch', sans-serif;
+        }
+
+        .data-list-item {
+            background: #1c1c24;
+            padding: 0.8rem 1rem;
+            border-radius: 6px;
+            margin-bottom: 0.8rem;
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .delete-btn {
+            background: none;
+            border: none;
+            color: #ef4444;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
 
-    <nav class="navbar">
-        <a class="nav-logo" id="site-logo">Athaar Digital</a>
+    <nav>
+        <div class="nav-logo">
+            <i class="fa-solid fa-cube"></i>آثَارُ <span>الرَّقْمِيَّةُ</span>
+        </div>
         <div class="nav-controls">
-            <button class="btn-toggle" onclick="toggleLanguage()" id="langBtn">English</button>
-            <button class="btn-toggle" onclick="toggleTheme()" id="themeBtn"><i class="fa-solid fa-sun"></i></button>
+            <button class="nav-btn" onclick="toggleLang()">
+                <i class="fa-solid fa-language"></i> <span id="langBtnText">EN</span>
+            </button>
+            <button class="nav-btn" onclick="toggleTheme()">
+                <i id="themeIcon" class="fa-solid fa-sun"></i>
+            </button>
         </div>
     </nav>
 
-    <header class="hero">
-        <h1 class="hero-title" data-i18n="heroTitle">آثَار الرَّقْمِيَّةِ</h1>
-        <div class="typewriter-container">
-            <span class="typewriter-text" id="typewriter"></span>
-        </div>
-        <button class="btn-primary" onclick="openModal()" data-i18n="orderBtn">ابدأ مشروعك الآن</button>
-    </header>
+    <div id="systemClosedBanner" style="display:none; width:100%; background:#ef4444; color:white; text-align:center; padding:0.6rem; font-weight:700; position:fixed; top:60px; z-index:999; font-size:0.95rem;">
+        ⚠️ اِسْتِقْبَالُ الطَّلَبَاتِ مُغْلَقٌ حَالِيّاً لِتَحْدِيثِ السِّيرْفَرَاتِ - يُمْكِنُكَ التَّصَفُّحُ فَقَطْ
+    </div>
 
-    <section class="section-container" id="portfolio">
-        <div class="section-header">
-            <h2 class="section-title" data-i18n="portfolioTitle">أَعْمَالُنَا السَّابِقَةُ</h2>
+    <section class="hero">
+        <h1 data-i18n="heroTitle">نَصْنَعُ الْأَثَرَ الرَّقْمِيَّ لِطُمُوحِكَ</h1>
+        <div class="typewriter-wrapper">
+            <span id="typewriter"></span><span class="cursor"></span>
         </div>
-        <div id="portfolioContainer" class="responsive-grid">
-            <p style="color:var(--text-muted); text-align:center; grid-column: 1/-1;">جاري جلب أحدث المشاريع من السيرفر السحابي...</p>
+        <p data-i18n="heroSubtitle">مِنْصَّةٌ بَرْمَجِيَّةٌ مُتَكَامِلَةٌ لِتَطْوِيرِ أَعْمَالِكَ السَّحَابِيَّةِ بِأَعْلَى مَعَايِيرِ الْجَوْدَةِ، الْأَمَانِ وَالسُّرْعَةِ الْفَائِقَةِ.</p>
+        <button class="btn-primary" onclick="openModal()" data-i18n="ctaBtn">اِطْلَبْ خِدْمَتَكَ الْآنَ</button>
+    </section>
+
+    <section class="section-container">
+        <h2 class="section-title" data-i18n="featuresTitle">لِمَاذَا آثَارُ الرَّقْمِيَّةُ؟</h2>
+        <div class="grid-cards">
+            <div class="interactive-card">
+                <div class="card-icon"><i class="fa-solid fa-code"></i></div>
+                <h3 data-i18n="feature1Title">تَطْوِيرٌ مُخَصَّصٌ بالْكَامِلِ</h3>
+                <p data-i18n="feature1Desc">نَبْتَعِدُ تَمَاماً عَنِ الْقَوَالِبِ الْجَاهِزَةِ الْمُسْتَهْلَكَةِ لِنُقَدِّمَ هُوِيَّةً رَقْمِيَّةً حَصْرِيَّةً لِطُمُوحِكَ.</p>
+            </div>
+            <div class="interactive-card">
+                <div class="card-icon"><i class="fa-solid fa-bolt"></i></div>
+                <h3 data-i18n="feature2Title">أَتْمَتَةٌ ذَكِيَّةٌ وَفَوْرِيَّةٌ</h3>
+                <p data-i18n="feature2Desc">رَبْطٌ مُبَاشِرٌ مَعَ أَنْظِمَةِ التَّلِجْرَامِ وَقَوَاعِدِ الْبَيَانَاتِ لِإِشْعَارِكَ بِكُلِّ حَرَكَةٍ فَوْراً.</p>
+            </div>
+            <div class="interactive-card">
+                <div class="card-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                <h3 data-i18n="feature3Title">بِيئَةٌ بَرْمَجِيَّةٌ حَدِيثَةٌ</h3>
+                <p data-i18n="feature3Desc">نَمْزِجُ بَيْنَ كَفَاءَةِ الْبَرْمَجَةِ الْعَالِيَةِ وَأَحْدَثِ الْمَعَايِيرِ لِضَمَانِ سُرْعَةٍ صَارُوخِيَّةٍ وَأَمَانٍ مُطْلَقٍ.</p>
+            </div>
+            <div class="interactive-card">
+                <div class="card-icon"><i class="fa-solid fa-headset"></i></div>
+                <h3 data-i18n="feature4Title">مُرُونَةٌ وَدَعْمٌ مُسْتَمِرٌ</h3>
+                <p data-i18n="feature4Desc">نَقِفُ مَعَكَ حَتَّى بَعْدَ التَّسْلِيمِ، نُقَدِّمُ التَّحْدِيثَاتِ وَالدَّعْمَ الْفَنِّيَّ لِضَمَانِ اسْتِمْرَارِ النَّجَاحِ.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-container" style="background-color: var(--bg-surface);">
+        <h2 class="section-title" data-i18n="portfolioTitle">مَعْرِضُ أَعْمَالِنَا</h2>
+        <div class="portfolio-grid" id="dynamicPortfolioSection">
+            <p class="portfolio-soon" data-i18n="portSoon">سَيَتِمُّ عَرْضُ الرَّوَابِطِ وَالْمُعَايَنَاتِ قَرِيباً...</p>
         </div>
     </section>
 
     <section class="section-container">
-        <div class="section-header">
-            <h2 class="section-title" data-i18n="servicesTitle">خِدْمَاتُنَا وَبَاقَاتُنَا</h2>
-        </div>
-        <div class="responsive-grid" id="servicesGrid">
-            <div class="interactive-card" onclick="openModalWithService('Telegram Bot')">
-                <i class="fa-solid fa-robot card-icon"></i>
-                <h3 class="card-title" data-i18n="ser1Title">تطوير بوتات تليجرام المتقدمة</h3>
-                <p class="card-text" data-i18n="ser1Desc">أنظمة أتمتة متكاملة، ربط بقواعد البيانات، وبوابات دفع مع إشعارات ذكية وفورية على مدار الساعة.</p>
-                <div class="price-badge" data-i18n="ser1Price">يبدأ من 5000 DA</div>
+        <h2 class="section-title" data-i18n="faqTitle">الْأَسْئِلَةُ الشَّائِعَةُ</h2>
+        <div class="faq-wrapper">
+            <div class="faq-item">
+                <button class="faq-trigger" onclick="toggleFaq(this)">
+                    <span data-i18n="q1">مَا هِيَ مُدَّةُ تَنْفِيذِ الْمَشْرُوعِ؟</span> <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="faq-content" data-i18n="a1">تَخْتَلِفُ الْمُدَّةُ حَسَبَ حَجْمِ الْمَشْرُوعِ، لَكِنْ غَالِباً مَا تَسْتَغْرِقُ صَفَحَاتُ الْهُبُوطِ وَالْبُوتَاتُ مِنْ 3 إِلَى 7 أَيَّامٍ.</div>
             </div>
-            <div class="interactive-card" onclick="openModalWithService('Web App')">
-                <i class="fa-solid fa-laptop-code card-icon"></i>
-                <h3 class="card-title" data-i18n="ser2Title">تطوير المواقع وتطبيقات الويب</h3>
-                <p class="card-text" data-i18n="ser2Desc">موقع تعريفي، منصات هبوط، ومتاجر إلكترونية متجاوبة وسريعة تضمن أفضل تجربة مستخدم هندسية.</p>
-                <div class="price-badge" data-i18n="ser2Price">يبدأ من 15000 DA</div>
+            <div class="faq-item">
+                <button class="faq-trigger" onclick="toggleFaq(this)">
+                    <span data-i18n="q2">هَلْ يُمْكِنُنِي تَعْدِيلُ الطَّلَبِ بَعْدَ الْبَدْءِ؟</span> <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="faq-content" data-i18n="a2">نَعَمْ، نَحْنُ نُوفِّرُ مُرُونَةً كَامِلَةً فِي التَّعْدِيلِ خِلَالَ الْمَرَاحِلِ الْأُولَى مِنَ التَّصْمِيمِ وَالْبَرْمَجَةِ.</div>
             </div>
-            <div class="interactive-card" onclick="openModalWithService('Motion Graphics')">
-                <i class="fa-solid fa-video card-icon"></i>
-                <h3 class="card-title" data-i18n="ser3Title">صناعة الفيديو والموشن جرافيك</h3>
-                <p class="card-text" data-i18n="ser3Desc">تصميم فيديوهات إعلانية جذابة تروي قصة نجاح مشروعك بأسلوب تسويقي مبتكر يعزز مبيعاتك.</p>
-                <div class="price-badge" data-i18n="ser3Price">يبدأ من 5000 DA</div>
+            <div class="faq-item">
+                <button class="faq-trigger" onclick="toggleFaq(this)">
+                    <span data-i18n="q3">كَيْفَ أَقُومُ بِمُتَابَعَةِ سَيْرِ الْعَمَلِ؟</span> <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="faq-content" data-i18n="a3">نَقُومُ بِإِنْشَاءِ قَنَاةٍ خَاصَّةٍ بِمَشْرُوعِكَ عَلَى تَلِجْرَامْ لِإِرْسَالِ التَّحْدِيثَاتِ وَالتَّقَارِيرِ الدَّوْرِيَّةِ فَوْراً.</div>
             </div>
         </div>
     </section>
 
-    <section class="section-container">
-        <div class="section-header">
-            <h2 class="section-title" data-i18n="faqTitle">الأَسْئِلَةُ الشَّائِعَةُ</h2>
-        </div>
-        <div class="faq-container">
-            <div class="faq-item">
-                <button class="faq-question" onclick="toggleFaq(this)">
-                    <span data-i18n="faqQ1">ما هي مدة تسليم المشروع؟</span>
-                    <i class="fa-solid fa-chevron-down"></i>
-                </button>
-                <div class="faq-answer" data-i18n="faqA1">تعتمد المدة على حجم المتطلبات، ولكن تتراوح منصات الهبوط والبوتات المخصصة بين 3 إلى 7 أيام عمل عادةً.</div>
-            </div>
-            <div class="faq-item">
-                <button class="faq-question" onclick="toggleFaq(this)">
-                    <span data-i18n="faqQ2">كيف تضمنون جودة وأمان الأكواد؟</span>
-                    <i class="fa-solid fa-chevron-down"></i>
-                </button>
-                <div class="faq-answer" data-i18n="faqA2">نحن نعتمد بنية تحتية سحابية آمنة (Mongoose/JWT) ونكتب كوداً متوافقاً مع أفضل المعايير العالمية البرمجية لضمان الحماية المطلقة وسرعة الاستجابة.</div>
-            </div>
-        </div>
-    </section>
-
-    <div id="orderModal" class="modal-overlay">
+    <div class="modal-overlay" id="orderModal">
         <div class="modal-window">
-            <button class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="form-title" data-i18n="formTitle">طلب مشروع تقني جديد</h3>
-            <form id="orderForm" onsubmit="handleFormSubmit(event)">
-                <div class="form-group">
-                    <label class="form-label" data-i18n="labelName">الاسم الكامل</label>
-                    <input type="text" id="formName" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label" data-i18n="labelEmail">البريد الإلكتروني</label>
-                    <input type="email" id="formEmail" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label" data-i18n="labelPhone">رقم الهاتف</label>
-                    <input type="tel" id="formPhone" class="form-control" required placeholder="0555112233">
-                </div>
-                <div class="form-group">
-                    <label class="form-label" data-i18n="labelService">الخدمة الأساسية</label>
-                    <select id="formService" class="form-control" onchange="updateReceipt()">
-                        <option value="bot" data-i18n="optBot">تطوير بوت تليجرام مخصص (5000 DA)</option>
-                        <option value="web" data-i18n="optWeb">تطوير موقع / منصة ويب (15000 DA)</option>
-                        <option value="motion" data-i18n="optMotion">فيديو وموشن جرافيك (5000 DA)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label" data-i18n="labelIdea">اشرح فكرتك باختصار</label>
-                    <textarea id="formIdea" class="form-control" rows="3"></textarea>
+            <div class="modal-header">
+                <h2 data-i18n="orderFormTitle">إِنْشَاءُ طَلَبِ خِدْمَةٍ جَدِيدٍ</h2>
+                <button class="close-modal-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="order-form-body">
+                
+                <div id="returningUserBanner" class="banner-alert" style="display:none;">
+                    <span>✨ تَمَّ اسْتِرْجَاعُ بَيَانَاتِ الْمَسْوَدَّةِ الْمَحْفُوظَةِ تِلْقَائِيّاً.</span>
+                    <button class="nav-btn" style="padding:0.2rem 0.6rem; font-size:0.8rem; border-color:rgba(212,175,55,0.4);" onclick="clearDraft()">تفأجىء/مسح</button>
                 </div>
 
-                <div class="form-group" style="background: rgba(0,0,0,0.2); padding: 10px; border-radius: 6px;">
-                    <label class="form-label" style="color:var(--accent-color)">إضافات تقنية متقدمة:</label>
-                    <label style="display:block; margin:5px 0;"><input type="checkbox" id="extHosting" onchange="updateReceipt()"> استضافة سحابية + داتابيز مخصصة لمدة سنة (+4000 DA)</label>
-                    <label style="display:block; margin:5px 0;"><input type="checkbox" id="extExpress" onchange="updateReceipt()"> تسليم فائق السرعة خلال 48 ساعة (+5000 DA)</label>
-                </div>
+                <div id="formFeedbackZone" class="form-feedback"></div>
 
-                <label class="form-label">طريقة الدفع المفضلة:</label>
-                <div class="payment-options">
-                    <div class="payment-option active" id="payBaridi" onclick="setPaymentMode('BaridiMob / CCP')">BaridiMob</div>
-                    <div class="payment-option" id="payCrypto" onclick="setPaymentMode('Crypto (USDT)')">Crypto (USDT)</div>
-                </div>
+                <form id="orderForm" onsubmit="handleFormSubmit(event)">
+                    
+                    <div class="form-group">
+                        <label data-i18n="formName">الِاسْمُ الْكَامِلُ</label>
+                        <input type="text" id="formName" class="form-control" required oninput="saveFormDraft()">
+                    </div>
 
-                <div class="form-group">
-                    <label class="form-label" id="receiptFileLabel">قم بإرفاق لقطة شاشة للوصل (اختياري للصورة أو PDF)</label>
-                    <input type="file" id="formReceiptFile" class="form-control" accept="image/*,application/pdf">
-                </div>
+                    <div class="form-group">
+                        <label data-i18n="formEmail">الْبَرِيدُ الْإِلِكْتْرُونِيُّ</label>
+                        <input type="email" id="formEmail" class="form-control" required oninput="saveFormDraft()">
+                    </div>
 
-                <div class="receipt-card">
-                    <div class="receipt-row"><span>السعر الأساسي:</span><span id="rcpBase">5000 DA</span></div>
-                    <div class="receipt-row"><span>الإضافات التقنية:</span><span id="rcpExt">0 DA</span></div>
-                    <div class="receipt-total"><span>المجموع الكلي المستحق:</span><span id="rcpTotal">5000 DA</span></div>
-                </div>
+                    <div class="form-group">
+                        <label data-i18n="formPhone">رَقْمُ الْهَاتِفِ</label>
+                        <input type="tel" id="formPhone" class="form-control" placeholder="05 / 06 / 07" required oninput="saveFormDraft()">
+                    </div>
 
-                <div id="feedbackZone" class="form-feedback"></div>
-                <button type="submit" id="submitBtn" class="btn-primary" style="width: 100%; margin-top: 15px;" data-i18n="submitBtn">إرسال الطلب بشكل آمن</button>
-            </form>
+                    <div class="form-group">
+                        <label data-i18n="formServiceSelect">اخْتَرْ الْخِدْمَةَ الرَّئِيسِيَّةَ</label>
+                        <select id="formService" class="form-control" required onchange="updateReceipt()">
+                            <option value="" disabled selected data-i18n="optSelect">-- اِخْتَرْ مِنْ هُنَا --</option>
+                            <option value="bot" data-i18n="ser1Title">بِنَاءُ أَنْظِمَةِ وَبُوتَاتِ Telegram</option>
+                            <option value="web" data-i18n="ser2Title">تَطْوِيرُ الْمَوَاقِعِ وَتَطْبِيقَاتِ الْوِيبِ</option>
+                            <option value="video" data-i18n="ser3Title">صِنَاعَةُ الْفِيدْيُو وَالْمُوشْن جَرَافِيك</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label data-i18n="formIdea">اشْرَحْ فِكْرَتَكَ أَوْ مُتَطَلَّبَاتِكَ (مُخْتَصَرٌ)</label>
+                        <textarea id="formIdea" class="form-control" rows="3" required oninput="saveFormDraft()"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label data-i18n="formExtensions">إِضَافَاتٌ وَتَحْسِينَاتٌ سَرِيعَةٌ</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="extHosting" onchange="updateReceipt()">
+                                <span data-i18n="ext1">اسْتِضَافَةٌ سَحَابِيَّةٌ سَرِيعَةٌ لِمُدَّةِ سَنَةٍ (+4000 DA)</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="extExpress" onchange="updateReceipt()">
+                                <span data-i18n="ext2">تَسْلِيمٌ سَرِيعٌ فَوْقَ الْعَادَةِ فِي 48 سَاعَةً (+5000 DA)</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="extSupport" onchange="updateReceipt()">
+                                <span data-i18n="ext3">دَعْمٌ فَنِّيٌّ هَاتِفِيٌّ مُمْتَازٌ لِمُدَّةِ 6 أَشْهُرٍ (+3000 DA)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label style="display:flex; justify-content:space-between; align-items:center;">
+                            <span data-i18n="formPayment">اخْتَرْ طَرِيقَةَ الدَّفْعِ الْمُفَضَّلَةَ</span>
+                            <select id="currencySelect" style="background:none; border:1px solid var(--border-color); color:var(--accent); font-family:inherit; border-radius:4px; padding:0.1rem 0.4rem; font-size:0.85rem;" onchange="updateReceipt()">
+                                <option value="DZD">DZD (DA)</option>
+                                <option value="USD">USD ($)</option>
+                                <option value="EUR">EUR (€)</option>
+                                <option value="USDT">USDT (Crypto)</option>
+                            </select>
+                        </label>
+                        
+                        <div class="payment-methods-grid">
+                            <div class="payment-option active" id="payBaridi" onclick="setPaymentMode('BaridiMob / CCP')">
+                                <i class="fa-solid fa-money-bill-transfer"></i> BaridiMob / CCP
+                            </div>
+                            <div class="payment-option" id="payCrypto" onclick="setPaymentMode('USDT / Crypto Binance')">
+                                <i class="fa-solid fa-wallet"></i> USDT / Binance Pay
+                            </div>
+                        </div>
+
+                        <div class="payment-info-box" id="infoBaridi">
+                            🏛️ الحساب البريدي الجاري (CCP):<br>
+                            <strong>CCP: 0023456789 | Clé: 45</strong><br>
+                            الحساب البريدي الإلكتروني (BaridiMob RIP):<br>
+                            <strong>RIP: 00799999002345678923</strong>
+                        </div>
+                        <div class="payment-info-box" id="infoCrypto" style="display:none;">
+                            🌐 عنوان محفظة USDT (Network: TRC-20):<br>
+                            <strong style="word-break:break-all; color:var(--neon-blue);">TYu67HjKls90PZmdHvxQW234789AAsdFgh</strong><br>
+                            Binance Pay ID: <strong>887654321</strong>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label data-i18n="formRef">رَقْمُ مَرْجِعِ الْحِوَالَةِ (Ref)</label>
+                        <input type="text" id="formRefInput" class="form-control" placeholder="Transaction Reference" required oninput="saveFormDraft()">
+                    </div>
+
+                    <div class="form-group">
+                        <label data-i18n="formFile">أَرْفِقْ صُورَةَ وَصْلِ الدَّفْعِ (إِذَا تَوَفَّرَ)</label>
+                        <input type="file" id="formReceiptFile" class="form-control" accept="image/*">
+                    </div>
+
+                    <div class="invoice-summary">
+                        <h3 data-i18n="calcTitle">مُلَخَّصُ الْفَاتُورَةِ التَّقْدِيرِيَّةِ</h3>
+                        <div class="invoice-row">
+                            <span data-i18n="servicesTitle">الخدمة المختارة:</span>
+                            <span id="receiptService" style="font-weight:600;">--</span>
+                        </div>
+                        <div class="invoice-row">
+                            <span data-i18n="calcBase">السِّعْرُ الْأَسَاسِيُّ للْخِدْمَةِ:</span>
+                            <span id="receiptBase">0.00 DA</span>
+                        </div>
+                        <div class="invoice-row">
+                            <span data-i18n="calcExts">إِجْمَالِيُّ الْإِضَافَاتِ:</span>
+                            <span id="receiptExts">0.00 DA</span>
+                        </div>
+                        <div class="invoice-row total">
+                            <span data-i18n="calcTotal">الْمَبْلَغُ الْمُسْتَحَقُّ الْكُلِّيُّ:</span>
+                            <span id="receiptTotal">0.00 DA</span>
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="hiddenPaymentMode" value="BaridiMob / CCP">
+                    <input type="hidden" id="hiddenFinalDue" value="0.00 DA">
+
+                    <button type="submit" class="btn-submit-order" data-i18n="btnSubmitOrder">إِرْسَالُ الطَّلَبِ عَبْرَ النِّظَامِ الآمِنِ</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="admin-overlay" id="adminPanelOverlay">
+        <button class="admin-close" onclick="closeAdminDashboard()">خروج من النظام</button>
+        <h2 style="font-family:'Chakra Petch', sans-serif; color:var(--accent); border-bottom:1px solid #27272a; padding-bottom:1rem;"><i class="fa-solid fa-terminal"></i> آثار السحابية | لوحة الإدارة المصغرة</h2>
+        
+        <div class="admin-grid">
+            <div class="admin-box">
+                <h3>حالة استقبال النظام</h3>
+                <p id="adminSystemStatusText" style="font-weight:700; margin-bottom:1.5rem;">جاري جلب الحالة السحابية...</p>
+                <button class="nav-btn" id="adminToggleStatusBtn" onclick="toggleSystemStatus()" style="width:100%; justify-content:center;">تغيير حالة استقبال النظام</button>
+            </div>
+
+            <div class="admin-box">
+                <h3>إحصائيات الإرسال</h3>
+                <div class="invoice-row" style="margin-bottom:1rem;"><span>إجمالي الطلبات المصنفة:</span><span id="adminOrderCount" style="font-weight:700; color:var(--neon-blue);">0</span></div>
+                <div class="invoice-row"><span>آخر خدمة طلبت:</span><span id="adminLastService" style="font-weight:600; color:#e4e4e7;">لا يوجد</span></div>
+            </div>
+
+            <div class="admin-box">
+                <h3>إضافة نماذج للمحافظ الفورية</h3>
+                <form id="adminProjectForm" onsubmit="handleAdminSubmit(event)">
+                    <input type="text" id="adminProjTitleAr" class="form-control" placeholder="اسم المشروع بالعربية" style="margin-bottom:0.6rem; font-size:0.9rem;" required>
+                    <input type="text" id="adminProjTitleEn" class="form-control" placeholder="Project Title in English" style="margin-bottom:0.6rem; font-size:0.9rem;" required>
+                    <input type="url" id="adminProjLink" class="form-control" placeholder="https://example.com" style="margin-bottom:1rem; font-size:0.9rem;" required>
+                    <button type="submit" class="btn-submit-order" style="padding:0.6rem; font-size:0.95rem;">إضافة للعرض المباشر</button>
+                </form>
+            </div>
+
+            <div class="admin-box" style="grid-column: 1 / -1;">
+                <h3>النماذج المضافة ديناميكياً</h3>
+                <div id="adminProjectsContainer"></div>
+            </div>
+
+            <div class="admin-box" style="grid-column: 1 / -1;">
+                <h3>الأفكار والمسودات الإدارية السريعة</h3>
+                <div style="display:flex; gap:0.5rem; margin-bottom:1.5rem;">
+                    <input type="text" id="adminIdeaInput" class="form-control" placeholder="اكتب فكرة سريعة لحفظها بسيرفر المتصفح المحلي...">
+                    <button class="btn-primary" style="padding:0.5rem 1.5rem; font-size:0.95rem;" onclick="saveQuickIdea()">حفظ</button>
+                </div>
+                <div id="adminIdeasContainer"></div>
+            </div>
         </div>
     </div>
 
     <footer>
-        <div class="social-links">
-            <a href="#" class="social-btn wa-btn"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
-            <a href="#" class="social-btn tg-btn"><i class="fa-brands fa-telegram"></i> Telegram</a>
-            <a href="#" class="social-btn ig-btn"><i class="fa-brands fa-instagram"></i> Instagram</a>
-        </div>
-        <p>&copy; 2026 آثار الرقمية. جميع الحقوق محفوظة بنظام التشفير السحابي.</p>
+        <p id="footerCopyrightZone" data-i18n="footerRights">© 2026 آثَارُ الرَّقْمِيَّةُ. جَمِيعُ الْحُقُوقِ مَحْفُوظَةٌ.</p>
     </footer>
 
     <script>
-        // مولد المؤثرات الصوتية الاحترافية باستخدام Web Audio API بدون ملفات خارجية لموثوقية 100%
-        const AudioFX = {
-            ctx: null,
-            init() { if (!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)(); },
-            playTypewriter() {
-                this.init(); if (!this.ctx) return;
-                const osc = this.ctx.createOscillator(); const gain = this.ctx.createGain();
-                osc.type = 'triangle'; osc.frequency.setValueAtTime(350 + Math.random() * 150, this.ctx.currentTime);
-                gain.gain.setValueAtTime(0.015, this.ctx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + 0.04);
-                osc.connect(gain); gain.connect(this.ctx.destination);
-                osc.start(); osc.stop(this.ctx.currentTime + 0.04);
-            },
-            playHover() {
-                this.init(); if (!this.ctx) return;
-                const osc = this.ctx.createOscillator(); const gain = this.ctx.createGain();
-                osc.type = 'sine'; osc.frequency.setValueAtTime(550, this.ctx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(750, this.ctx.currentTime + 0.06);
-                gain.gain.setValueAtTime(0.006, this.ctx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + 0.06);
-                osc.connect(gain); gain.connect(this.ctx.destination);
-                osc.start(); osc.stop(this.ctx.currentTime + 0.06);
-            },
-            playSuccess() {
-                this.init(); if (!this.ctx) return;
-                const now = this.ctx.currentTime;
-                [440, 554.37, 659.25, 880].forEach((f, idx) => {
-                    const osc = this.ctx.createOscillator(); const gain = this.ctx.createGain();
-                    osc.type = 'sine'; osc.frequency.setValueAtTime(f, now + idx * 0.07);
-                    gain.gain.setValueAtTime(0.02, now + idx * 0.07);
-                    gain.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.07 + 0.2);
-                    osc.connect(gain); gain.connect(this.ctx.destination);
-                    osc.start(now + idx * 0.07); osc.stop(now + idx * 0.07 + 0.2);
-                });
-            }
-        };
-
-        // الترجمات والقواميس الموحدة للموقع
+        // =========================================================================
+        // 1. القاموس والنصوص والمحاكاة الاحترافية المتكاملة
+        // =========================================================================
         const dictionary = {
             ar: {
-                heroTitle: "آثَار الرَّقْمِيَّةِ", orderBtn: "ابدأ مشروعك الآن", portfolioTitle: "أَعْمَالُنَا السَّابِقَةُ",
-                servicesTitle: "خِدْمَاتُنَا وَبَاقَاتُنَا", formTitle: "طلب مشروع تقني جديد", submitBtn: "إرسال الطلب بشكل آمن",
-                successFeedback: "تم إرسال طلبك وحفظه سحابياً بنجاح!", errorFeedback: "حدث خطأ أثناء الإرسال، حاول مجدداً.",
-                ser1Title: "تطوير بوتات تليجرام المتقدمة", ser2Title: "تطوير المواقع وتطبيقات الويب", ser3Title: "صناعة الفيديو والموشن جرافيك",
-                labelName: "الاسم الكامل", labelEmail: "البريد الإلكتروني", labelPhone: "رقم الهاتف", labelService: "الخدمة الأساسية",
-                labelIdea: "اشرح فكرتك باختصار", optBot: "تطوير بوت تليجرام مخصص (5000 DA)", optWeb: "تطوير موقع / منصة ويب (15000 DA)", optMotion: "فيديو وموشن جرافيك (5000 DA)",
-                faqTitle: "الأَسْئِلَةُ الشَّائِعَةُ", faqQ1: "ما هي مدة تسليم المشروع؟", faqA1: "تعتمد المدة على حجم المتطلبات، ولكن تتراوح منصات الهبوط والبوتات المخصصة بين 3 إلى 7 أيام عمل عادةً.",
-                faqQ2: "كيف تضمنون جودة وأمان الأكواد؟", faqA2: "نحن نعتمد بنية تحتية سحابية آمنة (Mongoose/JWT) ونكتب كوداً متوافقاً مع أفضل المعايير العالمية البرمجية لضمان الحماية المطلقة وسرعة الاستجابة."
+                heroTitle: "نَصْنَعُ الْأَثَرَ الرَّقْمِيَّ لِطُمُوحِكَ",
+                heroSubtitle: "مِنْصَّةٌ بَرْمَجِيَّةٌ مُتَكَامِلَةٌ لِتَطْوِيرِ أَعْمَالِكَ السَّحَابِيَّةِ بِأَعْلَى مَعَايِيرِ الْجَوْدَةِ، الْأَمَانِ وَالسُّرْعَةِ الْفَائِقَةِ.",
+                ctaBtn: "اِطْلَبْ خِدْمَتَكَ الْآنَ",
+                featuresTitle: "لِمَاذَا آثَارُ الرَّقْمِيَّةُ؟",
+                feature1Title: "تَطْوِيرٌ مُخَصَّصٌ بالْكَامِلِ",
+                feature1Desc: "نَبْتَعِدُ تَمَاماً عَنِ الْقَوَالِبِ الْجَاهِزَةِ الْمُسْتَهْلَكَةِ لِنُقَدِّمَ هُوِيَّةً رَقْمِيَّةً حَصْرِيَّةً لِطُمُوحِكَ.",
+                feature2Title: "أَتْمَتَةٌ ذَكِيَّةٌ وَفَوْرِيَّةٌ",
+                feature2Desc: "رَبْطٌ مُبَاشِرٌ مَعَ أَنْظِمَةِ التَّلِجْرَامِ وَقَوَاعِدِ الْبَيَانَاتِ لِإِشْعَارِكَ بِكُلِّ حَرَكَةٍ فَوْراً.",
+                feature3Title: "بِيئَةٌ بَرْمَجِيَّةٌ حَدِيثَةٌ",
+                feature3Desc: "نَمْزِجُ بَيْنَ كَفَاءَةِ الْبَرْمَجَةِ الْعَالِيَةِ وَأَحْدَثِ الْمَعَايِيرِ لِضَمَانِ سُرْعَةٍ صَارُوخِيَّةٍ وَأَمَانٍ مُطْلَقٍ.",
+                feature4Title: "مُرُونَةٌ وَدَعْمٌ مُسْتَمِرٌ",
+                feature4Desc: "نَقِفُ مَعَكَ حَتَّى بَعْدَ التَّسْلِيمِ، نُقَدِّمُ التَّحْدِيثَاتِ وَالدَّعْمَ الْفَنِّيَّ لِضَمَانِ اسْتِمْرَارِ النَّجَاحِ.",
+                portfolioTitle: "مَعْرِضُ أَعْمَالِنَا",
+                port1Title: "مَشْرُوعُ الْأَتْمَتَةِ الرقمية",
+                port2Title: "صَفْحَةُ هُبُوطٍ ذَكِيَّةٌ",
+                portSoon: "سَيَتِمُّ عَرْضُ الرَّوَابِطِ وَالْمُعَايَنَاتِ قَرِيباً...",
+                servicesTitle: "خِدْمَاتُنَا وَحَاسِبَةُ التَّكْلُفَةِ",
+                ser1Title: "بِنَاءُ أَنْظِمَةِ وَبُوتَاتِ Telegram",
+                ser1Desc: "تطوير أَنْظِمَةِ أَتْمَتَةٍ مُتَكَامِلَةٍ عَبْرَ بُوتَاتِ تَلِجْرَامْ ذَكِيَّةٍ، رَبْطِ قَوَاعِدِ الْبَيَانَاتِ، وَإِشْعَارٍ فَوْرِيٍّ ذَكِيٍّ عَلَى مَدَارِ السَّاعَةِ.",
+                ser1Price: "يبدأ من 5000 DA",
+                ser2Title: "تَطْوِيرُ الْمَوَاقِعِ وَتَطْبِيقَاتِ الْوِيبِ",
+                ser2Desc: "مَوَاقِعُ تَعْرِيفِيَّةٌ، مِنْصَّاتُ هُبُوطٍ احْتِرَافِيَّةٌ، وَمَتَاجِرُ إِلِكْتْرُونِيَّةٌ مُتَجَاوِبَةٌ وَسَرِيعَةٌ تَضْمَنُ أَفْضَلَ تَجْرِبَةِ مُسْتَخْدِمٍ.",
+                ser2Price: "يبدأ من 15000 DA",
+                ser3Title: "صِنَاعَةُ الْفِيدْيُو وَالْمُوشْن جَرَافِيك",
+                ser3Desc: "تَصْمِيمُ فِيدْيُوهَاتٍ إِعْلَانِيَّةٍ جَذَّابَةٍ وَمُوشْن جَرَافِيك احْتِرَافِيٍّ يَرْوِي قِصَّةَ نَجَاحِ مَشْرُوعِكَ بِأُسْلُوبٍ بَصَرِيٍّ سَاحِرٍ.",
+                ser3Price: "يبدأ من 8000 DA",
+                faqTitle: "الْأَسْئِلَةُ الشَّائِعَةُ",
+                q1: "مَا هِيَ مُدَّةُ تَنْفِيذِ الْمَشْرُوعِ؟",
+                a1: "تَخْتَلِفُ الْمُدَّةُ حَسَبَ حَجْمِ الْمَشْرُوعِ، لَكِنْ غَالِباً مَا تَسْتَغْرِقُ صَفَحَاتُ الْهُبُوطِ وَالْبُوتَاتُ مِنْ 3 إِلَى 7 أَيَّامٍ.",
+                q2: "هَلْ يُمْكِنُنِي تَعْدِيلُ الطَّلَبِ بَعْدَ الْبَدْءِ؟",
+                a2: "نَعَمْ، نَحْنُ نُوفِّرُ مُرُونَةً كَامِلَةً فِي التَّعْدِيلِ خِلَالَ الْمَرَاحِلِ الْأُولَى مِنَ التَّصْمِيمِ وَالْبَرْمَجَةِ.",
+                q3: "كَيْفَ أَقُومُ بِمُتَابَعَةِ سَيْرِ الْعَمَلِ؟",
+                a3: "نَقُومُ بِإِنْشَاءِ قَنَاةٍ خَاصَّةٍ بِمَشْرُوعِكَ عَلَى تَلِجْرَامْ لِإِرْسَالِ التَّحْدِيثَاتِ وَالتَّقَارِيرِ الدَّوْرِيَّةِ فَوْراً.",
+                footerRights: "© 2026 آثَارُ الرَّقْمِيَّةُ. جَمِيعُ الْحُقُوقِ مَحْفُوظَةٌ.",
+                orderFormTitle: "إِنْشَاءُ طَلَبِ خِدْمَةٍ جَدِيدٍ",
+                formName: "الِاسْمُ الْكَامِلُ",
+                formEmail: "الْبَرِيدُ الْإِلِكْتْرُونِيُّ",
+                formPhone: "رَقْمُ الْهَاتِفِ",
+                formServiceSelect: "اخْتَرْ الْخِدْمَةَ الرَّئِيسِيَّةَ",
+                optSelect: "-- اِخْتَرْ مِنْ هُنَا --",
+                formIdea: "اشْرَحْ فِكْرَتَكَ أَوْ مُتَطَلَّبَاتِكَ (مُخْتَصَرٌ)",
+                formExtensions: "إِضَافَاتٌ وَتَحْسِينَاتٌ سَرِيعَةٌ",
+                ext1: "اسْتِضَافَةٌ سَحَابِيَّةٌ سَرِيعَةٌ لِمُدَّةِ سَنَةٍ (+4000 DA)",
+                ext2: "تَسْلِيمٌ سَرِيعٌ فَوْقَ الْعَادَةِ فِي 48 سَاعَةً (+5000 DA)",
+                ext3: "دَعْمٌ فَنِّيٌّ هَاتِفِيٌّ مُمْتَازٌ لِمُدَّةِ 6 أَشْهُرٍ (+3000 DA)",
+                formPayment: "اخْتَرْ طَرِيقَةَ الدَّفْعِ الْمُفَضَّلَةَ",
+                formRef: "رَقْمُ مَرْجِعِ الْحِوَالَةِ (Ref)",
+                formFile: "أَرْفِقْ صُورَةَ وَصْلِ الدَّفْعِ (إِذَا تَوَفَّرَ)",
+                calcTitle: "مُلَخَّصُ الْفَاتُورَةِ التَّقْدِيرِيَّةِ",
+                calcBase: "السِّعْرُ الْأَسَاسِيُّ للْخِدْمَةِ:",
+                calcExts: "إِجْمَالِيُّ الْإِضَافَاتِ:",
+                calcTotal: "الْمَبْلَغُ الْمُسْتَحَقُّ الْكُلِّيُّ:",
+                btnSubmitOrder: "إِرْسَالُ الطَّلَبِ عَبْرَ النِّظَامِ الآمِنِ",
+                errorFeedback: "عَفْواً، حَدَثَ خَطَأٌ غَيْرُ مُتَوَقَّعٍ. يُرْجَى الْمُحَاوَلَةُ لِاحِقاً."
             },
             en: {
-                heroTitle: "ATHAAR DIGITAL", orderBtn: "Start Your Project", portfolioTitle: "OUR PORTFOLIO",
-                servicesTitle: "OUR SERVICES & PACKAGES", formTitle: "Request a New Tech Project", submitBtn: "Submit Secure Request",
-                successFeedback: "Your order has been sent and backed up securely!", errorFeedback: "An error occurred, please try again.",
-                ser1Title: "Advanced Telegram Bot Development", ser2Title: "Web Development & Applications", ser3Title: "Video & Motion Graphics Creation",
-                labelName: "Full Name", labelEmail: "Email Address", labelPhone: "Phone Number", labelService: "Core Service",
-                labelIdea: "Briefly explain your idea", optBot: "Custom Telegram Bot Development (5000 DA)", optWeb: "Web Platform / Site Development (15000 DA)", optMotion: "Video & Motion Graphics (5000 DA)",
-                faqTitle: "FREQUENTLY ASKED QUESTIONS", faqQ1: "What is the project delivery time?", faqA1: "Delivery ranges from 3 to 7 business days depending on the project complexity and scope.",
-                faqQ2: "How do you guarantee code security?", faqA2: "We leverage robust cloud backends (Mongoose/JWT) and write highly optimized, standardized code for top-tier performance and bulletproof security."
+                heroTitle: "We Craft Digital Impact For Your Ambition",
+                heroSubtitle: "An integrated programming platform to scale your cloud business with the highest standards of quality, elite security, and ultra speed.",
+                ctaBtn: "Order Your Service Now",
+                featuresTitle: "Why Athaar Digital?",
+                feature1Title: "Fully Tailored Development",
+                feature1Desc: "We steer completely clear of worn-out traditional templates to provide an exclusive digital identity for your ambition.",
+                feature2Title: "Smart & Instant Automation",
+                feature2Desc: "Direct integration with Telegram engines and cloud databases to alert you instantly of every movement.",
+                feature3Title: "Advanced Tech Stack",
+                feature3Desc: "Blending high programming efficiency with the latest digital standards to guarantee ultra-speed and bulletproof security.",
+                feature4Title: "Flexibility & Ongoing Support",
+                feature4Desc: "We stand by you even after delivery, providing technical support and updates to ensure continuous success.",
+                portfolioTitle: "Our Portfolio",
+                port1Title: "Digital Automation Project",
+                port2Title: "Smart Landing Page",
+                portSoon: "Links and previews will be displayed soon...",
+                servicesTitle: "Our Services & Cost Calculator",
+                ser1Title: "Building Telegram Systems & Bots",
+                ser1Desc: "Development of complete automation workflows using intelligent Telegram bots, database links, and round-the-clock smart push alerts.",
+                ser1Price: "Starts from 5000 DA",
+                ser2Title: "Websites & Web Apps Development",
+                ser2Desc: "Showcase websites, elite landing pages, and responsive fast e-commerce stores ensuring the ultimate UX/UI experiences.",
+                ser2Price: "Starts from 15000 DA",
+                ser3Title: "Video Making & Motion Graphics",
+                ser3Desc: "Designing attractive advertising videos and professional motion graphics that tell your project's story in a magical visual way.",
+                ser3Price: "Starts from 8000 DA",
+                faqTitle: "Frequently Asked Questions",
+                q1: "What is the implementation timeline?",
+                a1: "Duration varies by scope, but standard landing pages and automated bots usually take 3 to 7 business days.",
+                q2: "Can I modify my request after starting?",
+                a2: "Yes, we provide full flexible adaptations during the early design and architecture stages.",
+                q3: "How do I monitor the workflow progress?",
+                a3: "We launch a private monitoring channel for your project on Telegram to dispatch live logs and periodic reports instantly.",
+                footerRights: "© 2026 Athaar Digital. All Rights Reserved.",
+                orderFormTitle: "Create a New Service Request",
+                formName: "Full Name",
+                formEmail: "Email Address",
+                formPhone: "Phone Number",
+                formServiceSelect: "Select Core Service",
+                optSelect: "-- Choose from here --",
+                formIdea: "Explain your project idea or requirements (Brief)",
+                formExtensions: "Quick Extras & Upgrades",
+                ext1: "Fast Cloud Hosting for 1 Full Year (+4000 DA)",
+                ext2: "Super Express Delivery within 48 Hours (+5000 DA)",
+                ext3: "Premium Phone Technical Support for 6 Months (+3000 DA)",
+                formPayment: "Select Preferred Payment Method",
+                formRef: "Transaction Reference Number (Ref)",
+                formFile: "Attach Receipt Image (If available)",
+                calcTitle: "Estimated Invoice Summary",
+                calcBase: "Core Service Base Price:",
+                calcExts: "Total Selected Extras:",
+                calcTotal: "Total Gross Final Due:",
+                btnSubmitOrder: "Submit Order Via Secure System",
+                errorFeedback: "An unexpected error occurred. Please try again later."
             }
         };
 
-        let currentLang = 'ar';
-        let currentTheme = 'dark';
-        let activePaymentMode = 'BaridiMob / CCP';
+        const typewriterWordsAr = ["نطور بوتات تليجرام مخصصة", "نبني منصات ومواقع ويب متطورة", "نصمم موشن جرافيك وفيديو احترافي", "نؤتمت أعمالك لتوفير وقتك جهودك"];
+        const typewriterWordsEn = ["We develop custom Telegram bots", "We build advanced web apps & sites", "We design professional motion graphics", "We automate your business workflows"];
+        
+        let typewriterIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        let typewriterTimeout = null;
+        let currentLang = "ar";
+        let currentTheme = "dark";
 
-        const typewriterTxtAr = "نطور بوتات تليجرام مخصصة ونبني منصات ومواقع ويب متطورة تؤتمت أعمالك بالكامل.";
-        const typewriterTxtEn = "We develop custom Telegram bots and build advanced web applications that fully automate your workflows.";
-
-        document.addEventListener("DOMContentLoaded", () => {
-            runTypewriterEffect();
-            fetchPortfolioProjects();
-            setupScrollFocusTracking();
-            attachHoverSounds();
-            updateReceipt();
-        });
-
-        // تأثير الكتابة: يتم كتابة النص البرمجي مرة واحدة ويتوقف مع تشغيل صوت النقر الميكانيكي الروبوتي
-        function runTypewriterEffect() {
+        // دالة محرك المحاكاة (Typewriter) المصححة والمحاصرة للتداخلات العشوائية
+        function runFixedTypewriterEffect() {
             const container = document.getElementById("typewriter");
             if (!container) return;
-            const text = currentLang === 'ar' ? typewriterTxtAr : typewriterTxtEn;
-            container.innerText = "";
-            let i = 0;
-            function type() {
-                if (i < text.length) {
-                    container.innerText += text.charAt(i);
-                    i++;
-                    AudioFX.playTypewriter();
-                    setTimeout(type, 50);
-                }
+
+            const words = currentLang === "ar" ? typewriterWordsAr : typewriterWordsEn;
+            const currentWord = words[typewriterIndex] || "";
+
+            let displayTxt = "";
+            if (isDeleting) {
+                displayTxt = currentWord.substring(0, charIndex);
+                charIndex--;
+            } else {
+                displayTxt = currentWord.substring(0, charIndex);
+                charIndex++;
             }
-            type();
+
+            container.innerText = displayTxt;
+            let speed = isDeleting ? 40 : 80;
+
+            if (!isDeleting && charIndex > currentWord.length) {
+                speed = 2000; 
+                isDeleting = true;
+            } else if (isDeleting && charIndex < 0) {
+                isDeleting = false;
+                typewriterIndex = (typewriterIndex + 1) % words.length;
+                charIndex = 0;
+                speed = 400; 
+            }
+
+            if (typewriterTimeout) clearTimeout(typewriterTimeout);
+            typewriterTimeout = setTimeout(runFixedTypewriterEffect, speed);
         }
 
-        // جلب معرض المشاريع السحابية من قاعدة البيانات وعرضها تحت عنوان "أعمالنا السابقة"
-        async function fetchPortfolioProjects() {
-            const container = document.getElementById("portfolioContainer");
+        // تهيئة المحرك وتصفيته بالكامل عند بدء التشغيل أو التحويل
+        function startTypewriter() {
+            if (typewriterTimeout) clearTimeout(typewriterTimeout);
+            typewriterIndex = 0;
+            charIndex = 0;
+            isDeleting = false;
+            runFixedTypewriterEffect();
+        }
+
+        // =========================================================================
+        // 2. الصوتيات البرمجية النقية بدون ملفات خارجية (Audio Synthesis)
+        // =========================================================================
+        let audioCtx = null;
+        function playTone(freq, duration, type = 'sine', volume = 0.1) {
             try {
-                const response = await fetch('/api/projects');
-                const data = await response.json();
-                if(data.success && data.projects.length > 0) {
-                    container.innerHTML = "";
-                    data.projects.forEach(proj => {
-                        const title = currentLang === 'ar' ? proj.titleAr : proj.titleEn;
-                        container.innerHTML += `
-                            <div class="portfolio-card">
-                                <i class="fa-solid fa-code-branch" style="color:var(--accent-color); font-size:1.8rem; margin-bottom:10px;"></i>
-                                <h4 style="margin:5px 0; color:#fff;">${title}</h4>
-                                <a href="${proj.link}" target="_blank" class="portfolio-link">رابط المعاينة المباشرة <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-                            </div>`;
-                    });
-                } else {
-                    container.innerHTML = `<p style="color:var(--text-muted); text-align:center; grid-column:1/-1;">لا توجد أعمال معروضة حالياً في قاعدة البيانات السحابية.</p>`;
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                 }
-            } catch (err) {
-                container.innerHTML = `<p style="color:var(--text-muted); text-align:center; grid-column:1/-1;">خطأ أثناء الاتصال بقاعدة البيانات السحابية لمعرض الأعمال.</p>`;
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                const osc = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                
+                gainNode.gain.setValueAtTime(volume, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + duration);
+                
+                osc.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch (e) {
+                console.log("Audio feedback blocked or ignored by browser settings.");
             }
-            attachHoverSounds();
         }
 
-        // خوارزمية ذكية لمراقبة التمرير ورفع/إضاءة البطاقة المتواجدة في منتصف الشاشة وتعتيم البقية
-        function setupScrollFocusTracking() {
-            function trackCenter() {
-                const cards = document.querySelectorAll('.interactive-card, .portfolio-card');
-                const centerY = window.innerHeight / 2;
-                cards.forEach(card => {
-                    const rect = card.getBoundingClientRect();
-                    const cardCenter = rect.top + rect.height / 2;
-                    if(Math.abs(centerY - cardCenter) < 180) {
-                        card.classList.add('center-focused');
-                    } else {
-                        card.classList.remove('center-focused');
-                    }
-                });
-            }
-            window.addEventListener('scroll', trackCenter);
-            window.addEventListener('resize', trackCenter);
+        function playTypewriterSound() {
+            playTone(600, 0.03, 'triangle', 0.05);
+        }
+        function playClickSound() {
+            playTone(1000, 0.05, 'sine', 0.08);
         }
 
-        // ربط الأصوات التنبيهية الذكية عند مرور الماوس على العناصر التفاعلية
-        function attachHoverSounds() {
-            const targets = document.querySelectorAll('.interactive-card, .portfolio-card, .btn-toggle, .btn-primary, .faq-question, .payment-option');
-            targets.forEach(el => {
-                el.onmouseenter = () => AudioFX.playHover();
+        // =========================================================================
+        // 3. إدارة واجهة التفاعل اللغوي والقوالب اللحظية (UI Render Engine)
+        // =========================================================================
+        function renderLanguage() {
+            document.querySelectorAll("[data-i18n]").forEach(el => {
+                const key = el.getAttribute("data-i18n");
+                if (dictionary[currentLang][key]) {
+                    el.innerText = dictionary[currentLang][key];
+                }
             });
+            
+            const htmlNode = document.documentElement;
+            const langBtnText = document.getElementById("langBtnText");
+            if (currentLang === "ar") {
+                htmlNode.setAttribute("dir", "rtl");
+                htmlNode.setAttribute("lang", "ar");
+                if(langBtnText) langBtnText.innerText = "EN";
+            } else {
+                htmlNode.setAttribute("dir", "ltr");
+                htmlNode.setAttribute("lang", "en");
+                if(langBtnText) langBtnText.innerText = "AR";
+            }
+            
+            startTypewriter();
         }
 
-        // تحديث الفاتورة الحية التفاعلية والأرقام الهندسية
+        function toggleLang() {
+            playClickSound();
+            currentLang = currentLang === "ar" ? "en" : "ar";
+            localStorage.setItem("athaar_lang", currentLang);
+            renderLanguage();
+            updateReceipt();
+        }
+
+        function updateThemeUIElements() {
+            const icon = document.getElementById("themeIcon");
+            if(icon) {
+                icon.className = currentTheme === "dark" ? "fa-solid fa-sun" : "fa-solid fa-moon";
+            }
+        }
+
+        function toggleTheme() {
+            playClickSound();
+            currentTheme = currentTheme === "dark" ? "light" : "dark";
+            document.documentElement.setAttribute("data-theme", currentTheme);
+            localStorage.setItem("athaar_theme", currentTheme);
+            updateThemeUIElements();
+        }
+
+        // =========================================================================
+        // 4. حاسبة الأسعار المتكاملة وإدارة العملات اللحظية
+        // =========================================================================
         function updateReceipt() {
-            const service = document.getElementById("formService").value;
-            let basePrice = service === 'web' ? 15000 : 5000;
-            let extPrice = 0;
+            const serviceSelect = document.getElementById("formService");
+            if (!serviceSelect) return;
             
-            if(document.getElementById("extHosting").checked) extPrice += 4000;
-            if(document.getElementById("extExpress").checked) extPrice += 5000;
+            const serviceVal = serviceSelect.value;
+            let basePriceDZD = 0;
+            let textServiceName = "لم يتم الاختيار";
+
+            if (serviceVal === "bot") { basePriceDZD = 5000; textServiceName = currentLang === "ar" ? "بناء أنظمة وبوتات Telegram" : "Building Telegram Bots"; }
+            else if (serviceVal === "web") { basePriceDZD = 15000; textServiceName = currentLang === "ar" ? "تطوير المواقع وتطبيقات الويب" : "Websites & Web Apps Dev"; }
+            else if (serviceVal === "video") { basePriceDZD = 8000; textServiceName = currentLang === "ar" ? "صناعة الفديو والموشن جرافيك" : "Video & Motion Graphics"; }
+
+            let extPriceDZD = 0;
+            if (document.getElementById("extHosting")?.checked) extPriceDZD += 4000;
+            if (document.getElementById("extExpress")?.checked) extPriceDZD += 5000;
+            if (document.getElementById("extSupport")?.checked) extPriceDZD += 3000;
+
+            const totalDZD = basePriceDZD + extPriceDZD;
+            const currency = document.getElementById("currencySelect")?.value || "DZD";
             
-            const total = basePrice + extPrice;
+            let rate = 1;
+            let symbol = "DA";
+            if (currency === "USD") { rate = 0.0074; symbol = "$"; }
+            else if (currency === "EUR") { rate = 0.0068; symbol = "€"; }
+            else if (currency === "USDT") { rate = 0.0074; symbol = "USDT"; }
+
+            const finalBase = (basePriceDZD * rate).toFixed(2);
+            const finalExt = (extPriceDZD * rate).toFixed(2);
+            const finalTotal = (totalDZD * rate).toFixed(2);
+
+            document.getElementById("receiptService").innerText = textServiceName;
+            document.getElementById("receiptBase").innerText = `${finalBase} ${symbol}`;
+            document.getElementById("receiptExts").innerText = `${finalExt} ${symbol}`;
+            document.getElementById("receiptTotal").innerText = `${finalTotal} ${symbol}`;
             
-            document.getElementById("rcpBase").innerText = `${basePrice} DA`;
-            document.getElementById("rcpExt").innerText = `${extPrice} DA`;
-            document.getElementById("rcpTotal").innerText = `${total} DA`;
+            document.getElementById("hiddenFinalDue").value = `${finalTotal} ${symbol}`;
+            saveFormDraft();
         }
 
         function setPaymentMode(mode) {
-            activePaymentMode = mode;
-            document.getElementById("payBaridi").classList.remove("active");
-            document.getElementById("payCrypto").classList.remove("active");
-            if(mode.includes('Baridi')) document.getElementById("payBaridi").classList.add("active");
-            else document.getElementById("payCrypto").classList.add("active");
-        }
-
-        function openModal() { document.getElementById("orderModal").classList.add("active"); }
-        function openModalWithService(srv) {
-            const sel = document.getElementById("formService");
-            if(srv.includes('Bot')) sel.value = 'bot';
-            else if(srv.includes('Web')) sel.value = 'web';
-            else sel.value = 'motion';
-            updateReceipt(); openModal();
-        }
-        function closeModal() { document.getElementById("orderModal").classList.remove("active"); }
-
-        function toggleFaq(btn) { btn.parentElement.classList.toggle("active"); }
-
-        function toggleTheme() {
-            currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute("data-theme", currentTheme);
-            document.getElementById("themeBtn").innerHTML = currentTheme === 'dark' ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
-        }
-
-        function toggleLanguage() {
-            currentLang = currentLang === 'ar' ? 'en' : 'ar';
-            document.documentElement.setAttribute("dir", currentLang === 'ar' ? 'rtl' : 'ltr');
-            document.documentElement.setAttribute("lang", currentLang);
-            document.getElementById("langBtn").innerText = currentLang === 'ar' ? 'English' : 'العربية';
+            playClickSound();
+            document.querySelectorAll(".payment-option").forEach(opt => opt.classList.remove("active"));
             
-            // تحديث نصوص الواجهة المترجمة
-            document.querySelectorAll("[data-i18n]").forEach(el => {
-                const key = el.getAttribute("data-i18n");
-                if(dictionary[currentLang][key]) el.innerText = dictionary[currentLang][key];
-            });
-            runTypewriterEffect();
-            fetchPortfolioProjects();
+            const infoBaridi = document.getElementById("infoBaridi");
+            const infoCrypto = document.getElementById("infoCrypto");
+
+            if (mode.includes('BaridiMob')) {
+                document.getElementById("payBaridi")?.classList.add("active");
+                if(infoBaridi) infoBaridi.style.display = "block";
+                if(infoCrypto) infoCrypto.style.display = "none";
+            } else {
+                document.getElementById("payCrypto")?.classList.add("active");
+                if(infoBaridi) infoBaridi.style.display = "none";
+                if(infoCrypto) infoCrypto.style.display = "block";
+            }
+            document.getElementById("hiddenPaymentMode").value = mode;
+            saveFormDraft();
         }
 
-        // معالجة إرسال الفورم الآمن وتجهيز الملفات كـ Base64
-        function handleFormSubmit(e) {
+        // =========================================================================
+        // 5. حفظ وحماية مسودات الفورم التلقائي (Form Draft Protection System)
+        // =========================================================================
+        function saveFormDraft() {
+            const draft = {
+                name: document.getElementById("formName")?.value || "",
+                email: document.getElementById("formEmail")?.value || "",
+                phone: document.getElementById("formPhone")?.value || "",
+                service: document.getElementById("formService")?.value || "",
+                idea: document.getElementById("formIdea")?.value || "",
+                extHosting: document.getElementById("extHosting")?.checked || false,
+                extExpress: document.getElementById("extExpress")?.checked || false,
+                extSupport: document.getElementById("extSupport")?.checked || false,
+                currency: document.getElementById("currencySelect")?.value || "DZD",
+                paymentMode: document.getElementById("hiddenPaymentMode")?.value || "BaridiMob / CCP",
+                ref: document.getElementById("formRefInput")?.value || ""
+            };
+            localStorage.setItem("athaar_order_draft", JSON.stringify(draft));
+        }
+
+        function loadFormDraft() {
+            try {
+                const raw = localStorage.getItem("athaar_order_draft");
+                if (!raw) return;
+                const draft = JSON.parse(raw);
+                
+                if (draft.name || draft.email || draft.phone || draft.idea) {
+                    document.getElementById("returningUserBanner").style.display = "flex";
+                }
+
+                if(document.getElementById("formName")) document.getElementById("formName").value = draft.name;
+                if(document.getElementById("formEmail")) document.getElementById("formEmail").value = draft.email;
+                if(document.getElementById("formPhone")) document.getElementById("formPhone").value = draft.phone;
+                if(document.getElementById("formService")) document.getElementById("formService").value = draft.service;
+                if(document.getElementById("formIdea")) document.getElementById("formIdea").value = draft.idea;
+                
+                if(document.getElementById("extHosting")) document.getElementById("extHosting").checked = draft.extHosting;
+                if(document.getElementById("extExpress")) document.getElementById("extExpress").checked = draft.extExpress;
+                if(document.getElementById("extSupport")) document.getElementById("extSupport").checked = draft.extSupport;
+                
+                if(document.getElementById("currencySelect")) document.getElementById("currencySelect").value = draft.currency;
+                if(document.getElementById("formRefInput")) document.getElementById("formRefInput").value = draft.ref;
+                
+                setPaymentMode(draft.paymentMode);
+            } catch (e) {
+                console.error("Error loading secure dynamic draft:", e);
+            }
+        }
+
+        function clearDraft() {
+            localStorage.removeItem("athaar_order_draft");
+            document.getElementById("orderForm").reset();
+            if(document.getElementById("extHosting")) document.getElementById("extHosting").checked = false;
+            if(document.getElementById("extExpress")) document.getElementById("extExpress").checked = false;
+            if(document.getElementById("extSupport")) document.getElementById("extSupport").checked = false;
+            document.getElementById("returningUserBanner").style.display = "none";
+            setPaymentMode('BaridiMob / CCP');
+            if(document.getElementById("currencySelect")) document.getElementById("currencySelect").value = "DZD";
+            updateReceipt();
+        }
+
+        // =========================================================================
+        // 6. المراقب البصري والتحكم بالصفحة (UX Handlers)
+        // =========================================================================
+        function setupIntersectionObservers() {
+            const cards = document.querySelectorAll(".interactive-card");
+            if ("IntersectionObserver" in window) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            cards.forEach(c => c.classList.remove("center-focused"));
+                            entry.target.classList.add("center-focused");
+                        }
+                    });
+                }, { threshold: 0.6, rootMargin: "0px" });
+
+                cards.forEach(card => observer.observe(card));
+            }
+        }
+
+        function toggleFaq(btn) {
+            playClickSound();
+            const item = btn.parentElement;
+            item.classList.toggle("active");
+        }
+
+        function openModal() {
+            playClickSound();
+            document.getElementById("orderModal").style.display = "flex";
+            updateReceipt();
+        }
+
+        // حلقة تكرار النقر على الـ Modal في مساحة فارغة للإغلاق السريع
+        window.onclick = function(event) {
+            const modal = document.getElementById("orderModal");
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        function closeModal() {
+            playClickSound();
+            document.getElementById("orderModal").style.display = "none";
+        }
+
+        // =========================================================================
+        // 7. لوحة الإدارة السحابية السرية المتقدمة (Advanced Secret Admin Engine)
+        // =========================================================================
+        let logoClickCount = 0;
+        let logoClickTimeout = null;
+
+        function handleLogoClick() {
+            playTypewriterSound();
+            logoClickCount++;
+            if (logoClickTimeout) clearTimeout(logoClickTimeout);
+            
+            if (logoClickCount === 5) {
+                logoClickCount = 0;
+                openAdminDashboard();
+            } else {
+                logoClickTimeout = setTimeout(() => { logoClickCount = 0; }, 2000);
+            }
+        }
+
+        function openAdminDashboard() {
+            document.getElementById("adminPanelOverlay").style.display = "block";
+            checkSystemState();
+        }
+
+        function closeAdminDashboard() {
+            document.getElementById("adminPanelOverlay").style.display = "none";
+        }
+
+        function checkSystemState() {
+            const totalOrders = parseInt(localStorage.getItem("admin_total_orders") || "0");
+            document.getElementById("adminOrderCount").innerText = totalOrders;
+            
+            const isSystemOpen = localStorage.getItem("admin_system_status") !== "closed";
+            const statusText = document.getElementById("adminSystemStatusText");
+            const toggleBtn = document.getElementById("adminToggleStatusBtn");
+            const closedBanner = document.getElementById("systemClosedBanner");
+            const orderBtns = document.querySelectorAll(".btn-primary, .btn-submit-order");
+
+            if (isSystemOpen) {
+                if(statusText) statusText.innerText = "اسْتِقْبَالُ الطَّلَبَاتِ: مَفْتُوحٌ حَالِيّاً";
+                if(statusText) statusText.style.color = "#10b981";
+                if(toggleBtn) {
+                    toggleBtn.innerText = "إِغْلَاقُ اسْتِقْبَالِ الطَّلَبَاتِ";
+                    toggleBtn.style.borderColor = "#cf222e";
+                    toggleBtn.style.color = "#cf222e";
+                }
+                if(closedBanner) closedBanner.style.display = "none";
+                orderBtns.forEach(btn => btn.disabled = false);
+            } else {
+                if(statusText) statusText.innerText = "اسْتِقْبَالُ الطَّلَبَاتِ: مُغْلَقٌ مُؤَقَّتاً";
+                if(statusText) statusText.style.color = "#ef4444";
+                if(toggleBtn) {
+                    toggleBtn.innerText = "فَتْحُ اسْتِقْبَالِ الطَّلَبَاتِ";
+                    toggleBtn.style.borderColor = "#10b981";
+                    toggleBtn.style.color = "#10b981";
+                }
+                if(closedBanner) closedBanner.style.display = "block";
+                orderBtns.forEach(btn => btn.disabled = true);
+            }
+
+            const lastService = localStorage.getItem("last_requested_service") || "لا يوجد طلبات جديدة حالياً";
+            document.getElementById("adminLastService").innerText = lastService;
+
+            const savedIdeas = JSON.parse(localStorage.getItem("admin_ideas") || "[]");
+            const ideasContainer = document.getElementById("adminIdeasContainer");
+            if(ideasContainer) {
+                ideasContainer.innerHTML = "";
+                savedIdeas.forEach(idea => {
+                    ideasContainer.innerHTML += `<div class="data-list-item"><i class="fa-regular fa-comment"></i> ${idea}</div>`;
+                });
+            }
+            renderDynamicProjects();
+        }
+
+        function toggleSystemStatus() {
+            playClickSound();
+            const currentStatus = localStorage.getItem("admin_system_status");
+            if (currentStatus === "closed") {
+                localStorage.setItem("admin_system_status", "open");
+            } else {
+                localStorage.setItem("admin_system_status", "closed");
+            }
+            checkSystemState();
+        }
+
+        function saveQuickIdea() {
+            const input = document.getElementById("adminIdeaInput");
+            if (!input || !input.value.trim()) return;
+            playClickSound();
+            const savedIdeas = JSON.parse(localStorage.getItem("admin_ideas") || "[]");
+            savedIdeas.push(input.value.trim());
+            localStorage.setItem("admin_ideas", JSON.stringify(savedIdeas));
+            input.value = "";
+            checkSystemState();
+        }
+
+        function handleAdminSubmit(e) {
             e.preventDefault();
-            const submitButton = document.getElementById("submitBtn");
-            const feedbackZone = document.getElementById("feedbackZone");
-            submitButton.disabled = true;
-            feedbackZone.style.display = "block";
-            feedbackZone.className = "form-feedback";
-            feedbackZone.innerText = "جاري معالجة طلبك وتشفيره سحابياً...";
+            playClickSound();
+            const titleAr = document.getElementById("adminProjTitleAr").value;
+            const titleEn = document.getElementById("adminProjTitleEn").value;
+            const link = document.getElementById("adminProjLink").value;
+
+            const savedProjects = JSON.parse(localStorage.getItem("admin_projects") || "[]");
+            savedProjects.push({ titleAr, titleEn, link });
+            localStorage.setItem("admin_projects", JSON.stringify(savedProjects));
+
+            document.getElementById("adminProjectForm").reset();
+            checkSystemState();
+            renderDynamicProjects();
+        }
+
+        function deleteProject(index) {
+            playClickSound();
+            const savedProjects = JSON.parse(localStorage.getItem("admin_projects") || "[]");
+            savedProjects.splice(index, 1);
+            localStorage.setItem("admin_projects", JSON.stringify(savedProjects));
+            checkSystemState();
+            renderDynamicProjects();
+        }
+
+        function renderDynamicProjects() {
+            const savedProjects = JSON.parse(localStorage.getItem("admin_projects") || "[]");
+            const container = document.getElementById("adminProjectsContainer");
+            const userPortfolioContainer = document.getElementById("dynamicPortfolioSection");
+            
+            if (container) {
+                if (savedProjects.length > 0) {
+                    container.innerHTML = "";
+                    savedProjects.forEach((proj, index) => {
+                        container.innerHTML += `
+                            <div class="data-list-item">
+                                <span><strong>${proj.titleAr}</strong> (${proj.titleEn}) - <a href="${proj.link}" target="_blank" style="color:#a78bfa;">${proj.link}</a></span>
+                                <button class="delete-btn" onclick="deleteProject(${index})"><i class="fa-solid fa-trash"></i></button>
+                            </div>`;
+                    });
+                } else {
+                    container.innerHTML = '<p style="color:#71717a;">لم تقم بإضافة نماذج جديدة بعد.</p>';
+                }
+            }
+
+            if(userPortfolioContainer) {
+                if(savedProjects.length > 0) {
+                    userPortfolioContainer.innerHTML = "";
+                    savedProjects.forEach(proj => {
+                        const title = currentLang === "ar" ? proj.titleAr : proj.titleEn;
+                        userPortfolioContainer.innerHTML += `
+                            <div class="portfolio-card">
+                                <div class="portfolio-icon-wrap"><i class="fa-solid fa-arrow-up-right-from-square"></i></div>
+                                <h3>${title}</h3>
+                                <a href="${proj.link}" target="_blank" class="portfolio-link-btn">${currentLang === 'ar' ? 'معاينة المباشر' : 'Live Preview'}</a>
+                            </div>`;
+                    });
+                } else {
+                    const soonText = currentLang === "ar" ? "سَيَتِمُّ عَرْضُ الرَّوَابِ روابطِ وَالْمُعَايَنَاتِ قَرِيباً..." : "Links and previews will be displayed soon...";
+                    userPortfolioContainer.innerHTML = `<p class="portfolio-soon" data-i18n="portSoon">${soonText}</p>`;
+                }
+            }
+        }
+
+        function updateAdminStats(serviceVal) {
+            let count = parseInt(localStorage.getItem("admin_total_orders") || "0");
+            count++;
+            localStorage.setItem("admin_total_orders", count.toString());
+        }
+
+        // =========================================================================
+        // 8. الاستماع إلى إرسال النماذج والربط السحابي (Form Transmission Node)
+        // =========================================================================
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            playClickSound();
+
+            const submitButton = document.querySelector(".btn-submit-order");
+            const feedbackZone = document.getElementById("formFeedbackZone");
+            
+            if (submitButton) submitButton.disabled = true;
+            if (feedbackZone) {
+                feedbackZone.style.display = "block";
+                feedbackZone.className = "form-feedback info";
+                feedbackZone.innerText = currentLang === "ar" ? "جَارٍ مُعَالَجَةُ وَإِرْسَالُ طَلَبِكَ الآنَ..." : "Processing and transmitting your order...";
+            }
 
             const serviceSelect = document.getElementById("formService");
-            const selectedText = serviceSelect.options[serviceSelect.selectedIndex].text;
+            const serviceVal = serviceSelect ? serviceSelect.value : "";
+            let textServiceName = serviceVal;
+            if (serviceVal === "bot") textServiceName = "بناء أنظمة وبوتات Telegram";
+            if (serviceVal === "web") textServiceName = "تطوير المواقع وتطبيقات الويب";
+            if (serviceVal === "video") textServiceName = "صناعة الفديو والموشن جرافيك";
 
             const formDataObject = {
-                name: document.getElementById("formName").value,
-                email: document.getElementById("formEmail").value,
-                phone: document.getElementById("formPhone").value,
-                service: selectedText,
-                idea: document.getElementById("formIdea").value,
-                paymentMode: activePaymentMode,
-                ref: "REF-" + Math.floor(Math.random() * 900000 + 100000),
-                finalDue: document.getElementById("rcpTotal").innerText
+                name: document.getElementById("formName")?.value || "",
+                email: document.getElementById("formEmail")?.value || "",
+                phone: document.getElementById("formPhone")?.value || "",
+                service: textServiceName,
+                idea: document.getElementById("formIdea")?.value || "",
+                paymentMode: document.getElementById("hiddenPaymentMode")?.value || "BaridiMob / CCP",
+                ref: document.getElementById("formRefInput")?.value || "لا يوجد",
+                finalDue: document.getElementById("hiddenFinalDue")?.value || "غير محدد",
+                requestTime: new Date().toLocaleString(currentLang === 'ar' ? 'ar-DZ' : 'en-US')
             };
 
-            const sendToServer = (payload) => {
+            const fileInput = document.getElementById("formReceiptFile");
+
+            const sendToServer = (dataPayload) => {
                 fetch('/api/send', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
+                    body: JSON.stringify(dataPayload)
                 })
                 .then(res => res.json())
                 .then(resData => {
                     if (resData.success) {
-                        AudioFX.playSuccess();
                         feedbackZone.className = "form-feedback success";
-                        feedbackZone.innerText = dictionary[currentLang].successFeedback;
-                        document.getElementById("orderForm").reset();
-                        updateReceipt();
-                        setTimeout(() => { closeModal(); feedbackZone.style.display = "none"; }, 3500);
+                        feedbackZone.innerText = resData.message || (currentLang === "ar" ? "تم الإرسال بنجاح!" : "Sent successfully!");
+                        
+                        updateAdminStats(serviceVal);
+                        localStorage.setItem("last_requested_service", textServiceName);
+                        clearDraft();
+                        
+                        setTimeout(() => { 
+                            closeModal(); 
+                            feedbackZone.style.display = "none"; 
+                        }, 3500);
                     } else {
                         throw new Error(resData.message || "خطأ في السيرفر");
                     }
@@ -681,16 +1609,18 @@
                 .catch(error => {
                     feedbackZone.className = "form-feedback error";
                     feedbackZone.innerText = dictionary[currentLang].errorFeedback;
+                    console.error(error);
                 })
-                .finally(() => { submitButton.disabled = false; });
+                .finally(() => {
+                    if (submitButton) submitButton.disabled = false;
+                });
             };
 
-            const fileInput = document.getElementById("formReceiptFile");
             if (fileInput && fileInput.files.length > 0) {
                 const file = fileInput.files[0];
                 const reader = new FileReader();
-                reader.onload = async (event) => {
-                    formDataObject.receiptFileBase64 = event.target.result;
+                reader.onload = async (e) => {
+                    formDataObject.receiptFileBase64 = e.target.result;
                     formDataObject.receiptFileName = file.name;
                     sendToServer(formDataObject);
                 };
@@ -699,6 +1629,30 @@
                 sendToServer(formDataObject);
             }
         }
+
+        // =========================================================================
+        // 9. تشغيل النظام الذكي فور الجاهزية (Initialization Node)
+        // =========================================================================
+        window.addEventListener("DOMContentLoaded", () => {
+            const savedTheme = localStorage.getItem("athaar_theme") || "dark";
+            currentTheme = savedTheme;
+            document.documentElement.setAttribute("data-theme", currentTheme);
+            
+            const savedLang = localStorage.getItem("athaar_lang") || "ar";
+            currentLang = savedLang;
+
+            renderLanguage();
+            updateThemeUIElements();
+            loadFormDraft();
+            updateReceipt();
+            setupIntersectionObservers();
+            checkSystemState();
+
+            const siteLogo = document.querySelector(".nav-logo");
+            if (siteLogo) {
+                siteLogo.addEventListener("click", handleLogoClick);
+            }
+        });
     </script>
 </body>
 </html>
