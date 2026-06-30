@@ -4,55 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>لوحة التحكم السحابية | آثار الرقمية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Chakra+Petch:wght@600;700&display=swap" rel="stylesheet">
     <style>
         body {
-            background-color: #0f172a; color: #f1f5f9; font-family: system-ui, sans-serif; margin: 0; padding: 0;
+            background-color: #0a0a0a; 
+            color: #f4f4f5; 
+            font-family: 'Cairo', sans-serif; 
+            margin: 0; 
+            padding: 0;
         }
         .panel { padding: 2rem; max-width: 1300px; margin: 0 auto; display: none; }
         .login-container {
-            max-width: 400px; margin: 15vh auto; background: #1e293b; padding: 2.5rem;
-            border-radius: 12px; border: 1px solid #334155; text-align: center;
+            max-width: 400px; margin: 15vh auto; background: #121212; padding: 2.5rem;
+            border-radius: 12px; border: 1px solid #27272a; text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
+        h1, h2, h3 { font-family: 'Chakra Petch', 'Cairo', sans-serif; color: #D4AF37; }
         input, select, button, textarea {
-            width: 100%; padding: 0.75rem; border-radius: 6px; border: 1px solid #334155;
-            background: #0f172a; color: white; box-sizing: border-box; margin-bottom: 1.25rem;
+            width: 100%; padding: 0.75rem; border-radius: 6px; border: 1px solid #27272a;
+            background: #1a1a1a; color: white; box-sizing: border-box; margin-bottom: 1.25rem;
+            font-family: 'Cairo', sans-serif;
         }
-        button { background: #3b82f6; cursor: pointer; font-weight: bold; border: none; }
-        button:hover { background: #2563eb; }
-        .header-panel { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; padding-bottom: 1rem; }
+        input:focus { outline: none; border-color: #D4AF37; }
+        button { background: #D4AF37; color: #0a0a0a; cursor: pointer; font-weight: bold; border: none; transition: opacity 0.2s; }
+        button:hover { opacity: 0.9; }
+        .header-panel { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #27272a; padding-bottom: 1rem; }
         .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
-        .order-card { background: #1e293b; border: 1px solid #334155; border-radius: 10px; padding: 1.5rem; }
-        .badge { display: inline-block; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem; font-weight: bold; background: #10b981; }
-        .receipt-preview { width: 100%; max-height: 200px; object-fit: contain; background: #0f172a; border-radius: 6px; margin-top: 1rem; cursor: pointer; }
-        .project-section { background: #1e293b; padding: 2rem; border-radius: 12px; margin-top: 3rem; border: 1px solid #334155; }
+        .order-card { background: #121212; border: 1px solid #27272a; border-radius: 10px; padding: 1.5rem; }
+        .badge { display: inline-block; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem; font-weight: bold; background: #10b981; color: white; }
+        .receipt-preview { width: 100%; max-height: 200px; object-fit: contain; background: #0a0a0a; border-radius: 6px; margin-top: 1rem; cursor: pointer; border: 1px dashed #D4AF37; }
+        .project-section { background: #121212; padding: 2rem; border-radius: 12px; margin-top: 3rem; border: 1px solid #27272a; }
     </style>
 </head>
 <body>
 
-<!-- واجهة حجب وحماية اللوحة - تسجيل الدخول -->
 <div class="login-container" id="login-panel">
     <h2>تسجيل دخول الإدارة</h2>
-    <p style="color: #94a3b8; font-size: 0.9rem;">الوصول مخصص للمسؤولين المصرح لهم بمفاتيح التشفير فقط</p>
+    <p style="color: #a1a1aa; font-size: 0.9rem;">الوصول مخصص للمسؤولين المصرح لهم بمفاتيح التشفير فقط</p>
     <input type="password" id="admin-pass" placeholder="أدخل كلمة المرور الإدارية">
     <button id="login-btn">دخول آمن بالنظام</button>
 </div>
 
-<!-- لوحة التحكم الإدارية المفتوحة بالتوكن -->
 <div class="panel" id="main-panel">
     <div class="header-panel">
         <div>
             <h1>لوحة إدارة الطلبات والمشاريع ⚙️</h1>
-            <p style="color: #94a3b8; margin: 0;">مراجعة فورية لمدفوعات العملاء والتحكم في معرض الأعمال</p>
+            <p style="color: #a1a1aa; margin: 0;">مراجعة فورية لمدفوعات العملاء والتحكم في معرض الأعمال</p>
         </div>
-        <button id="logout-btn" style="width: auto; background: #ef4444; padding: 0.5rem 1.5rem;">تسجيل خروج</button>
+        <button id="logout-btn" style="width: auto; background: #ef4444; color: white; padding: 0.5rem 1.5rem;">تسجيل خروج</button>
     </div>
 
     <h2 style="margin-top: 2.5rem;">الطلبات الواردة الحالية (<span id="orders-count">0</span>)</h2>
-    <div class="cards-grid" id="orders-container">
-        <!-- تُبنى بطاقات طلبات العملاء ديناميكياً هنا -->
-    </div>
+    <div class="cards-grid" id="orders-container"></div>
 
-    <!-- قسم إدارة معرض الأعمال والمشاريع الحية -->
     <div class="project-section">
         <h2>إضافة مشروع جديد لمعرض الأعمال</h2>
         <form id="project-form" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; align-items: end;">
@@ -77,12 +81,9 @@
     const tokenKey = 'athaar_admin_token';
 
     window.addEventListener('DOMContentLoaded', () => {
-        if (localStorage.getItem(tokenKey)) {
-            showMainPanel();
-        }
+        if (localStorage.getItem(tokenKey)) { showMainPanel(); }
     });
 
-    // برمجية إرسال واستقبال طلب الولوج عبر السيرفر
     document.getElementById('login-btn').addEventListener('click', async () => {
         const password = document.getElementById('admin-pass').value;
         try {
@@ -115,7 +116,6 @@
         fetchOrders();
     }
 
-    // استدعاء وعرض طلبات العملاء بالاعتماد على توكن JWT الموثق
     async function fetchOrders() {
         try {
             const response = await fetch('/api/admin/orders', {
@@ -140,17 +140,17 @@
                 card.className = 'order-card';
                 card.innerHTML = `
                     <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <h3 style="margin:0; color:#3b82f6;">${order.name}</h3>
+                        <h3 style="margin:0; color:#D4AF37;">${order.name}</h3>
                         <span class="badge">${order.amount} ريال</span>
                     </div>
-                    <p style="margin: 0.5rem 0; font-size:0.9rem; color:#94a3b8;">📧 ${order.email} | 📞 ${order.phone}</p>
-                    <div style="background:#0f172a; padding:0.75rem; border-radius:6px; margin:1rem 0;">
+                    <p style="margin: 0.5rem 0; font-size:0.9rem; color:#a1a1aa;">📧 ${order.email} | 📞 ${order.phone}</p>
+                    <div style="background:#1a1a1a; padding:0.75rem; border-radius:6px; margin:1rem 0; border: 1px solid #27272a;">
                         <strong>الخدمة:</strong> ${order.serviceType}<br>
                         <strong>الوصف:</strong> ${order.description}
                     </div>
                     <p style="margin:0; font-size:0.85rem;"><strong>الوسيلة:</strong> ${order.paymentMethod} | <strong>المرجع:</strong> ${order.referenceNumber || 'لا يوجد'}</p>
                     ${order.receiptImage ? `<img src="${order.receiptImage}" class="receipt-preview" onclick="window.open(this.src)" title="اضغط لفتح الإيصال بحجمه الكامل">` : '<p style="color:#ef4444; font-size:0.85rem; margin-top:1rem;">لم يتم إرفاق إيصال الدفع البنكي!</p>'}
-                    <p style="font-size:0.75rem; color:#64748b; margin-top:0.75rem; text-align:left;">${new Date(order.createdAt).toLocaleString('ar-SA')}</p>
+                    <p style="font-size:0.75rem; color:#71717a; margin-top:0.75rem; text-align:left;">${new Date(order.createdAt).toLocaleString('ar-SA')}</p>
                 `;
                 container.appendChild(card);
             });
@@ -159,7 +159,6 @@
         }
     }
 
-    // إرسال ونشر مشروع جديد إلى قاعدة البيانات
     document.getElementById('project-form').addEventListener('submit', async function(e) {
         e.preventDefault();
         const payload = {
@@ -183,7 +182,7 @@
                 alert(data.message);
                 this.reset();
             } else {
-                alert('فشل إضافة المشروع الحية: ' + data.message);
+                alert('فشل إضافة المشروع: ' + data.message);
             }
         } catch (err) {
             alert('حدث خطأ فني أثناء محاولة إرسال البيانات.');
@@ -192,4 +191,3 @@
 </script>
 </body>
 </html>
-
