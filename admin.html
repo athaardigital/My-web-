@@ -3,191 +3,240 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة التحكم السحابية | آثار الرقمية</title>
+    <title>إدارة آثار الرقمية | Athaar Control Panel</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Chakra+Petch:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            background-color: #0a0a0a; 
-            color: #f4f4f5; 
-            font-family: 'Cairo', sans-serif; 
-            margin: 0; 
-            padding: 0;
+        :root {
+            --bg-primary: #060a12;
+            --bg-secondary: #0b1220;
+            --bg-card: rgba(11, 18, 32, 0.9);
+            --accent: #d4af37;
+            --text-main: #e6edf3;
+            --text-muted: #8b949e;
+            --border: rgba(212, 175, 55, 0.15);
+            --success: #2ea44f;
+            --danger: #cf222e;
         }
-        .panel { padding: 2rem; max-width: 1300px; margin: 0 auto; display: none; }
-        .login-container {
-            max-width: 400px; margin: 15vh auto; background: #121212; padding: 2.5rem;
-            border-radius: 12px; border: 1px solid #27272a; text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-        h1, h2, h3 { font-family: 'Chakra Petch', 'Cairo', sans-serif; color: #D4AF37; }
-        input, select, button, textarea {
-            width: 100%; padding: 0.75rem; border-radius: 6px; border: 1px solid #27272a;
-            background: #1a1a1a; color: white; box-sizing: border-box; margin-bottom: 1.25rem;
-            font-family: 'Cairo', sans-serif;
-        }
-        input:focus { outline: none; border-color: #D4AF37; }
-        button { background: #D4AF37; color: #0a0a0a; cursor: pointer; font-weight: bold; border: none; transition: opacity 0.2s; }
-        button:hover { opacity: 0.9; }
-        .header-panel { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #27272a; padding-bottom: 1rem; }
-        .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
-        .order-card { background: #121212; border: 1px solid #27272a; border-radius: 10px; padding: 1.5rem; }
-        .badge { display: inline-block; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem; font-weight: bold; background: #10b981; color: white; }
-        .receipt-preview { width: 100%; max-height: 200px; object-fit: contain; background: #0a0a0a; border-radius: 6px; margin-top: 1rem; cursor: pointer; border: 1px dashed #D4AF37; }
-        .project-section { background: #121212; padding: 2rem; border-radius: 12px; margin-top: 3rem; border: 1px solid #27272a; }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+        body { background-color: var(--bg-primary); color: var(--text-main); padding: 2rem; }
+        
+        .login-container { max-width: 400px; margin: 10% auto; background: var(--bg-secondary); border: 1px solid var(--accent); padding: 2.5rem; border-radius: 16px; text-align: center; box-shadow: 0 0 20px rgba(212,175,55,0.1); }
+        .login-container h2 { font-family: 'Chakra Petch', sans-serif; color: var(--accent); margin-bottom: 1.5rem; }
+        .form-field { width: 100%; padding: 12px; background: #000; border: 1px solid var(--border); color: #fff; border-radius: 8px; margin-bottom: 1.2rem; outline: none; text-align: center; }
+        .form-field:focus { border-color: var(--accent); }
+        .btn-action { width: 100%; padding: 12px; background: transparent; border: 1px solid var(--accent); color: var(--accent); font-weight: 700; border-radius: 8px; cursor: pointer; transition: 0.3s; }
+        .btn-action:hover { background: var(--accent); color: #060a12; }
+
+        .dashboard-layout { display: none; max-width: 1300px; margin: 0 auto; }
+        .dash-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 1.5rem; margin-bottom: 2rem; }
+        .dash-header h1 { font-family: 'Chakra Petch', sans-serif; color: var(--accent); }
+        
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-bottom: 2.5rem; }
+        .stat-card { background: var(--bg-secondary); border: 1px solid var(--border); padding: 1.5rem; border-radius: 12px; text-align: center; position: relative; }
+        .stat-card h3 { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+        .stat-card .value { font-size: 1.8rem; font-weight: 700; color: var(--accent); font-family: 'Chakra Petch', sans-serif; }
+        
+        .controls-zone { background: var(--bg-secondary); border: 1px solid var(--border); padding: 1.5rem; border-radius: 12px; margin-bottom: 2.5rem; display: flex; justify-content: space-between; align-items: center; }
+        
+        .orders-table-container { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; text-align: right; }
+        th, td { padding: 15px 20px; border-bottom: 1px solid var(--border); }
+        th { background: rgba(0,0,0,0.4); color: var(--accent); font-size: 0.9rem; }
+        tr:hover { background: rgba(212,175,55,0.02); }
+        
+        .badge { padding: 4px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; }
+        .badge-seat { background: rgba(212,175,55,0.12); color: var(--accent); border: 1px solid var(--accent); }
+        .badge-full { background: rgba(46,164,79,0.15); color: #46c46e; border: 1px solid var(--success); }
+        
+        .btn-view { padding: 5px 12px; background: rgba(255,255,255,0.05); border: 1px solid var(--text-muted); color: var(--text-main); border-radius: 6px; cursor: pointer; text-decoration: none; font-size: 0.85rem; }
+        .btn-view:hover { border-color: var(--accent); color: var(--accent); }
+        
+        /* Modal for images */
+        .img-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 3000; justify-content: center; align-items: center; padding: 2rem; }
+        .img-modal img { max-width: 100%; max-height: 90vh; border-radius: 8px; border: 2px solid var(--accent); }
     </style>
 </head>
 <body>
 
-<div class="login-container" id="login-panel">
-    <h2>تسجيل دخول الإدارة</h2>
-    <p style="color: #a1a1aa; font-size: 0.9rem;">الوصول مخصص للمسؤولين المصرح لهم بمفاتيح التشفير فقط</p>
-    <input type="password" id="admin-pass" placeholder="أدخل كلمة المرور الإدارية">
-    <button id="login-btn">دخول آمن بالنظام</button>
-</div>
+    <div class="login-container" id="loginBlock">
+        <h2>لوحة إشراف آثار</h2>
+        <input type="password" id="adminPassField" class="form-field" placeholder="أدخل مفتاح العبور الآمن">
+        <button class="btn-action" onclick="tryLogin()">ولوج النظام</button>
+    </div>
 
-<div class="panel" id="main-panel">
-    <div class="header-panel">
-        <div>
-            <h1>لوحة إدارة الطلبات والمشاريع ⚙️</h1>
-            <p style="color: #a1a1aa; margin: 0;">مراجعة فورية لمدفوعات العملاء والتحكم في معرض الأعمال</p>
+    <div class="dashboard-layout" id="dashboardBlock">
+        <div class="dash-header">
+            <h1><i class="fa-solid fa-gauge-high"></i> ATHAAR DASHBOARD</h1>
+            <button class="btn-action" style="width: auto; padding: 8px 20px;" onclick="logout()">خروج</button>
         </div>
-        <button id="logout-btn" style="width: auto; background: #ef4444; color: white; padding: 0.5rem 1.5rem;">تسجيل خروج</button>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>إجمالي طلبات المنصة</h3>
+                <div class="value" id="countTotal">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>تطوير البوتات</h3>
+                <div class="value" id="countBots">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>بناء المواقع</h3>
+                <div class="value" id="countWeb">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>المقاطع المرئية</h3>
+                <div class="value" id="countVideo">0</div>
+            </div>
+        </div>
+
+        <div class="controls-zone">
+            <div>
+                <h3 style="margin-bottom: 4px;">حالة استقبال المشاريع</h3>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">التحكم التلقائي الفوري في تفعيل نموذج حجز مقعد للعملاء.</p>
+            </div>
+            <button class="btn-action" id="lockSystemBtn" style="width: auto; padding: 10px 25px;" onclick="toggleSystemLock()"></button>
+        </div>
+
+        <div class="orders-table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>العميل</th>
+                        <th>التواصل</th>
+                        <th>الخدمة المستهدفة</th>
+                        <th>نوع الحجز</th>
+                        <th>القيمة المحتسبة</th>
+                        <th>تفاصيل الفكرة والإضافات</th>
+                        <th>الإيصال</th>
+                        <th>التاريخ</th>
+                    </tr>
+                </thead>
+                <tbody id="ordersTableBody">
+                    </tbody>
+            </table>
+        </div>
     </div>
 
-    <h2 style="margin-top: 2.5rem;">الطلبات الواردة الحالية (<span id="orders-count">0</span>)</h2>
-    <div class="cards-grid" id="orders-container"></div>
-
-    <div class="project-section">
-        <h2>إضافة مشروع جديد لمعرض الأعمال</h2>
-        <form id="project-form" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; align-items: end;">
-            <div>
-                <label>العنوان بالعربية:</label>
-                <input type="text" id="p-title-ar" required style="margin: 0; margin-top: 0.5rem;">
-            </div>
-            <div>
-                <label>العنوان بالإنجليزية:</label>
-                <input type="text" id="p-title-en" required style="margin: 0; margin-top: 0.5rem;">
-            </div>
-            <div>
-                <label>رابط المشروع التفاعلي:</label>
-                <input type="url" id="p-link" required style="margin: 0; margin-top: 0.5rem;">
-            </div>
-            <button type="submit" style="grid-column: span 3; margin: 0; margin-top: 1rem;">نشر المشروع الحي في المعرض</button>
-        </form>
+    <div class="img-modal" id="imgModal" onclick="this.style.display='none'">
+        <img id="modalTargetImg" src="" alt="Receipt">
     </div>
-</div>
 
-<script>
-    const tokenKey = 'athaar_admin_token';
+    <script>
+        let token = "";
 
-    window.addEventListener('DOMContentLoaded', () => {
-        if (localStorage.getItem(tokenKey)) { showMainPanel(); }
-    });
-
-    document.getElementById('login-btn').addEventListener('click', async () => {
-        const password = document.getElementById('admin-pass').value;
-        try {
-            const response = await fetch('/api/login', {
+        function tryLogin() {
+            const pass = document.getElementById("adminPassField").value;
+            fetch('/api/admin/data', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ password })
-            });
-            const data = await response.json();
-            
-            if (response.ok) {
-                localStorage.setItem(tokenKey, data.token);
-                showMainPanel();
-            } else {
-                alert('خطأ في الولوج: ' + data.message);
-            }
-        } catch (err) {
-            alert('فشل الاتصال بالخادم الخلفي.');
+                body: JSON.stringify({ password: pass })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.success) {
+                    token = pass;
+                    document.getElementById("loginBlock").style.display = "none";
+                    document.getElementById("dashboardBlock").style.display = "block";
+                    renderDashboard(data);
+                } else {
+                    alert("خطأ في كلمة السر العلوية!");
+                }
+            })
+            .catch(() => alert("فشل الاتصال بالخادم."));
         }
-    });
 
-    document.getElementById('logout-btn').addEventListener('click', () => {
-        localStorage.removeItem(tokenKey);
-        location.reload();
-    });
-
-    function showMainPanel() {
-        document.getElementById('login-panel').style.display = 'none';
-        document.getElementById('main-panel').style.display = 'block';
-        fetchOrders();
-    }
-
-    async function fetchOrders() {
-        try {
-            const response = await fetch('/api/admin/orders', {
-                headers: { 'Authorization': 'Bearer ' + localStorage.getItem(tokenKey) }
-            });
+        function renderDashboard(data) {
+            // تحديث الإحصائيات الحقيقية من السيرفر وليس الـ LocalStorage
+            document.getElementById("countTotal").innerText = data.orders.length;
             
-            if (response.status === 401 || response.status === 403) {
-                alert('انتهت صلاحية الجلسة الآمنة الموثقة، يرجى إعادة تسجيل الدخول.');
-                localStorage.removeItem(tokenKey);
-                location.reload();
+            const bots = data.orders.filter(o => o.service.includes("بوتات")).length;
+            const web = data.orders.filter(o => o.service.includes("المواقع")).length;
+            const vid = data.orders.filter(o => o.service.includes("المرئية")).length;
+            
+            document.getElementById("countBots").innerText = bots;
+            document.getElementById("countWeb").innerText = web;
+            document.getElementById("countVideo").innerText = vid;
+
+            // تحديث زر القفل والإغلاق الخاص بالنظام
+            const lockBtn = document.getElementById("lockSystemBtn");
+            if(data.systemLocked) {
+                lockBtn.innerText = "فتح استقبال الطلبات الآن";
+                lockBtn.style.borderColor = "var(--success)";
+                lockBtn.style.color = "var(--success)";
+            } else {
+                lockBtn.innerText = "إغلاق حجز المقاعد (صيانة/اكتفاء)";
+                lockBtn.style.borderColor = "var(--danger)";
+                lockBtn.style.color = "var(--danger)";
+            }
+
+            // تعبئة الجدول بالبيانات المكتملة
+            const tbody = document.getElementById("ordersTableBody");
+            tbody.innerHTML = "";
+
+            if(data.orders.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; color:var(--text-muted);">لا توجد طلبات مسجلة في قاعدة البيانات حالياً.</td></tr>`;
                 return;
             }
 
-            const orders = await response.json();
-            document.getElementById('orders-count').innerText = orders.length;
-            
-            const container = document.getElementById('orders-container');
-            container.innerHTML = '';
+            data.orders.reverse().forEach(order => {
+                const tr = document.createElement("tr");
+                
+                const receiptCell = order.receiptFile 
+                    ? `<button class="btn-view" onclick="viewReceipt('${order.receiptFile.base64}')"><i class="fa-solid fa-image"></i> عرض</button>` 
+                    : `<span style="color:var(--text-muted)">لا يوجد</span>`;
 
-            orders.forEach(order => {
-                const card = document.createElement('div');
-                card.className = 'order-card';
-                card.innerHTML = `
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <h3 style="margin:0; color:#D4AF37;">${order.name}</h3>
-                        <span class="badge">${order.amount} ريال</span>
-                    </div>
-                    <p style="margin: 0.5rem 0; font-size:0.9rem; color:#a1a1aa;">📧 ${order.email} | 📞 ${order.phone}</p>
-                    <div style="background:#1a1a1a; padding:0.75rem; border-radius:6px; margin:1rem 0; border: 1px solid #27272a;">
-                        <strong>الخدمة:</strong> ${order.serviceType}<br>
-                        <strong>الوصف:</strong> ${order.description}
-                    </div>
-                    <p style="margin:0; font-size:0.85rem;"><strong>الوسيلة:</strong> ${order.paymentMethod} | <strong>المرجع:</strong> ${order.referenceNumber || 'لا يوجد'}</p>
-                    ${order.receiptImage ? `<img src="${order.receiptImage}" class="receipt-preview" onclick="window.open(this.src)" title="اضغط لفتح الإيصال بحجمه الكامل">` : '<p style="color:#ef4444; font-size:0.85rem; margin-top:1rem;">لم يتم إرفاق إيصال الدفع البنكي!</p>'}
-                    <p style="font-size:0.75rem; color:#71717a; margin-top:0.75rem; text-align:left;">${new Date(order.createdAt).toLocaleString('ar-SA')}</p>
+                tr.innerHTML = `
+                    <td><strong>${order.name}</strong><br><span style="font-size:0.8rem; color:var(--text-muted);">${order.email}</span></td>
+                    <td><a href="tel:${order.phone}" style="color:var(--accent); text-decoration:none;" dir="ltr">${order.phone}</a></td>
+                    <td><span style="font-weight:600">${order.service}</span></td>
+                    <td><span class="badge ${order.paymentMode === 'seat' ? 'badge-seat' : 'badge-full'}">${order.paymentMode === 'seat' ? 'حجز مقعد' : 'تأكيد دفع'}</span><br><small style="color:var(--text-muted)">الرقم: ${order.ref}</small></td>
+                    <td style="font-family:'Chakra Petch', sans-serif; font-weight:700; color:var(--accent);">${order.finalDue}</td>
+                    <td style="max-width:300px; font-size:0.9rem; white-space: pre-line;">${order.idea}</td>
+                    <td>${receiptCell}</td>
+                    <td style="font-size:0.8rem; color:var(--text-muted);">${order.date}</td>
                 `;
-                container.appendChild(card);
+                tbody.appendChild(tr);
             });
-        } catch (err) {
-            console.error('خطأ أثناء جلب الطلبات الواردة:', err);
         }
-    }
 
-    document.getElementById('project-form').addEventListener('submit', async function(e) {
-        e.preventDefault();
-        const payload = {
-            titleAr: document.getElementById('p-title-ar').value,
-            titleEn: document.getElementById('p-title-en').value,
-            projectLink: document.getElementById('p-link').value
-        };
-
-        try {
-            const response = await fetch('/api/admin/projects', {
+        function toggleSystemLock() {
+            fetch('/api/admin/toggle-lock', {
                 method: 'POST',
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + localStorage.getItem(tokenKey)
-                },
-                body: JSON.stringify(payload)
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ password: token })
+            })
+            .then(res => res.json())
+            .then(resData => {
+                if(resData.success) {
+                    refreshData();
+                }
             });
-            const data = await response.json();
-            
-            if (response.ok) {
-                alert(data.message);
-                this.reset();
-            } else {
-                alert('فشل إضافة المشروع: ' + data.message);
-            }
-        } catch (err) {
-            alert('حدث خطأ فني أثناء محاولة إرسال البيانات.');
         }
-    });
-</script>
+
+        function refreshData() {
+            fetch('/api/admin/data', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ password: token })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.success) renderDashboard(data);
+            });
+        }
+
+        function viewReceipt(base64) {
+            const modal = document.getElementById("imgModal");
+            const img = document.getElementById("modalTargetImg");
+            img.src = base64;
+            modal.style.display = "flex";
+        }
+
+        function logout() {
+            window.location.reload();
+        }
+    </script>
 </body>
 </html>
