@@ -60,8 +60,8 @@ const saveOrders = (orders) => {
     fs.writeFileSync(ORDERS_FILE, JSON.stringify(orders, null, 2), 'utf8');
 };
 
-// المسارات الأساسية للواجهات
-app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
+// المسارات الأساسية للواجهات (تم إصلاح اسم الملف هنا ليطابق الحرف الكبير Index.html)
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'Index.html')));
 app.get('/admin', (req, res) => res.sendFile(path.join(__dirname, 'admin.html')));
 
 // --- الأنبوينتات والمسارات البرمجية (API Endpoints) ---
@@ -75,7 +75,7 @@ app.get('/api/system-state', (req, res) => {
 // 2. تسجيل دخول المسؤول للوحة التحكم
 app.post('/api/login', (req, res) => {
     const { password } = req.body;
-    const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123'; // يمكنك تغيير كلمة المرور الافتراضية هنا أو عبر ملف .env
+    const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123';
     
     if (password === ADMIN_PASSWORD) {
         return res.json({ success: true, token: password });
@@ -84,7 +84,7 @@ app.post('/api/login', (req, res) => {
     }
 });
 
-// 3. جلب البيانات والطلبات للوحة التحكم (محمي بكلمة السر)
+// 3. جلب البيانات والطلبات للوحة التحكم
 app.post('/api/admin/data', (req, res) => {
     const { password } = req.body;
     const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123';
@@ -118,21 +118,18 @@ app.post('/api/admin/toggle-lock', (req, res) => {
 app.post('/api/send', (req, res) => {
     const config = getConfig();
     
-    // التحقق أولاً إذا كان النظام مقفلاً
     if (config.systemLocked) {
         return res.status(400).json({ success: false, message: 'نأسف، استقبال الطلبات مغلق حالياً.' });
     }
     
     const orderData = req.body;
     
-    // التحقق من الحقول الأساسية
     if (!orderData.name || !orderData.service) {
         return res.status(400).json({ success: false, message: 'الرجاء ملء الحقول الأساسية الاسم والخدمة.' });
     }
     
     const orders = getOrders();
     
-    // بناء كائن الطلب وتوثيق الوقت والتاريخ بشكل منظم
     const newOrder = {
         id: Date.now().toString(),
         name: orderData.name,
@@ -154,3 +151,4 @@ app.post('/api/send', (req, res) => {
 app.listen(PORT, () => {
     console.log(`[Athaar Server Running In Flat Structure On Port: ${PORT}]`);
 });
+
