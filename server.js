@@ -117,6 +117,11 @@ app.post('/api/admin/projects', verifyAdmin, async (req, res) => {
     }
 });
 
+// مسار الصفحة الرئيسية لعرض واجهة المستخدم للمنصة
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'Index.html'));
+});
+
 app.get('/admin', (req, res) => {
     res.sendFile(path.join(__dirname, 'admin.html'));
 });
