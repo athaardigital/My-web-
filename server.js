@@ -18,7 +18,7 @@ app.use(helmet({
 }));
 app.use(cors());
 
-// توجيه الخادم لقراءة الملفات الثابتة لواجهة الموقع
+// توجيه الخادم لقراءة الملفات الثابتة لواجهة الموقع (إن وُجدت)
 app.use(express.static(path.join(__dirname, 'public')));
 
 const ORDERS_FILE = path.join(__dirname, 'orders.json');
@@ -31,6 +31,20 @@ if (!fs.existsSync(ORDERS_FILE)) {
 if (!fs.existsSync(CONFIG_FILE)) {
     fs.writeFileSync(CONFIG_FILE, JSON.stringify({ systemLocked: false }, null, 2));
 }
+
+// --- المسارات الأساسية لعرض صفحات HTML من المجلد الرئيسي ---
+
+// عرض الصفحة الرئيسية للموقع
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// عرض لوحة تحكم الإدارة
+app.get('/admin', (req, res) => {
+    res.sendFile(path.join(__dirname, 'admin.html'));
+});
+
+// --------------------------------------------------------
 
 // ١. فحص حالة استقبال الطلبات للموقع
 app.get('/api/system-state', (req, res) => {
@@ -132,3 +146,4 @@ app.post('/api/admin/toggle-lock', (req, res) => {
 app.listen(PORT, () => {
     console.log(`[Athaar Server Launched Securely On Port: ${PORT}]`);
 });
+
