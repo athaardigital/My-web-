@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>وشيج | WASHEEJ</title>
+<meta name="description" content="وشيج: من الفكرة إلى شيء يمكن بناؤه.">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192.png">
+<link rel="apple-touch-icon" href="/assets/favicon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<nav class="site-nav" id="siteNav">
+  <div class="wrap">
+    <a href="#top" class="brand">
+      <span class="brand-mark"><img src="/assets/washeej-logo.png" alt="وشيج"></span>
+      <span class="brand-word">WASHEEJ</span>
+    </a>
+    <div class="nav-links">
+      <a href="#services" data-i18n="navServices">الخدمات</a>
+      <a href="#lab" data-i18n="navLab">وشيج لاب</a>
+      <a href="#faq" data-i18n="navFaq">الأسئلة الشائعة</a>
+      <a href="#" class="js-open-modal" data-i18n="navRequest">أرسل فكرتك</a>
+    </div>
+    <div class="nav-actions">
+      <button class="btn-lang" id="langToggle"><span>EN</span></button>
+      <button class="nav-toggle" id="navToggle" aria-label="القائمة"><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-inner">
+      <h1 data-i18n="heroTitle">من الفكرة إلى شيء يمكن بناؤه</h1>
+      <p data-i18n="heroBody">قد تكون فكرتك غير واضحة بعد...</p>
+      <div class="hero-actions">
+        <a href="#" class="btn btn-primary js-open-modal" data-i18n="heroPrimary">ابدأ بفكرتك</a>
+        <a href="#services" class="btn btn-ghost" data-i18n="heroSecondary">تصفح الخدمات</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="process" id="process">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 data-i18n="processTitle">كيف نعمل</h2>
+    </div>
+    <p class="lede" data-i18n="processLede">ليست كل فكرة تحتاج خدمة جاهزة من القائمة...</p>
+    <div class="process-flow" aria-hidden="false">
+      <span class="step">الفكرة</span><span class="joiner">/</span>
+      <span class="step">الفهم</span><span class="joiner">/</span>
+      <span class="step">البنية</span><span class="joiner">/</span>
+      <span class="step">التنفيذ</span><span class="joiner">/</span>
+      <span class="step">نتيجة قابلة للاستخدام</span>
+    </div>
+  </div>
+</section>
+
+<section id="why">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 data-i18n="whyTitle">لماذا وشيج</h2>
+    </div>
+    <div class="plain-list">
+      <div><h3 data-i18n="why1t"></h3><p data-i18n="why1d"></p></div>
+      <div><h3 data-i18n="why2t"></h3><p data-i18n="why2d"></p></div>
+      <div><h3 data-i18n="why3t"></h3><p data-i18n="why3d"></p></div>
+      <div><h3 data-i18n="why4t"></h3><p data-i18n="why4d"></p></div>
+    </div>
+  </div>
+</section>
+
+<section id="services">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 data-i18n="servicesTitle">الخدمات</h2>
+      <p class="lede" data-i18n="servicesLede">نقطة انطلاق إذا كنت تعرف ما تحتاجه بالفعل.</p>
+    </div>
+    <div id="servicesList"></div>
+  </div>
+</section>
+
+<section id="lab">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 data-i18n="labTitle">وشيج لاب</h2>
+      <p class="lede" data-i18n="labLede">مساحة للتجارب والمشاريع الذاتية...</p>
+    </div>
+    <div class="lab-entry">
+      <span class="lab-tag" data-i18n="labTag">تجربة ذاتية</span>
+      <h3 data-i18n="labEntryTitle">هذا الموقع</h3>
+      <p data-i18n="labEntryDesc"></p>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 data-i18n="faqTitle">الأسئلة الشائعة</h2>
+    </div>
+    <div id="faqList" class="faq-list"></div>
+  </div>
+</section>
+
+<section id="request-band">
+  <div class="wrap request-band">
+    <div>
+      <h2 data-i18n="reqBandTitle">عندك فكرة؟</h2>
+      <p data-i18n="reqBandBody">أرسلها كما هي...</p>
+    </div>
+    <a href="#" class="btn btn-primary js-open-modal" data-i18n="reqBandCta">أرسل فكرتك</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-links">
+      <a href="https://wa.me/213654793936" target="_blank" rel="noopener">WhatsApp</a>
+      <a href="https://t.me/AthaarDigitalBot" target="_blank" rel="noopener">Telegram</a>
+      <a href="https://instagram.com/AthaarDigital" target="_blank" rel="noopener">Instagram</a>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 WASHEEJ — <span data-i18n="footerRights">جميع الحقوق محفوظة.</span></span>
+    </div>
+  </div>
+</footer>
+
+<!-- Request modal -->
+<div class="modal-overlay" id="requestModal">
+  <div class="modal">
+    <button class="modal-close" id="modalClose" aria-label="إغلاق">&times;</button>
+    <h3 data-i18n="modalTitle">أرسل فكرتك أو اطلب خدمة</h3>
+
+    <div class="system-banner" id="systemBanner" data-i18n="systemClosed"></div>
+
+    <div class="draft-banner" id="draftBanner">
+      <span data-i18n="draftFound"></span>
+      <button type="button" id="draftClearBtn" data-i18n="draftClear"></button>
+    </div>
+
+    <div class="mode-toggle">
+      <button type="button" data-mode="seat" data-i18n="modeSeat">حجز مقعد مبدئي</button>
+      <button type="button" data-mode="full" data-i18n="modeFull">تأكيد الدفع</button>
+    </div>
+
+    <form id="requestForm">
+      <div class="field">
+        <label for="formName" data-i18n="formName">الاسم الكامل</label>
+        <input type="text" id="formName" required>
+      </div>
+      <div class="field">
+        <label for="formEmail" data-i18n="formEmail">البريد الإلكتروني</label>
+        <input type="email" id="formEmail" dir="ltr" required>
+      </div>
+      <div class="field">
+        <label for="formPhone" data-i18n="formPhone">رقم الهاتف</label>
+        <input type="tel" id="formPhone" dir="ltr" required>
+      </div>
+      <div class="field">
+        <label for="formService" data-i18n="formService">الخدمة المطلوبة</label>
+        <select id="formService"></select>
+      </div>
+      <div class="field">
+        <label data-i18n="addonsLabel">إضافات اختيارية</label>
+        <div id="addonsBox"></div>
+      </div>
+      <div class="field">
+        <label for="formIdea" data-i18n="formIdea">تفاصيل الفكرة</label>
+        <textarea id="formIdea" rows="3" required></textarea>
+      </div>
+
+      <div id="paymentZone">
+        <div class="field">
+          <label data-i18n="payTitle">طريقة الدفع</label>
+          <div class="pay-method-toggle">
+            <button type="button" data-method="local" data-i18n="payLocal">تحويل محلي</button>
+            <button type="button" data-method="crypto" data-i18n="payCrypto">عملات رقمية</button>
+          </div>
+        </div>
+
+        <div class="pay-block" id="payLocalBlock">
+          <div class="pay-row"><span data-i18n="payCcp">رقم CCP</span><span class="val">0028372494</span><button type="button" class="copy-btn" data-value="0028372494" data-i18n="copy">نسخ</button></div>
+          <div class="pay-row"><span data-i18n="payCle">المفتاح</span><span class="val">30</span><button type="button" class="copy-btn" data-value="30" data-i18n="copy">نسخ</button></div>
+          <div class="pay-row"><span data-i18n="payRip">RIP</span><span class="val">00799999002837249430</span><button type="button" class="copy-btn" data-value="00799999002837249430" data-i18n="copy">نسخ</button></div>
+        </div>
+
+        <div class="pay-block" id="payCryptoBlock">
+          <div class="pay-row"><span data-i18n="payNetwork">الشبكة</span><span class="val">USDT/TRC20</span></div>
+          <div class="pay-row"><span data-i18n="payAddress">المحفظة</span><span class="val" style="word-break:break-all;">TMEizSVGg3tsrw1HLYkGfMWMrSGWm5RN7X</span><button type="button" class="copy-btn" data-value="TMEizSVGg3tsrw1HLYkGfMWMrSGWm5RN7X" data-i18n="copy">نسخ</button></div>
+        </div>
+        <p class="pay-note" data-i18n="payNote"></p>
+
+        <div class="field" id="refGroup">
+          <label for="formRef" data-i18n="refLabel">رقم الحوالة أو رقم مرجعي</label>
+          <input type="text" id="formRef">
+          <label for="formReceiptFile" style="margin-top:0.6rem;" data-i18n="receiptLabel">أو أرفق صورة الإيصال</label>
+          <input type="file" id="formReceiptFile" accept="image/*,application/pdf">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="currencySelect" data-i18n="currencyLabel">عرض السعر بعملة أخرى</label>
+        <select id="currencySelect">
+          <option value="DZD">DZD — دينار جزائري</option>
+          <option value="SAR">SAR — ريال سعودي</option>
+          <option value="USD">USD — دولار أمريكي</option>
+          <option value="EUR">EUR — يورو</option>
+          <option value="USDT">USDT</option>
+        </select>
+      </div>
+
+      <div class="receipt">
+        <div class="receipt-row"><span data-i18n="receiptBase">السعر الأساسي</span><span id="receiptBase">0 DA</span></div>
+        <div class="receipt-row"><span data-i18n="receiptExtras">الإضافات</span><span id="receiptExtras">0 DA</span></div>
+        <div class="receipt-row total"><span data-i18n="receiptTotal">الإجمالي التقديري</span><span id="receiptTotal">0 DA</span></div>
+      </div>
+
+      <div class="scope-marks" aria-hidden="true">
+        <span class="mark"><span class="glyph">♪</span></span>
+        <span class="mark"><span class="glyph">٪</span></span>
+        <span class="mark"><span class="glyph">▣</span></span>
+      </div>
+      <label class="scope-row">
+        <input type="checkbox" id="scopeCheck" required>
+        <span data-i18n="scopeText">أؤكد أن هذا الطلب لا يتعارض مع نطاق عمل وشيج.</span>
+      </label>
+
+      <button type="submit" class="btn btn-primary" id="submitBtn" style="width:100%;" data-i18n="submit">إرسال الطلب</button>
+      <div class="form-feedback" id="formFeedback"></div>
+    </form>
+  </div>
+</div>
+
+<script src="/main.js"></script>
+</body>
+</html>
