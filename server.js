@@ -4,9 +4,18 @@ const helmet = require('helmet');
 const fs = require('fs');
 const path = require('path');
 require('dotenv').config();
+const { notifyNewOrder } = require('./lib/notify');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Fail loudly (server-side only) rather than silently falling back to a
+// guessable default password. Admin routes below refuse to operate if
+// this isn't set — the production value itself is never touched here.
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || null;
+if (!ADMIN_PASSWORD) {
+    console.warn('[WASHEEJ] ADMIN_PASSWORD is not set. Admin routes are disabled until it is configured.');
+}
 
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
@@ -60,8 +69,8 @@ const saveOrders = (orders) => {
     fs.writeFileSync(ORDERS_FILE, JSON.stringify(orders, null, 2), 'utf8');
 };
 
-// المسارات الأساسية للواجهات (تم إصلاح اسم الملف هنا ليطابق الحرف الكبير Index.html)
-app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'Index.html')));
+// المسارات الأساسية للواجهات
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
 app.get('/admin', (req, res) => res.sendFile(path.join(__dirname, 'admin.html')));
 
 // --- الأنبوينتات والمسارات البرمجية (API Endpoints) ---
@@ -72,11 +81,23 @@ app.get('/api/system-state', (req, res) => {
     res.json({ success: true, systemLocked: config.systemLocked });
 });
 
+// Small guard shared by every admin-only route below. Kept intentionally
+// simple (this is still the "raw password" mechanism, unchanged in
+// substance) — session hardening (httpOnly signed cookies, login backoff)
+// is planned for the security-hardening phase, not bundled in here.
+const requireAdminConfigured = (res) => {
+    if (!ADMIN_PASSWORD) {
+        res.status(503).json({ success: false, message: 'لوحة التحكم غير مُفعّلة حاليًا (لم يتم ضبط كلمة المرور على الخادم).' });
+        return false;
+    }
+    return true;
+};
+
 // 2. تسجيل دخول المسؤول للوحة التحكم
 app.post('/api/login', (req, res) => {
+    if (!requireAdminConfigured(res)) return;
     const { password } = req.body;
-    const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123';
-    
+
     if (password === ADMIN_PASSWORD) {
         return res.json({ success: true, token: password });
     } else {
@@ -86,9 +107,9 @@ app.post('/api/login', (req, res) => {
 
 // 3. جلب البيانات والطلبات للوحة التحكم
 app.post('/api/admin/data', (req, res) => {
+    if (!requireAdminConfigured(res)) return;
     const { password } = req.body;
-    const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123';
-    
+
     if (password !== ADMIN_PASSWORD) {
         return res.status(403).json({ success: false, message: 'غير مصرح بالدخول' });
     }
@@ -100,9 +121,9 @@ app.post('/api/admin/data', (req, res) => {
 
 // 4. قفل أو فتح نظام استقبال الطلبات
 app.post('/api/admin/toggle-lock', (req, res) => {
+    if (!requireAdminConfigured(res)) return;
     const { password } = req.body;
-    const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123';
-    
+
     if (password !== ADMIN_PASSWORD) {
         return res.status(403).json({ success: false, message: 'غير مصرح بالدخول' });
     }
@@ -137,18 +158,27 @@ app.post('/api/send', (req, res) => {
         phone: orderData.phone || '',
         service: orderData.service,
         idea: orderData.idea || '',
+        paymentMode: orderData.paymentMode || 'seat',
+        ref: orderData.ref || '',
+        finalDue: orderData.finalDue || '',
+        scopeConfirmed: !!orderData.scopeConfirmed,
         receiptFileBase64: orderData.receiptFileBase64 || null,
         receiptFileName: orderData.receiptFileName || null,
+        status: 'new', // full status workflow (under_review/approved/etc.) lands with the CMS phase
         date: new Date().toLocaleString('ar-EG', { timeZone: 'Africa/Algiers' })
     };
     
     orders.push(newOrder);
     saveOrders(orders);
-    
-    res.json({ success: true, message: 'تم إرسال طلبك بنجاح وسنقوم بمراجعته.' });
+
+    // Fire-and-forget: notifyNewOrder never throws and no-ops safely if
+    // Telegram isn't configured yet, so it can't delay or break this response.
+    notifyNewOrder(newOrder);
+
+    res.json({ success: true, message: 'تم إرسال طلبك بنجاح. الحالة الآن: قيد المراجعة.' });
 });
 
 app.listen(PORT, () => {
-    console.log(`[Athaar Server Running In Flat Structure On Port: ${PORT}]`);
+    console.log(`[WASHEEJ server running on port ${PORT}]`);
 });
 

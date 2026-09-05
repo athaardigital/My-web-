@@ -1,7 +1,7 @@
 {
-  "name": "athaar-digital-backend",
+  "name": "washeej-backend",
   "version": "1.0.0",
-  "description": "الخلفية البرمجية اللامركزية لمنصة آثار الرقمية",
+  "description": "الخلفية البرمجية لمنصة وشيج",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
